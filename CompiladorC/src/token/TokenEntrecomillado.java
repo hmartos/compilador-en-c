@@ -13,4 +13,8 @@ String cadena;
 	public String toString(){
 		return super.toString()+" Atributo: \""+cadena+"\"";
 	}
+	@Override
+	public String getAtributo() {
+		return cadena;
+	}
 }

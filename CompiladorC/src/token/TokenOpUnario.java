@@ -20,5 +20,11 @@ public class TokenOpUnario extends Token {
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAtb;
 	}
+
+
+	@Override
+	public TipoTokenOpUnario getAtributo() {
+		return tipoAtb;
+	}
 	
 }

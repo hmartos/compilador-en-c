@@ -1,6 +1,7 @@
 package token;
 
 import tablaSimbolos.AtributosTablaPalRes;
+import tablaSimbolos.TablaSimbolos.PalabraReservada;
 import token.TokenAsig.TipoTokenAsig;
 
 public class TokenPalRes extends Token {
@@ -16,6 +17,11 @@ public class TokenPalRes extends Token {
 	
 	public String toString(){
 		return super.toString()+" Atributo: "+entrada.getPalabra().toString();
+	}
+
+	@Override
+	public PalabraReservada getAtributo() {
+		return entrada.getPalabra();
 	}
 	
 	

@@ -18,4 +18,8 @@ public class TokenCorchetes extends Token{
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAtb;
 	}
+	@Override
+	public TipoTokenCorchetes getAtributo() {
+		return tipoAtb;
+	}
 }

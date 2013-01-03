@@ -1,5 +1,7 @@
 package token;
 
+import token.TokenOpDespl.TipoTokenOpDespl;
+
 public class TokenOpSeleccion extends Token {
 
 	TipoTokenOpSeleccion tipoAtb;
@@ -21,4 +23,9 @@ public class TokenOpSeleccion extends Token {
 		return super.toString()+" Atributo: "+tipoAtb;
 	}
 	
+	@Override
+	public TipoTokenOpSeleccion getAtributo() {
+
+		return tipoAtb;
+	}
 }

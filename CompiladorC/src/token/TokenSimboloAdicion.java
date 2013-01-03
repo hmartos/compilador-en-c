@@ -20,5 +20,12 @@ public class TokenSimboloAdicion extends Token {
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAsig;
 	}
+
+
+	@Override
+	public TipoTokenSimboloAdicion getAtributo() {
+		// TODO Auto-generated method stub
+		return tipoAsig;
+	}
 	
 }

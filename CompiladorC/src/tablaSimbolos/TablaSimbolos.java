@@ -18,8 +18,10 @@ public class TablaSimbolos {
 		  ,PAL_RES_continue	  ,PAL_RES_for	  ,PAL_RES_signed	  ,PAL_RES_void	
 		  ,PAL_RES_default	  ,PAL_RES_goto	  ,PAL_RES_sizeof	  ,PAL_RES_volatile	
 		  ,PAL_RES_do	  ,PAL_RES_if	  ,PAL_RES_static	  ,PAL_RES_while,
-
-		  PAL_FUN_printf, PAL_FUN_scanf, PAL_MAC_include, PAL_MAC_ifdef,
+		  
+		  PAL_ESP_NULL,
+		  
+		  PAL_FUN_printf, PAL_FUN_scanf, PAL_MAC_include, PAL_MAC_ifdef, PAL_MAC_elif,
 		  PAL_MAC_define, PAL_MAC_ifndef, PAL_MAC_error, PAL_MAC_pragma,PAL_MAC_undef
 	}
 	

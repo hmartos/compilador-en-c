@@ -20,4 +20,9 @@ public class TokenLlaves extends Token{
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAtb;
 	}
+
+	@Override
+	public TipoTokenLlaves getAtributo() {
+		return tipoAtb;
+	}
 }

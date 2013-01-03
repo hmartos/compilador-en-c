@@ -17,4 +17,9 @@ char caracter;
 	public String toString(){
 		return super.toString()+" Atributo: "+caracter;
 	}
+	@Override
+	public Object getAtributo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

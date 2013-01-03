@@ -20,5 +20,12 @@ public class TokenOpDespl extends Token {
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAtb;
 	}
+
+
+	@Override
+	public TipoTokenOpDespl getAtributo() {
+
+		return tipoAtb;
+	}
 	
 }
