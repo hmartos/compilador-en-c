@@ -1,5 +1,7 @@
 package token;
 
+import token.TokenOpDespl.TipoTokenOpDespl;
+
 
 
 public class TokenRelIgual extends Token {
@@ -21,6 +23,12 @@ public class TokenRelIgual extends Token {
 	
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAsig;
+	}
+	
+	@Override
+	public TipoTokenRelIgual getAtributo() {
+
+		return tipoAsig;
 	}
 	
 }

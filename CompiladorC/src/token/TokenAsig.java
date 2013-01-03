@@ -19,4 +19,9 @@ public class TokenAsig extends Token {
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAsig.toString();
 	}
+
+	@Override
+	public TipoTokenAsig getAtributo() {
+		return tipoAsig;
+	}
 }

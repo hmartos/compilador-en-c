@@ -3,14 +3,15 @@ package token;
 
 public class TokenParentesis extends Token{
 	TipoTokenParentesis tipoAtb;
-	
-	
+
 	public TokenParentesis(TipoTokenParentesis t){
 		super.tipo=Token.TipoToken.PARENTESIS;
 		tipoAtb=t;
 	}
 	
-	
+	public TipoTokenParentesis getAtributo() {
+		return tipoAtb;
+	}
 	
 	static public enum TipoTokenParentesis {
 		ABIERTO,CERRADO

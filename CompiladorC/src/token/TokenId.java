@@ -16,5 +16,11 @@ public class TokenId extends Token {
 	public String toString(){
 		return super.toString()+" Atributo: \""+id+"\"";
 	}
+
+	@Override
+	public String getAtributo() {
+		
+		return id;
+	}
 	
 }

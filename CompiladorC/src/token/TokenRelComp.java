@@ -1,5 +1,7 @@
 package token;
 
+import token.TokenOpDespl.TipoTokenOpDespl;
+
 public class TokenRelComp extends Token {
 
 	TipoTokenRelComp tipoAtb;
@@ -19,6 +21,12 @@ public class TokenRelComp extends Token {
 	
 	public String toString(){
 		return super.toString()+" Atributo: "+tipoAtb;
+	}
+	
+	@Override
+	public TipoTokenRelComp getAtributo() {
+
+		return tipoAtb;
 	}
 	
 }

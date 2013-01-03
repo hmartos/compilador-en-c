@@ -12,5 +12,11 @@ public class TokenNumEntero extends Token {
 	public String toString(){
 		return super.toString()+" Atributo: "+num;
 	}
+
+	@Override
+	public Object getAtributo() {
+		
+		return num;
+	}
 	
 }
