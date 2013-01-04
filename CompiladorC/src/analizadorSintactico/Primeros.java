@@ -9,6 +9,7 @@ import token.TokenLlaves.TipoTokenLlaves;
 import token.TokenOpTernario.TipoTokenOpTernario;
 import token.TokenOpUnario.TipoTokenOpUnario;
 import token.TokenParentesis.TipoTokenParentesis;
+import token.TokenRelComp.TipoTokenRelComp;
 
 public class Primeros {
 	
@@ -609,13 +610,26 @@ public class Primeros {
 							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_elif)){
 						ret = true;
 					}
+				}else{
+					ret = main(noTerminales.RMACRO, tActual);
 				}
 				break;
 			case RIFDEF:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
+				}else if(main(noTerminales.DEFINICION, tActual) ||
+							main(noTerminales.DEFINICION_TYPEDEF, tActual)){
+					ret = true;
+					
 				}else{
 					ret = tActual.getTipo().equals(TipoToken.ALMOHADILLA);
+				}
+				break;
+			case RINCLUDE:
+				if(main(noTerminales.ENTRECOMILLADO, tActual)){
+					ret = true;
+				}else if(tActual.getTipo().equals(TipoToken.REL_COMP)){
+					ret = tActual.getAtributo().equals(TipoTokenRelComp.MENOR);
 				}
 				break;
 			case RMACRO:
