@@ -1,7 +1,7 @@
 package token;
 
 import tablaSimbolos.AtributosTablaPalRes;
-import tablaSimbolos.TablaSimbolos.PalabraReservada;
+import tablaSimbolos.PalRes;
 import token.TokenAsig.TipoTokenAsig;
 
 public class TokenPalRes extends Token {
@@ -20,7 +20,7 @@ public class TokenPalRes extends Token {
 	}
 
 	@Override
-	public PalabraReservada getAtributo() {
+	public PalRes getAtributo() {
 		return entrada.getPalabra();
 	}
 	
