@@ -1,16 +1,16 @@
 package tablaSimbolos;
 
-import tablaSimbolos.TablaSimbolos.PalabraReservada;
+
 
 public class AtributosTablaPalRes extends Atributo {
 
-	PalabraReservada palabra;
+	PalRes palabra;
 	
-	public AtributosTablaPalRes(PalabraReservada palabrasReservadas) {
+	public AtributosTablaPalRes(PalRes palabrasReservadas) {
 		palabra=palabrasReservadas;
 	}
 
-	public PalabraReservada getPalabra() {
+	public PalRes getPalabra() {
 		return palabra;
 	}
 

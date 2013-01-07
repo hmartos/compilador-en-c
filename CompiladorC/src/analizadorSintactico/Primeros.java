@@ -29,7 +29,7 @@ public class Primeros {
 	 * Àr pertenece a los primeros de D? S’, pues usamos la regla A ::= CD
 	 * 
 	 */
-	public static boolean main(noTerminales estado, Token tActual){
+	public static boolean main(NT estado, Token tActual){
 		boolean ret = false;
 		switch(estado){
 			case RES_LISTA_LLAMADA: //Primeros = TokenComa y Lambda
@@ -43,11 +43,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){ //Si es lambda, bien
 					ret = true;
 				}else{
-					ret = main(noTerminales.EXP, tActual); //Si el token pertenece a los primeros de EXP, devolver‡ true, si no false
+					ret = main(NT.EXP, tActual); //Si el token pertenece a los primeros de EXP, devolver‡ true, si no false
 				}
 				break;
 			case REXP3_2:
-				if(main(noTerminales.EXP, tActual) || main(noTerminales.TIPO, tActual)){
+				if(main(NT.EXP, tActual) || main(NT.TIPO, tActual)){
 					ret = true;
 				}
 				break;
@@ -64,7 +64,7 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.EXP, tActual); 
+					ret = main(NT.EXP, tActual); 
 				}
 				break;
 			case EXP3:
@@ -86,7 +86,7 @@ public class Primeros {
 				}else if(tActual.getTipo().equals(TipoToken.COMILLAS_CHAR)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.ENTRECOMILLADO, tActual);
+					ret = main(NT.ENTRECOMILLADO, tActual);
 				}
 				break;
 			case OP_SELECCION:
@@ -98,11 +98,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.OP_INC, tActual) || main(noTerminales.OP_SELECCION, tActual);
+					ret = main(NT.OP_INC, tActual) || main(NT.OP_SELECCION, tActual);
 				}
 				break;
 			case EXP2:
-				ret = main(noTerminales.EXP3, tActual);
+				ret = main(NT.EXP3, tActual);
 				break;
 			case OP_INC:
 				if(tActual.getTipo().equals(TipoToken.OP_UNARIO)){
@@ -113,7 +113,7 @@ public class Primeros {
 				}
 				break;
 			case OP_UNARIOS:
-				if(main(noTerminales.OP_INC, tActual) || main(noTerminales.OP_AD, tActual)){
+				if(main(NT.OP_INC, tActual) || main(NT.OP_AD, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.AMPERSAND) || tActual.getTipo().equals(TipoToken.ASTERISCO)){
 					ret = true;
@@ -122,7 +122,7 @@ public class Primeros {
 				}
 				break;
 			case EXP1:
-				if(main(noTerminales.EXP2, tActual) || main(noTerminales.OP_UNARIOS, tActual)){
+				if(main(NT.EXP2, tActual) || main(NT.OP_UNARIOS, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.PAL_RES)){
 					if(tActual.getTipo().equals(PalabraReservada.PAL_RES_sizeof)){
@@ -139,11 +139,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.OP_MULT, tActual);
+					ret = main(NT.OP_MULT, tActual);
 				}
 				break;
 			case EXP_MULT:
-				ret = main(noTerminales.EXP1, tActual);
+				ret = main(NT.EXP1, tActual);
 				break;
 			case OP_AD:
 				ret = tActual.getTipo().equals(TipoToken.SIMBOLO_ADICION);
@@ -152,11 +152,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.OP_AD, tActual);
+					ret = main(NT.OP_AD, tActual);
 				}
 				break;
 			case EXP_AD:
-				ret = main(noTerminales.EXP_MULT, tActual);
+				ret = main(NT.EXP_MULT, tActual);
 				break;
 			case OP_DESPL:
 				ret = tActual.getTipo().equals(TipoToken.OP_DESPL);
@@ -165,11 +165,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.OP_DESPL, tActual);
+					ret = main(NT.OP_DESPL, tActual);
 				}
 				break;
 			case EXP_DESPL:
-				ret = main(noTerminales.EXP_AD, tActual);
+				ret = main(NT.EXP_AD, tActual);
 				break;
 			case OP_COMP:
 				ret = tActual.getTipo().equals(TipoToken.REL_COMP);
@@ -178,11 +178,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.OP_COMP, tActual);
+					ret = main(NT.OP_COMP, tActual);
 				}
 				break;
 			case EXP_COMP:
-				ret = main(noTerminales.EXP_DESPL, tActual);
+				ret = main(NT.EXP_DESPL, tActual);
 				break;
 			case OP_REL:
 				ret = tActual.getTipo().equals(TipoToken.REL_IGUAL);
@@ -191,11 +191,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.OP_REL, tActual);
+					ret = main(NT.OP_REL, tActual);
 				}
 				break;
 			case EXP_REL:
-				ret = main(noTerminales.EXP_COMP, tActual);
+				ret = main(NT.EXP_COMP, tActual);
 				break;
 			case REXP_ANDB:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
@@ -205,7 +205,7 @@ public class Primeros {
 				}
 				break;
 			case EXP_ANDB:
-				ret = main(noTerminales.EXP_REL, tActual);
+				ret = main(NT.EXP_REL, tActual);
 				break;
 			case REXP_XORB:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
@@ -215,7 +215,7 @@ public class Primeros {
 				}
 				break;
 			case EXP_XORB:
-				ret = main(noTerminales.EXP_ANDB, tActual);
+				ret = main(NT.EXP_ANDB, tActual);
 				break;
 			case REXP_ORB:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
@@ -225,7 +225,7 @@ public class Primeros {
 				}
 				break;
 			case EXP_ORB:
-				ret = main(noTerminales.EXP_XORB, tActual);
+				ret = main(NT.EXP_XORB, tActual);
 				break;
 			case REXP_ANDL:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
@@ -235,7 +235,7 @@ public class Primeros {
 				}
 				break;
 			case EXP_ANDL:
-				ret = main(noTerminales.EXP_ORB, tActual);
+				ret = main(NT.EXP_ORB, tActual);
 				break;
 			case REXP_ORL:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
@@ -245,7 +245,7 @@ public class Primeros {
 				}
 				break;
 			case EXP_ORL:
-				ret = main(noTerminales.EXP_ANDL, tActual);
+				ret = main(NT.EXP_ANDL, tActual);
 				break;
 			case REXP_COND:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
@@ -258,20 +258,20 @@ public class Primeros {
 				}
 				break;
 			case EXP_COND:
-				ret = main(noTerminales.EXP_ORL, tActual);
+				ret = main(NT.EXP_ORL, tActual);
 				break;
 			case REXP:
-				if(main(noTerminales.OP_ASIG, tActual)){
+				if(main(NT.OP_ASIG, tActual)){
 					ret = true;
-				}else if(main(noTerminales.REXP_COND, tActual)){
+				}else if(main(NT.REXP_COND, tActual)){
 					ret = true;
 				}
 				break;
 			case EXP:
-				ret = main(noTerminales.EXP_COND, tActual);
+				ret = main(NT.EXP_COND, tActual);
 				break;
 			case CONSTANTE:
-				ret = main(noTerminales.EXP, tActual);
+				ret = main(NT.EXP, tActual);
 				break;
 			case CASE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
@@ -285,16 +285,16 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.BLOQUE_SENTENCIAS, tActual);
+					ret = main(NT.BLOQUE_SENTENCIAS, tActual);
 				}
 				break;
 			case RCASES:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
-				}else if(main(noTerminales.BLOQUE_SENTENCIAS, tActual)){
+				}else if(main(NT.BLOQUE_SENTENCIAS, tActual)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.CASES, tActual);
+					ret = main(NT.CASES, tActual);
 				}
 				break;
 			case CASES:
@@ -312,7 +312,7 @@ public class Primeros {
 					ret = tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
 					
 				}else{
-					ret = main(noTerminales.CASE, tActual);
+					ret = main(NT.CASE, tActual);
 				}
 				break;
 			case SENTENCIA_CASE:
@@ -321,7 +321,7 @@ public class Primeros {
 				}
 				break;
 			case RSENTENCIA_ASIG:
-				ret = main(noTerminales.EXP, tActual);
+				ret = main(NT.EXP, tActual);
 				break;
 			case OP_ASIG:
 				ret = tActual.getTipo().equals(TipoToken.ASIGNACION);
@@ -333,7 +333,7 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.EXP, tActual);
+					ret = main(NT.EXP, tActual);
 				}
 				break;
 			case SENTENCIA_BUCLE:
@@ -353,7 +353,7 @@ public class Primeros {
 				}
 				break;
 			case RSENTENCIA_IF:
-				ret = main(noTerminales.L_SENTENCIAS, tActual);
+				ret = main(NT.L_SENTENCIAS, tActual);
 				break;
 			case SENTENCIA_IF:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
@@ -375,7 +375,7 @@ public class Primeros {
 				}
 				break;
 			case RPRINTF2:
-				ret = main(noTerminales.EXP, tActual);
+				ret = main(NT.EXP, tActual);
 				break;
 			case INDIRECCION:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
@@ -415,29 +415,29 @@ public class Primeros {
 			case SENTENCIA:
 				if(tActual.getTipo().equals(TipoToken.PUNTOYCOMA)){
 					ret = true;
-				}else if(main(noTerminales.SENTENCIA_IF, tActual)){
+				}else if(main(NT.SENTENCIA_IF, tActual)){
 					ret = true;
-				}else if(main(noTerminales.SENTENCIA_BUCLE, tActual)){
+				}else if(main(NT.SENTENCIA_BUCLE, tActual)){
 					ret = true;
-				}else if(main(noTerminales.EXP, tActual)){
+				}else if(main(NT.EXP, tActual)){
 					ret = true;
-				}else if(main(noTerminales.SENTENCIA_CASE, tActual)){
+				}else if(main(NT.SENTENCIA_CASE, tActual)){
 					ret = true;
-				}else if(main(noTerminales.OTRAS_SENTENCIAS, tActual)){
+				}else if(main(NT.OTRAS_SENTENCIAS, tActual)){
 					ret = true;
 				}
 				break;
 			case BLOQUE_SENTENCIAS:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
-				}else if(main(noTerminales.SENTENCIA, tActual)){
+				}else if(main(NT.SENTENCIA, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.LLAVE)){
 					ret = tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
 				}
 				break;
 			case L_SENTENCIAS:
-				if(main(noTerminales.SENTENCIA, tActual)){
+				if(main(NT.SENTENCIA, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.LLAVE)){
 					ret = tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
@@ -480,17 +480,17 @@ public class Primeros {
 			case RTIPO:
 				if(tActual.getTipo().equals(TipoToken.ID)){
 					ret = true;
-				}else if(main(noTerminales.TIPO, tActual)){
+				}else if(main(NT.TIPO, tActual)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.TIPO_PRIMITIVO, tActual);
+					ret = main(NT.TIPO_PRIMITIVO, tActual);
 				}
 				break;
 			case TIPO:
-				if(main(noTerminales.MODIFICADOR, tActual)){
+				if(main(NT.MODIFICADOR, tActual)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.RTIPO, tActual);
+					ret = main(NT.RTIPO, tActual);
 				}
 				break;
 			case RL_PARAMS2:
@@ -513,7 +513,7 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.TIPO, tActual);
+					ret = main(NT.TIPO, tActual);
 				}
 				break;
 			case RDEF_FUNCION:
@@ -540,15 +540,15 @@ public class Primeros {
 				}
 				break;
 			case DEF_VAR:
-				ret = main(noTerminales.TIPO, tActual);
+				ret = main(NT.TIPO, tActual);
 				break;
 			case L_VARIABLES:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
-				}else if(main(noTerminales.DEFINICION_STRUCT, tActual) ||
-							main(noTerminales.DEF_VAR, tActual) ||
-							main(noTerminales.DEFINICION_ENUM, tActual) ||
-							main(noTerminales.DEFINICION_UNION, tActual)){
+				}else if(main(NT.DEFINICION_STRUCT, tActual) ||
+							main(NT.DEF_VAR, tActual) ||
+							main(NT.DEFINICION_ENUM, tActual) ||
+							main(NT.DEFINICION_UNION, tActual)){
 					ret = true;
 				}
 				break;
@@ -582,7 +582,7 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.EXP, tActual);
+					ret = main(NT.EXP, tActual);
 				}
 				break;
 			case CORCHETES:
@@ -611,14 +611,14 @@ public class Primeros {
 						ret = true;
 					}
 				}else{
-					ret = main(noTerminales.RMACRO, tActual);
+					ret = main(NT.RMACRO, tActual);
 				}
 				break;
 			case RIFDEF:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
-				}else if(main(noTerminales.DEFINICION, tActual) ||
-							main(noTerminales.DEFINICION_TYPEDEF, tActual)){
+				}else if(main(NT.DEFINICION, tActual) ||
+							main(NT.DEFINICION_TYPEDEF, tActual)){
 					ret = true;
 					
 				}else{
@@ -626,7 +626,7 @@ public class Primeros {
 				}
 				break;
 			case RINCLUDE:
-				if(main(noTerminales.ENTRECOMILLADO, tActual)){
+				if(main(NT.ENTRECOMILLADO, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.REL_COMP)){
 					ret = tActual.getAtributo().equals(TipoTokenRelComp.MENOR);
@@ -663,11 +663,11 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.ASIGNACION)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.RDEF_VARIABLE2, tActual);
+					ret = main(NT.RDEF_VARIABLE2, tActual);
 				}
 				break;
 			case RDEFINICION2:
-				if(main(noTerminales.CORCHETES, tActual) || main(noTerminales.RDEF_VARIABLE, tActual)){
+				if(main(NT.CORCHETES, tActual) || main(NT.RDEF_VARIABLE, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.PARENTESIS)){
 					ret = tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO);
@@ -681,17 +681,17 @@ public class Primeros {
 				}
 				break;
 			case DEFINICION:
-				if(main(noTerminales.TIPO, tActual) ||
-						main(noTerminales.DEFINICION_STRUCT, tActual) ||
-						main(noTerminales.DEFINICION_UNION, tActual) ||
-						main(noTerminales.DEFINICION_ENUM, tActual)){
+				if(main(NT.TIPO, tActual) ||
+						main(NT.DEFINICION_STRUCT, tActual) ||
+						main(NT.DEFINICION_UNION, tActual) ||
+						main(NT.DEFINICION_ENUM, tActual)){
 					ret = true;
 				}
 				break;
 			case DEFINICION_GLOBAL:
-				if(main(noTerminales.DEFINICION_TYPEDEF, tActual) ||
-						main(noTerminales.DEFINICION, tActual) ||
-						main(noTerminales.MACROS, tActual)){
+				if(main(NT.DEFINICION_TYPEDEF, tActual) ||
+						main(NT.DEFINICION, tActual) ||
+						main(NT.MACROS, tActual)){
 					ret = true;
 				}
 				break;
@@ -699,14 +699,14 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.DEFINICION_GLOBAL, tActual);
+					ret = main(NT.DEFINICION_GLOBAL, tActual);
 				}
 				break;
 			case PROGRAMA:
 				if(tActual.getTipo().equals(TipoToken.FIN)){
 					ret = true;
 				}else{
-					ret = main(noTerminales.L_DEFINICIONES, tActual);
+					ret = main(NT.L_DEFINICIONES, tActual);
 				}
 				break;
 		}
