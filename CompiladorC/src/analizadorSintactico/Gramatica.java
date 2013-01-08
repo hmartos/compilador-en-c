@@ -71,8 +71,8 @@ public class Gramatica {
 			{PalRes.PAL_MAC_error, parentesisAbierto}}, /*falta saber lo que es caracter*/
 
 /* RINCLUDE,*/{{NT.ENTRECOMILLADO},		{menor,new TokenId(null),punto,new TokenId(null),mayor}},
-/* RIFDEF,*/{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},		{NT.DEFINICION,NT.RIFDEF},	{NT.DEFINICION_TYPEDEF,NT.RIFDEF},{new TokenLambda()}},	
-/* RIFDEF2,*/{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else, NT.CADENA},	{NT.RMACRO}}, //CAdena = entrecomillado??
+/* RIFDEF,*/{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},		{NT.L_SENTENCIAS},{new TokenLambda()}},	
+/* RIFDEF2,*/{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else, NT.L_SENTENCIAS},	{NT.RMACRO}}, //CAdena = entrecomillado??
 
 	
 /* DEFINICION_UNION,*/  { {PalRes.PAL_RES_union,new TokenId(null),llaveAbierta, NT.L_VARIABLES,corcheteCerrado,NT.LISTA_IDENS}} ,
