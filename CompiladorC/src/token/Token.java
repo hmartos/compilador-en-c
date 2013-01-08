@@ -3,6 +3,8 @@ package token;
 public abstract class Token {
 
 	TipoToken tipo;
+
+	
 	
 	public abstract Object getAtributo();
 	
@@ -17,6 +19,9 @@ public abstract class Token {
 	
 	
 	
+	
+	
+	
 	static public enum TipoToken {
 		PAL_RES,ID,PARENTESIS,ASIGNACION, OR_L, NUM_ENTERO, ENTRECOMILLADO, FIN, AMPERSAND,
 		AND_L, ASTERISCO, COMILLAS_CHAR, OP_DESPL, OP_MULT, OP_SELECCION, OP_UNARIO, REL_COMP,
@@ -25,6 +30,8 @@ public abstract class Token {
 		
 		LAMBDA, ALMOHADILLA
 		}
+
+
 
 
 
