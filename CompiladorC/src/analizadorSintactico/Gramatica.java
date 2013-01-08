@@ -5,6 +5,7 @@ import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import token.TokenAlmohadilla;
 import token.TokenComa;
+import token.TokenCorchetes;
 import token.TokenFin;
 import token.TokenId;
 import token.TokenLambda;
@@ -67,13 +68,13 @@ public class Gramatica {
 /* RIFDEF,*/{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},		{NT.DEFINICION,NT.RIFDEF},	{NT.DEFINICION_TYPEDEF,NT.RIFDEF},{new TokenLambda()}},	
 /* RIFDEF2,*/{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else,NT.CADENA},	{NT.RMACRO}}, //CAdena = entrecomillado??
 
-/* DEFINICION_UNION,*/	{new TokenUnion(),new TokenId(null),new TokenLlaves(ABIERTO),NT.L_VARIABLES,new TokenCorchete(CERRADO), NT.LISTA_IDENS},
-/*LISTA_IDENS,*/		{ {new TokenId(null), NT.CORCHETES,NT.RDEF_VARIABLE}, {new TokenPuntoyComa}}
-/* CORCHETES,*/
-/* CONTENIDO,*/
-/* DEFINICION_ENUM,*/
-/* RENUM,*/
-/* RENUM2,*/
+/* DEFINICION_UNION,*/	{PalRes.PAL_RES_union,new TokenId(null),new TokenLlaves(ABIERTO),NT.L_VARIABLES,new TokenCorchetes(CERRADO), NT.LISTA_IDENS},
+/*LISTA_IDENS,*/		{ {new TokenId(null), NT.CORCHETES,NT.RDEF_VARIABLE}, {new TokenPuntoyComa()}},
+/* CORCHETES,*/			{{new TokenLambda()} , {new TokenCorchetes(ABIERTO),NT.CONTENIDO, new TokenCorchetes(CERRADO),NT.CORCHETES}},
+/* CONTENIDO,*/			{{new TokenLambda()} , {NT.EXP}},
+/* DEFINICION_ENUM,*/	{PalRes.PAL_RES_enum, new TokenId(null),new TokenLlaves(ABIERTO),new TokenId(null),NT.RENUM, new TokenPuntoYComa()},
+/* RENUM,*/				{{NT.OP_ASIG,NT.RSENTENCIA_ASIG,NT.RENUM2},{new TokenComa(),new TokenId(null),NT.RENUM},{new TokenLambda()}},
+/* RENUM2,*/			{{new TokenComa(),new TokenId(null),NT.RENUM}, {new TokenLambda()}},
 /* DEFINICION_STRUCT,*/
 /* L_VARIABLES,*/
 /* DEF_VAR,*/
