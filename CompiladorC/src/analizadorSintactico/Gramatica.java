@@ -1,18 +1,12 @@
 package analizadorSintactico;
 
 import tablaSimbolos.PalRes;
-import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import token.TokenAlmohadilla;
-
 import token.TokenAmpersand;
 import token.TokenAndL;
-import token.TokenAsterisco;
-
-import token.TokenAmpersand;
 import token.TokenAsig;
 import token.TokenAsterisco;
-
 import token.TokenComa;
 import token.TokenComillasChar;
 import token.TokenCorchetes;
@@ -26,13 +20,10 @@ import token.TokenNumReal;
 import token.TokenOpDespl;
 import token.TokenOpMult;
 import token.TokenOpSeleccion;
-
 import token.TokenOpTernario;
 import token.TokenOpUnario;
 import token.TokenOrB;
 import token.TokenOrL;
-import token.TokenOpTernario;
-import token.TokenPalRes;
 import token.TokenParentesis;
 import token.TokenPuntoyComa;
 import token.TokenRelComp;
