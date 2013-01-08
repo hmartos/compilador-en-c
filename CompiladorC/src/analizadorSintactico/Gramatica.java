@@ -67,8 +67,8 @@ public class Gramatica {
 /* RIFDEF,*/{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},		{NT.DEFINICION,NT.RIFDEF},	{NT.DEFINICION_TYPEDEF,NT.RIFDEF},{new TokenLambda()}},	
 /* RIFDEF2,*/{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else,NT.CADENA},	{NT.RMACRO}}, //CAdena = entrecomillado??
 
-/* DEFINICION_UNION,*/
-/*LISTA_IDENS,*/
+/* DEFINICION_UNION,*/	{new TokenUnion(),new TokenId(null),new TokenLlaves(ABIERTO),NT.L_VARIABLES,new TokenCorchete(CERRADO), NT.LISTA_IDENS},
+/*LISTA_IDENS,*/		{ {new TokenId(null), NT.CORCHETES,NT.RDEF_VARIABLE}, {new TokenPuntoyComa}}
 /* CORCHETES,*/
 /* CONTENIDO,*/
 /* DEFINICION_ENUM,*/

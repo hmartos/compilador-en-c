@@ -35,7 +35,7 @@ public class AnalizadorSintactico {
 	
 	public boolean analizarRec(NT nT,int nRegla){
 		
-		Object[] regla=gramatica[nt][nRegla];
+		Object[] regla=gramatica[nT][nRegla];
 		int nTerm=0;
 		boolean valido=true;
 		/*El algoritmo es: sobre la regla que sabemos que hay que aplicar, vamos mirando terminos uno a uno:
