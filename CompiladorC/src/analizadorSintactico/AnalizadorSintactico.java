@@ -2,6 +2,7 @@ package analizadorSintactico;
 
 import java.util.ArrayList;
 
+import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import token.TokenLambda;
@@ -13,15 +14,17 @@ public class AnalizadorSintactico {
 	AnalizadorLexico lexico;
 	GestorDeErrores errores;
 	TablaSimbolos simbolos;
-	Token tActual;
-	Token tLambda;
+	Token tokenActual;
+	Token tokenLambda;
 	Object[][] aa= {{"","asda"}};
+	int col;
+	int row;
 	
 	public AnalizadorSintactico(AnalizadorLexico al,GestorDeErrores ge,TablaSimbolos ts){
 		lexico=al;
 		errores=ge;
 		simbolos=ts;
-		tLambda=new TokenLambda();
+		tokenLambda=new TokenLambda();
 	}
 	
 	
@@ -49,11 +52,57 @@ public class AnalizadorSintactico {
 		 */
 		while (nTerm<regla.length){
 			Object termAct=regla[nTerm];
-			if (termAct insta)
+			if (termAct instanceof NT){
+				int nReglaNT=selectorRegla((NT) termAct);
+				if(nReglaNT!=-1){
+					valido=valido&&analizarRec((NT) termAct,nReglaNT);
+					nTerm++;
+				
+				}else{//No se puede aplicar ninguna regla
+					if(Primeros.main((NT) termAct, tokenLambda)){
+						nTerm++;
+					}
+					else{
+						//Lanzar error.
+						//No se ha podido aplicar ninguna regla.
+						
+						valido=false;
+					}
+				}
+			}else{  //Es un terminal
+				if (termAct instanceof PalRes){//Es un terminal palabra reservada
+					if(tokenActual.getAtributo().equals(termAct)){
+						nTerm++;
+						tokenActual=lexico.Scan();
+					}
+					else{
+						//Lanzar error.
+						//Se esperaba palabra clave...
+						//LE podemos pasar termAct. 
+						valido=false;
+					}
+					
+				}else{ //Es cualquier otro terminal (en forma de token)
+					
+					Token termTokenAct=(Token) termAct;
+					if(tokenActual.getTipo().equals( termTokenAct.getTipo()) &&
+							tokenActual.getAtributo().equals(termTokenAct.getAtributo())){ 
+						//El token actual coincide con el terminal de la regla.
+						nTerm++;
+						tokenActual=lexico.Scan();
+						
+					}else{
+						//Lanzar error.
+						//Se esperaba token tal...
+						valido=false;
+					}
+				}
+				
+			}
 		}
 		
 		
-		return false;
+		return valido;
 	}
 	
 	
@@ -63,7 +112,7 @@ public class AnalizadorSintactico {
 	
 	private int selectorRegla(NT nT){
 		
-		Object[][] gram = dameGramatica(nT);
+		Object[][] gram = gramatica[nT];
 		
 		int nRegla=0;
 		int nTerm=0;
@@ -84,11 +133,11 @@ public class AnalizadorSintactico {
 			while (nTerm<gram.length){
 				Object termAct=gram[nRegla][nTerm];
 				if (termAct instanceof NT){ // El elemento de la regla es un NoTerminal
-					if (Primeros.main((NT) termAct, tActual)){
+					if (Primeros.main((NT) termAct, tokenActual)){
 					//El token actual coincide con el Primero del NoTerminal
 						return nRegla; //La regla que aplicaremos será esta.
 						
-					}else if (Primeros.main((NT) termAct, tLambda)){
+					}else if (Primeros.main((NT) termAct, tokenLambda)){
 					//No coincide con los Primeros pero estos pueden ser Lambda
 						nTerm++; //Seguimos mirando los proximos terminos de esta regla.
 					}else{
@@ -98,12 +147,33 @@ public class AnalizadorSintactico {
 						//Pasamos a la siguiente regla posible.
 					}	
 				}else{ /*El elemento de la regla es un Terminal
-						No nos encontraremos en este metodo mas que un Terminal por regla.
+						No buscaremos en este metodo mas que un Terminal por regla.
 						Si coincide elegimos esa regla automaticamente. Si no la desechamos*/
-					if (termAct.equals(tActual)) return nRegla;  // Falta implementar distincion para palabras reservadas.
-					else {nRegla++;
-						nTerm=0;
-					}
+					
+					 //Es un terminal
+						if (termAct instanceof PalRes){//Es un terminal palabra reservada
+							if(tokenActual.getAtributo().equals(termAct)){
+								return nRegla;;
+							}
+							else{
+								nRegla++;
+								nTerm=0;
+							}
+							
+						}else{ //Es cualquier otro terminal (en forma de token)
+							
+							Token termTokenAct=(Token) termAct;
+							if(tokenActual.getTipo().equals( termTokenAct.getTipo()) &&
+									tokenActual.getAtributo().equals(termTokenAct.getAtributo())){ 
+								//El token actual coincide con el terminal de la regla.
+								return nRegla;
+								
+							}else{
+								nRegla++;
+								nTerm=0;;
+							}
+						}
+					
 				}
 			}
 			/*Si llegamos al final de la regla (Esto sera cuando todos tengan de primero lambda)
