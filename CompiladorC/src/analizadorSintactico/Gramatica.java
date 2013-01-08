@@ -4,13 +4,19 @@ import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import token.TokenAlmohadilla;
+import token.TokenAmpersand;
+import token.TokenAsig;
+import token.TokenAsterisco;
 import token.TokenComa;
+import token.TokenComillasChar;
 import token.TokenCorchetes;
+import token.TokenEntrecomillado;
 import token.TokenFin;
 import token.TokenId;
 import token.TokenLambda;
 import token.TokenLlaves;
 import token.TokenOpSeleccion;
+import token.TokenOpTernario;
 import token.TokenPalRes;
 import token.TokenParentesis;
 import token.TokenPuntoyComa;
@@ -54,6 +60,22 @@ public class Gramatica {
 	static Token menor= new TokenRelComp(TokenRelComp.TipoTokenRelComp.MENOR);
 	static Token punto= new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.PUNTO);
 	
+	static Token asig = new TokenAsig(TokenAsig.TipoTokenAsig.ASIG);
+	static Token suma_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.SUMA_ASIG);
+	static Token resta_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.RESTA_ASIG);
+	static Token mult_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.MULT_ASIG);
+	static Token div_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.DIV_ASIG);
+	static Token desp_izq_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.DESP_IZQ_ASIG);
+	static Token desp_der_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.DESP_DER_ASIG);
+	static Token andB_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.ANDB_ASIG);
+	static Token orB_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.ORB_ASIG);
+	static Token xorB_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.XORB_ASIG);
+	static Token mod_Asig = new TokenAsig(TokenAsig.TipoTokenAsig.MOD_ASIG);
+	
+	static Token dosPuntos = new TokenOpTernario (TokenOpTernario.TipoTokenOpTernario.DOSPUNTOS);
+	
+	
+	
 	static Object[][][] reglasGramatica={
 /*PROGRAMA,*/ {{NT.L_DEFINICIONES,new TokenFin()}},
 /* L_DEFINICIONES,*/ { {new TokenLambda()},	{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES} },
@@ -83,48 +105,48 @@ public class Gramatica {
 /* RENUM,*/				{ {NT.OP_ASIG,NT.RSENTENCIA_ASIG,NT.RENUM2},{new TokenComa(),new TokenId(null),NT.RENUM},{new TokenLambda()}},
 /* RENUM2,*/			{ {new TokenComa(),new TokenId(null),NT.RENUM}, {new TokenLambda()}},
 /* DEFINICION_STRUCT,*/	{ {PalRes.PAL_RES_struct, new TokenId(null),corcheteAbierto, NT.L_VARIABLES,corcheteCerrado, NT.LISTA_IDENS}},
-/* L_VARIABLES,*/
-/* DEF_VAR,*/
-/* DEFINICION_TYPEDEF,*/
-/* RDEF_TYPEDEF,*/
+/* L_VARIABLES,*/		{ {NT.DEFINICION_STRUCT, NT.L_VARIABLES}, {NT.DEF_VAR, NT.L_VARIABLES}, {NT.DEFINICION_ENUM,NT.L_VARIABLES}, {NT.DEFINICION_UNION, NT.L_VARIABLES},{new TokenLambda()} },
+/* DEF_VAR,*/			{ {NT.TIPO,NT.LISTA_IDENS}},
+/* DEFINICION_TYPEDEF,*/{ {PalRes.PAL_RES_typedef, NT.TIPO,NT.RDEF_TYPEDEF} },
+/* RDEF_TYPEDEF,*/		{ {PalRes.PAL_RES_struct,new TokenId(null),new TokenId(null),new TokenPuntoyComa()}, {new TokenId(null),new TokenPuntoyComa()} ,{PalRes.PAL_RES_union,new TokenId(null),new TokenId(null),new TokenPuntoyComa()} , {PalRes.PAL_RES_enum,new TokenId(null),new TokenId(null),new TokenPuntoyComa()} },
 
-/* RDEF_FUNCION,*/
-/* L_PARAMS,*/
-/* RL_PARAMS,*/
-/* RL_PARAMS2,*/
+/* RDEF_FUNCION,*/		{ {new TokenPuntoyComa()}, {llaveAbierta,NT.BLOQUE_SENTENCIAS,llaveCerrada} },
+/* L_PARAMS,*/			{ {new TokenLambda()}, {NT.TIPO,NT.RL_PARAMS} },
+/* RL_PARAMS,*/			{ {new TokenLambda()}, {new TokenComa(),NT.TIPO,NT.RL_PARAMS}, {new TokenId(null), NT.RL_PARAMS2} },
+/* RL_PARAMS2,*/		{ {new TokenLambda()} , {new TokenComa(),NT.TIPO,NT.RL_PARAMS} },
 
-/* TIPO,*/
-/* RTIPO,*/
-/* MODIFICADOR,*/
-/* TIPO_PRIMITIVO,*/
-/* RTIPO2,*/
+/* TIPO,*/				{ {NT.MODIFICADOR,NT.RTIPO} },
+/* RTIPO,*/				{ {NT.TIPO, NT.TIPO_PRIMITIVO, NT.RTIPO2} , {new TokenId(null), NT.RTIPO2} },
+/* MODIFICADOR,*/		{ {PalRes.PAL_RES_auto}, {PalRes.PAL_RES_volatile}, {PalRes.PAL_RES_register}, {PalRes.PAL_RES_extern}, {PalRes.PAL_RES_const}, {PalRes.PAL_RES_unsigned},{PalRes.PAL_RES_signed},{PalRes.PAL_RES_static},{new TokenLambda()} },
+/* TIPO_PRIMITIVO,*/	{ {PalRes.PAL_RES_void}, {PalRes.PAL_RES_int}, {PalRes.PAL_RES_char}, {PalRes.PAL_RES_float}, {PalRes.PAL_RES_double} },
+/* RTIPO2,*/			{ {new TokenLambda()}, {new TokenAsterisco(),NT.RTIPO2} },
 
-/* L_SENTENCIAS,*/
-/* BLOQUE_SENTENCIAS,*/
-/* SENTENCIA,*/
-/* OTRAS_SENTENCIAS,*/
-/* ENTRECOMILLADO,*/
-/* RPRINTF,*/
-/* REFERENCIA,*/
-/* INDIRECCION,*/
-/* RPRINTF2,*/
-/* RSCANF,*/
-/* RSCANF2,*/
-/* SENTENCIA_IF,*/
-/* RSENTENCIA_IF,*/
-/* SENTENCIA_ELSE,*/
-/* SENTENCIA_BUCLE,*/
-/* CAMPO,*/
-/* SENTENCIA_ASIG,*/
-/* OP_ASIG,*/
-/* RSENTENCIA_ASIG,*/
-/* SENTENCIA_CASE,*/
-/* L_CASES,*/
-/* CASES,*/
-/* RCASES,*/
-/* RCASES2,*/
-/* CASE,*/
-/* CONSTANTE,*/
+/* L_SENTENCIAS,*/		{ {llaveAbierta, NT.BLOQUE_SENTENCIAS,llaveCerrada}, {NT.SENTENCIA} },
+/* BLOQUE_SENTENCIAS,*/ { {NT.SENTENCIA,NT.BLOQUE_SENTENCIAS} , {llaveAbierta, NT.BLOQUE_SENTENCIAS,llaveCerrada} , {new TokenLambda()} },
+/* SENTENCIA,*/			{ {new TokenPuntoyComa()},{NT.SENTENCIA_IF},{NT.SENTENCIA_BUCLE},{NT.EXP,new TokenPuntoyComa()},{NT.SENTENCIA_CASE},{NT.OTRAS_SENTENCIAS} },
+/* OTRAS_SENTENCIAS,*/	{ {PalRes.PAL_RES_break},{PalRes.PAL_RES_continue},{PalRes.PAL_FUN_printf,parentesisAbierto,NT.ENTRECOMILLADO,NT.RPRINTF,parentesisCerrado},{PalRes.PAL_FUN_scanf,parentesisAbierto,NT.ENTRECOMILLADO,NT.RSCANF,parentesisCerrado},{PalRes.PAL_RES_return,NT.EXP} },
+/* ENTRECOMILLADO,*/    { {new TokenEntrecomillado(null)} },
+/* RPRINTF,*/			{ {new TokenComa(),NT.REFERENCIA,NT.INDIRECCION,NT.RPRINTF2}, {new TokenLambda()} },
+/* REFERENCIA,*/		{ {new TokenAmpersand()} , {new TokenLambda()} },
+/* INDIRECCION,*/		{ {new TokenAsterisco(),NT.INDIRECCION}, {new TokenLambda()} },
+/* RPRINTF2,*/			{ {NT.EXP,NT.RPRINTF} },
+/* RSCANF,*/			{ {new TokenComa(),NT.REFERENCIA,NT.INDIRECCION,NT.RSCANF2}, {new TokenLambda()} },
+/* RSCANF2,*/			{ {new TokenId(null),NT.CORCHETES} ,{new TokenLambda()} },
+/* SENTENCIA_IF,*/		{ {PalRes.PAL_RES_if,parentesisAbierto,NT.EXP,parentesisCerrado,NT.RSENTENCIA_IF} },
+/* RSENTENCIA_IF,*/		{ {NT.L_SENTENCIAS,NT.SENTENCIA_ELSE} },
+/* SENTENCIA_ELSE,*/	{ {PalRes.PAL_RES_else,NT.L_SENTENCIAS}, {new TokenLambda()} },
+/* SENTENCIA_BUCLE,*/	{ {PalRes.PAL_RES_do,NT.L_SENTENCIAS,PalRes.PAL_RES_while,parentesisAbierto,NT.EXP,parentesisCerrado}, {PalRes.PAL_RES_while,parentesisAbierto,NT.EXP,parentesisCerrado,NT.L_SENTENCIAS}, {PalRes.PAL_RES_for,parentesisAbierto,NT.CAMPO,new TokenPuntoyComa(),NT.CAMPO,new TokenPuntoyComa(),NT.CAMPO,parentesisCerrado,NT.L_SENTENCIAS} },
+/* CAMPO,*/				{ {new TokenLambda()} ,{NT.EXP} },
+/* SENTENCIA_ASIG,*/	{ {new TokenId(null), NT.CORCHETES,NT.OP_ASIG,NT.RSENTENCIA_ASIG} },
+/* OP_ASIG,*/			{ {asig},{suma_Asig},{resta_Asig},{mult_Asig},{div_Asig},{desp_izq_Asig},{desp_der_Asig},{andB_Asig},{orB_Asig},{xorB_Asig},{mod_Asig} },
+/* RSENTENCIA_ASIG,*/	{ {NT.EXP} },
+/* SENTENCIA_CASE,*/	{ {PalRes.PAL_RES_switch,parentesisAbierto,NT.EXP,parentesisCerrado,NT.L_CASES} },
+/* L_CASES,*/			{ {NT.CASE} ,{llaveAbierta,NT.CASES,llaveCerrada} },
+/* CASES,*/				{ {PalRes.PAL_RES_case,NT.CONSTANTE,dosPuntos,NT.RCASES}, {PalRes.PAL_RES_default,dosPuntos,NT.RCASES2},{new TokenLambda()} },
+/* RCASES,*/			{ {NT.BLOQUE_SENTENCIAS,NT.CASES}, {new TokenLambda()} },
+/* RCASES2,*/			{ {NT.BLOQUE_SENTENCIAS}, {new TokenLambda()} },
+/* CASE,*/				{ {PalRes.PAL_RES_case,NT.CONSTANTE,dosPuntos,NT.BLOQUE_SENTENCIAS}, {PalRes.PAL_RES_default,dosPuntos,NT.BLOQUE_SENTENCIAS} },
+/* CONSTANTE,*/			{ {NT.EXP_COND} },
 
 /* EXP,*/
 /* REXP,*/
