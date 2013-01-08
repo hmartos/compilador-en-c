@@ -18,9 +18,7 @@ public class TablaSimbolos {
 		for (int cont=0;cont<PalRes.values().length;cont++){
 			EntradaTabla entrada= new EntradaTabla();
 			entrada.setAtt(new AtributosTablaPalRes(PalRes.values()[cont]));
-			if (PalRes.values()[cont].toString().substring(4,7).compareTo("MAC")!=0)
-					reservadas.tabla.put(PalRes.values()[cont].toString().substring(8), entrada);
-			else 	reservadas.tabla.put("#"+PalRes.values()[cont].toString().substring(8), entrada);
+			reservadas.tabla.put(PalRes.values()[cont].toString().substring(8), entrada);
 
 		}
 		

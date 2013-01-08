@@ -145,9 +145,9 @@ public class AnalizadorLexico {
 					}
 					
 					case ('#'):{								// Leemos desde el estado 0, #
-						eAct=Estado.e3;
-						bufferString+=(char)charAct; 			//Accion semantica B
-						charAct=leerChar(); 					//Accion semantica A
+						nChar = 0;
+						//charAct=leerChar(); 					//Accion semantica A
+						tokenGen = new TokenAlmohadilla();
 						break;
 					}
 					
