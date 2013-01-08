@@ -31,14 +31,14 @@ public class AnalizadorSintactico {
 	public boolean analizar(){
 				
 		
-		return true;
+		return analizarRec(NT.PROGRAMA,0);
 	}
 	
 	
 	
-	public boolean analizarRec(NT nT,int nRegla){
+	boolean analizarRec(NT nT,int nRegla){
 		
-		Object[] regla=gramatica[nT][nRegla];
+		Object[] regla=Gramatica.reglasGramatica[nT.ordinal()][nRegla];
 		int nTerm=0;
 		boolean valido=true;
 		/*El algoritmo es: sobre la regla que sabemos que hay que aplicar, vamos mirando terminos uno a uno:
@@ -95,6 +95,7 @@ public class AnalizadorSintactico {
 						//Lanzar error.
 						//Se esperaba token tal...
 						valido=false;
+			
 					}
 				}
 				
@@ -112,7 +113,7 @@ public class AnalizadorSintactico {
 	
 	private int selectorRegla(NT nT){
 		
-		Object[][] gram = gramatica[nT];
+		Object[][] gram = Gramatica.reglasGramatica[nT.ordinal()];
 		
 		int nRegla=0;
 		int nTerm=0;
@@ -153,7 +154,7 @@ public class AnalizadorSintactico {
 					 //Es un terminal
 						if (termAct instanceof PalRes){//Es un terminal palabra reservada
 							if(tokenActual.getAtributo().equals(termAct)){
-								return nRegla;;
+								return nRegla;
 							}
 							else{
 								nRegla++;
