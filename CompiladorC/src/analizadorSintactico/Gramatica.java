@@ -4,9 +4,15 @@ import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import token.TokenAlmohadilla;
+
+import token.TokenAmpersand;
+import token.TokenAndL;
+import token.TokenAsterisco;
+
 import token.TokenAmpersand;
 import token.TokenAsig;
 import token.TokenAsterisco;
+
 import token.TokenComa;
 import token.TokenComillasChar;
 import token.TokenCorchetes;
@@ -15,12 +21,24 @@ import token.TokenFin;
 import token.TokenId;
 import token.TokenLambda;
 import token.TokenLlaves;
+import token.TokenNumEntero;
+import token.TokenNumReal;
+import token.TokenOpDespl;
+import token.TokenOpMult;
 import token.TokenOpSeleccion;
+
+import token.TokenOpTernario;
+import token.TokenOpUnario;
+import token.TokenOrB;
+import token.TokenOrL;
 import token.TokenOpTernario;
 import token.TokenPalRes;
 import token.TokenParentesis;
 import token.TokenPuntoyComa;
 import token.TokenRelComp;
+import token.TokenRelIgual;
+import token.TokenSimboloAdicion;
+import token.TokenXorB;
 
 public class Gramatica {
 	
@@ -77,24 +95,24 @@ public class Gramatica {
 	
 	
 	static Object[][][] reglasGramatica={
-/*PROGRAMA,*/ {{NT.L_DEFINICIONES,new TokenFin()}},
-/* L_DEFINICIONES,*/ { {new TokenLambda()},	{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES} },
-/* DEFINICION_GLOBAL,*/{{NT.MACROS},	{NT.DEFINICION} ,{NT.DEFINICION_TYPEDEF}},
-/* DEFINICION,*/{{NT.TIPO,NT.RDEFINICION},	{NT.DEFINICION_STRUCT},{NT.DEFINICION_ENUM},{NT.DEFINICION_UNION}},
-/* RDEFINICION,*/{{new TokenPuntoyComa()},	{new TokenId(null),NT.RDEFINICION2}},
-/* RDEFINICION2,*/{{NT.CORCHETES, NT.RDEF_VARIABLE},	{parentesisAbierto,NT.L_PARAMS,parentesisCerrado,NT.RDEF_FUNCION}},
-/* RDEF_VARIABLE,*/{{NT.OP_ASIG,NT.RSENTENCIA_ASIG,NT.RDEF_VARIABLE2},	{NT.RDEF_VARIABLE2}},	
-/* RDEF_VARIABLE2,*/{{new TokenComa(),new TokenId(null),NT.RDEF_VARIABLE},	{new TokenPuntoyComa()}},
+/*PROGRAMA,*/ 			{{NT.L_DEFINICIONES,new TokenFin()}},
+/* L_DEFINICIONES,*/	{{new TokenLambda()},	{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES} },
+/* DEFINICION_GLOBAL,*/	{{NT.MACROS},	{NT.DEFINICION} ,{NT.DEFINICION_TYPEDEF}},
+/* DEFINICION,*/		{{NT.TIPO,NT.RDEFINICION},	{NT.DEFINICION_STRUCT},{NT.DEFINICION_ENUM},{NT.DEFINICION_UNION}},
+/* RDEFINICION,*/		{{new TokenPuntoyComa()},	{new TokenId(null),NT.RDEFINICION2}},
+/* RDEFINICION2,*/		{{NT.CORCHETES, NT.RDEF_VARIABLE},	{parentesisAbierto,NT.L_PARAMS,parentesisCerrado,NT.RDEF_FUNCION}},
+/* RDEF_VARIABLE,*/		{{NT.OP_ASIG,NT.RSENTENCIA_ASIG,NT.RDEF_VARIABLE2},	{NT.RDEF_VARIABLE2}},	
+/* RDEF_VARIABLE2,*/	{{new TokenComa(),new TokenId(null),NT.RDEF_VARIABLE},	{new TokenPuntoyComa()}},
 
-/* MACROS,*/{{new TokenAlmohadilla(),NT.RMACRO}},
-/* RMACRO,*/{{PalRes.PAL_MAC_define,new TokenId(null), NT.EXP},		{PalRes.PAL_MAC_include,NT.RINCLUDE},	
-			{PalRes.PAL_MAC_ifdef,new TokenId(null), NT.RIFDEF2,new TokenAlmohadilla(),PalRes.PAL_MAC_endif},
-			{PalRes.PAL_MAC_undef,new TokenId(null)},	{PalRes.PAL_MAC_ifndef,new TokenId(null)},	
-			{PalRes.PAL_MAC_error, parentesisAbierto}}, /*falta saber lo que es caracter*/
+/* MACROS,*/			{{new TokenAlmohadilla(),NT.RMACRO}},
+/* RMACRO,*/			{{PalRes.PAL_MAC_define,new TokenId(null), NT.EXP},		{PalRes.PAL_MAC_include,NT.RINCLUDE},	
+						{PalRes.PAL_MAC_ifdef,new TokenId(null), NT.RIFDEF2,new TokenAlmohadilla(),PalRes.PAL_MAC_endif},
+						{PalRes.PAL_MAC_undef,new TokenId(null)},	{PalRes.PAL_MAC_ifndef,new TokenId(null)},	
+						{PalRes.PAL_MAC_error, parentesisAbierto}}, /*falta saber lo que es caracter*/
 
-/* RINCLUDE,*/{{NT.ENTRECOMILLADO},		{menor,new TokenId(null),punto,new TokenId(null),mayor}},
-/* RIFDEF,*/{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},		{NT.L_SENTENCIAS},{new TokenLambda()}},	
-/* RIFDEF2,*/{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else, NT.L_SENTENCIAS},	{NT.RMACRO}}, //CAdena = entrecomillado??
+/* RINCLUDE,*/			{{NT.ENTRECOMILLADO},		{menor,new TokenId(null),punto,new TokenId(null),mayor}},
+/* RIFDEF,*/			{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},		{NT.L_SENTENCIAS},{new TokenLambda()}},	
+/* RIFDEF2,*/			{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else, NT.L_SENTENCIAS},	{NT.RMACRO}}, //CAdena = entrecomillado??
 
 	
 /* DEFINICION_UNION,*/  { {PalRes.PAL_RES_union,new TokenId(null),llaveAbierta, NT.L_VARIABLES,corcheteCerrado,NT.LISTA_IDENS}} ,
@@ -148,54 +166,47 @@ public class Gramatica {
 /* CASE,*/				{ {PalRes.PAL_RES_case,NT.CONSTANTE,dosPuntos,NT.BLOQUE_SENTENCIAS}, {PalRes.PAL_RES_default,dosPuntos,NT.BLOQUE_SENTENCIAS} },
 /* CONSTANTE,*/			{ {NT.EXP_COND} },
 
-/* EXP,*/
-/* REXP,*/
-/* EXP_COND,*/
-/* REXP_COND,*/
-/* EXP_ORL,*/
-/* REXP_ORL,*/
-/* EXP_ANDL,*/
-/* REXP_ANDL,*/
-/* EXP_ORB,
-/* REXP_ORB,*/
-/* EXP_XORB,*/
-/* REXP_XORB,*/
-/* EXP_ANDB,*/
-/* REXP_ANDB,*/
-/* EXP_REL,*/
-/* REXP_REL,*/
-/* OP_REL,*/
-/* EXP_COMP,*/
-/* REXP_COMP,*/
-/* OP_COMP,
-/* EXP_DESPL,*/
-/* REXP_DESPL,*/
-/* OP_DESPL,*/
-/* EXP_AD,*/
-/* REXP_AD,*/
-/* OP_AD,*/
-/* EXP_MULT,*/
-/* REXP_MULT,*/
-/* OP_MULT,*/
-/* EXP1,*/
-/* OP_UNARIOS,*/
-/* OP_INC,*/
-/* EXP2,*/
-/* REXP2,*/
-/* OP_SELECCION,*/
-/* EXP3,*/
-/* LISTA_EXP,*/
-/* REXP3,*/
-/* REXP3_2,*/
-/* L_PARAMS_LLAMADA,*/
-/* RES_LISTA_LLAMADA	*/
-		
-		
-		
-		
-		
-		
-		
+/* EXP,*/				{{NT.OP_UNARIOS, NT.EXP1, NT.REXP_COND},{PalRes.PAL_RES_sizeof, parentesisAbierto, NT.EXP1, parentesisCerrado, NT.REXP_COND}, {new TokenNumEntero(0), NT.REXP_COND},{new TokenNumReal(0), NT.REXP_COND}, {parentesisAbierto, NT.REXP3_2, NT.REXP_COND}, {PalRes.PAL_ESP_NULL, NT.REXP_COND}, {new TokenId(null), NT.REXP}},
+/* REXP,*/				{{NT.OP_ASIG, NT.RSENTENCIA_ASIG} , {NT.REXP_COND}},
+/* EXP_COND,*/			{{NT.EXP_ORL, NT.REXP_COND}},
+/* REXP_COND,*/			{{new TokenLambda()},{new TokenOpTernario(TokenOpTernario.TipoTokenOpTernario.INTERROGACION), NT.EXP,new TokenOpTernario(TokenOpTernario.TipoTokenOpTernario.DOSPUNTOS), NT.EXP, NT.REXP_COND}},
+/* EXP_ORL,*/			{{NT.EXP_ANDL, NT.REXP_ORL}},
+/* REXP_ORL,*/			{{new TokenOrL(), NT.EXP_ORL}, {new TokenLambda()}},
+/* EXP_ANDL,*/			{{NT.EXP_ORB, NT.REXP_ANDL}},
+/* REXP_ANDL,*/			{{new TokenAndL(), NT.REXP_ANDL}, {new TokenLambda()}},
+/* EXP_ORB,	*/			{{NT.EXP_XORB, NT.REXP_ORB}},
+/* REXP_ORB,*/			{{new TokenOrB(), NT.EXP_ORB}, {new TokenLambda()}},
+/* EXP_XORB,*/			{{NT.EXP_ANDB, NT.REXP_XORB}},
+/* REXP_XORB,*/			{{new TokenXorB(), NT.EXP_XORB}, {new TokenLambda()}},
+/* EXP_ANDB,*/			{{NT.EXP_REL, NT.REXP_ANDB}},
+/* REXP_ANDB,*/			{{new TokenAmpersand(), NT.EXP_ANDB}, {new TokenLambda()}},
+/* EXP_REL,*/			{{NT.EXP_COMP, NT.REXP_REL}},
+/* REXP_REL,*/			{{NT.OP_REL, NT.EXP_REL}, {new TokenLambda()}},
+/* OP_REL,*/			{{new TokenRelIgual(TokenRelIgual.TipoTokenRelIgual.DISTINTO)}, {new TokenRelIgual(TokenRelIgual.TipoTokenRelIgual.IGUAL)}},
+/* EXP_COMP,*/			{{NT.EXP_DESPL, NT.REXP_COMP}},
+/* REXP_COMP,*/			{{NT.OP_COMP, NT.EXP_COMP}, {new TokenLambda()}},
+/* OP_COMP,*/			{{new TokenRelComp(TokenRelComp.TipoTokenRelComp.MENOR)}, {new TokenRelComp(TokenRelComp.TipoTokenRelComp.IGUAL_MENOR)}, {new TokenRelComp(TokenRelComp.TipoTokenRelComp.MAYOR)}, {new TokenRelComp(TokenRelComp.TipoTokenRelComp.IGUAL_MAYOR)}},
+/* EXP_DESPL,*/			{{NT.EXP_AD, NT.REXP_DESPL}},
+/* REXP_DESPL,*/		{{NT.OP_DESPL, NT.EXP_DESPL}, {new TokenLambda()}},
+/* OP_DESPL,*/			{{new TokenOpDespl(TokenOpDespl.TipoTokenOpDespl.DESPL_DER)},{new TokenOpDespl(TokenOpDespl.TipoTokenOpDespl.DESPL_IZQ)}},
+/* EXP_AD,*/			{{NT.EXP_MULT, NT.REXP_AD}},
+/* REXP_AD,*/			{{NT.OP_AD, NT.EXP_AD}, {new TokenLambda()}},
+/* OP_AD,*/				{{new TokenSimboloAdicion(TokenSimboloAdicion.TipoTokenSimboloAdicion.SUMA)}, {new TokenSimboloAdicion(TokenSimboloAdicion.TipoTokenSimboloAdicion.RESTA)}},
+/* EXP_MULT,*/			{{NT.EXP1, NT.REXP_MULT}},
+/* REXP_MULT,*/			{{NT.OP_MULT, NT.EXP_MULT},{new TokenLambda()}},
+/* OP_MULT,*/			{{new TokenAsterisco()}, {new TokenOpMult(TokenOpMult.TipoTokenOpMult.DIV)}, {new TokenOpMult(TokenOpMult.TipoTokenOpMult.MOD)}},
+/* EXP1,*/				{{NT.EXP2}, {NT.OP_UNARIOS, NT.EXP1}, {PalRes.PAL_RES_sizeof, parentesisAbierto, NT.EXP1, parentesisCerrado}},
+/* OP_UNARIOS,*/		{{new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.NOT_B)}, {new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.NOT_L)}, {new TokenAsterisco()}, {new TokenAmpersand()}, {NT.OP_AD},{NT.OP_INC}},
+/* OP_INC,*/			{{new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.INCREMENTO)},{new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.DECREMENTO)}},
+/* EXP2,*/				{{NT.EXP3, NT.REXP2}},
+/* REXP2,*/				{{NT.OP_INC},{NT.OP_SELECCION, NT.EXP3}, {new TokenLambda()}},
+/* OP_SELECCION,*/		{{new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.PUNTO)},{new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.FLECHA)}},
+/* EXP3,*/				{{new TokenId(null), NT.REXP3},{new TokenNumEntero(0)}, {new TokenNumReal(0)}, {parentesisAbierto, NT.REXP3_2}, {PalRes.PAL_ESP_NULL}, {llaveAbierta, NT.LISTA_EXP, llaveCerrada},{new TokenComillasChar()}, {new TokenEntrecomillado(null)}},
+/* LISTA_EXP,*/			{{new TokenLambda()}, {NT.EXP, new TokenComa(), NT.LISTA_EXP}},
+/* REXP3,*/				{{new TokenLambda()},{parentesisAbierto, NT.L_PARAMS_LLAMADA,parentesisCerrado}},
+/* REXP3_2,*/			{{NT.EXP, parentesisCerrado}, {NT.TIPO, parentesisCerrado, NT.EXP1}},
+/* L_PARAMS_LLAMADA,*/	{{NT.EXP, NT.RES_LISTA_LLAMADA},{new TokenLambda()}},
+/* RES_LISTA_LLAMADA*/ 	{{new TokenComa(), NT.EXP, NT.RES_LISTA_LLAMADA}, {new TokenLambda()}}
 		
 		
 	};
