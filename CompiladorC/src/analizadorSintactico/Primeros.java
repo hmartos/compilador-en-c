@@ -617,8 +617,7 @@ public class Primeros {
 			case RIFDEF:
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
-				}else if(main(NT.DEFINICION, tActual) ||
-							main(NT.DEFINICION_TYPEDEF, tActual)){
+				}else if(main(NT.L_SENTENCIAS, tActual)){
 					ret = true;
 					
 				}else{
