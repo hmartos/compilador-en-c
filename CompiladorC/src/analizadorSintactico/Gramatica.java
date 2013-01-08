@@ -9,6 +9,7 @@ import token.TokenCorchetes;
 import token.TokenFin;
 import token.TokenId;
 import token.TokenLambda;
+import token.TokenLlaves;
 import token.TokenOpSeleccion;
 import token.TokenPalRes;
 import token.TokenParentesis;
@@ -44,15 +45,20 @@ public class Gramatica {
 	
 	static Token parentesisAbierto= new TokenParentesis(TokenParentesis.TipoTokenParentesis.ABIERTO);
 	static Token parentesisCerrado= new TokenParentesis(TokenParentesis.TipoTokenParentesis.CERRADO);
+	static Token corcheteAbierto= new TokenCorchetes(TokenCorchetes.TipoTokenCorchetes.ABIERTO);
+	static Token corcheteCerrado= new TokenCorchetes(TokenCorchetes.TipoTokenCorchetes.CERRADO);
+	static Token llaveAbierta = new TokenLlaves(TokenLlaves.TipoTokenLlaves.ABIERTO);
+	static Token llaveCerrada= new TokenLlaves(TokenLlaves.TipoTokenLlaves.CERRADO);
+	
 	static Token mayor= new TokenRelComp(TokenRelComp.TipoTokenRelComp.MAYOR);
 	static Token menor= new TokenRelComp(TokenRelComp.TipoTokenRelComp.MENOR);
 	static Token punto= new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.PUNTO);
 	
 	static Object[][][] reglasGramatica={
 /*PROGRAMA,*/ {{NT.L_DEFINICIONES,new TokenFin()}},
-/* L_DEFINICIONES,*/{{new TokenLambda()},	{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES}},
-/* DEFINICION_GLOBAL,*/{{NT.MACROS,},	{NT.DEFINICION},{NT.DEFINICION_TYPEDEF}},
-/* DEFINICION,*/{{NT.TIPO,NT.RDEFINICION},{NT.DEFINICION_STRUCT},{NT.DEFINICION_ENUM},{NT.DEFINICION_UNION}},
+/* L_DEFINICIONES,*/ { {new TokenLambda()},	{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES} },
+/* DEFINICION_GLOBAL,*/{{NT.MACROS},	{NT.DEFINICION} ,{NT.DEFINICION_TYPEDEF}},
+/* DEFINICION,*/{{NT.TIPO,NT.RDEFINICION},	{NT.DEFINICION_STRUCT},{NT.DEFINICION_ENUM},{NT.DEFINICION_UNION}},
 /* RDEFINICION,*/{{new TokenPuntoyComa()},	{new TokenId(null),NT.RDEFINICION2}},
 /* RDEFINICION2,*/{{NT.CORCHETES, NT.RDEF_VARIABLE},	{parentesisAbierto,NT.L_PARAMS,parentesisCerrado,NT.RDEF_FUNCION}},
 /* RDEF_VARIABLE,*/{{NT.OP_ASIG,NT.RSENTENCIA_ASIG,NT.RDEF_VARIABLE2},	{NT.RDEF_VARIABLE2}},	
@@ -66,16 +72,17 @@ public class Gramatica {
 
 /* RINCLUDE,*/{{NT.ENTRECOMILLADO},		{menor,new TokenId(null),punto,new TokenId(null),mayor}},
 /* RIFDEF,*/{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},		{NT.DEFINICION,NT.RIFDEF},	{NT.DEFINICION_TYPEDEF,NT.RIFDEF},{new TokenLambda()}},	
-/* RIFDEF2,*/{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else,NT.CADENA},	{NT.RMACRO}}, //CAdena = entrecomillado??
+/* RIFDEF2,*/{{PalRes.PAL_MAC_elif,new TokenId(null),NT.RIFDEF},	{PalRes.PAL_RES_else, NT.CADENA},	{NT.RMACRO}}, //CAdena = entrecomillado??
 
-/* DEFINICION_UNION,*/	{PalRes.PAL_RES_union,new TokenId(null),new TokenLlaves(ABIERTO),NT.L_VARIABLES,new TokenCorchetes(CERRADO), NT.LISTA_IDENS},
+	
+/* DEFINICION_UNION,*/  { {PalRes.PAL_RES_union,new TokenId(null),llaveAbierta, NT.L_VARIABLES,corcheteCerrado,NT.LISTA_IDENS}} ,
 /*LISTA_IDENS,*/		{ {new TokenId(null), NT.CORCHETES,NT.RDEF_VARIABLE}, {new TokenPuntoyComa()}},
-/* CORCHETES,*/			{{new TokenLambda()} , {new TokenCorchetes(ABIERTO),NT.CONTENIDO, new TokenCorchetes(CERRADO),NT.CORCHETES}},
-/* CONTENIDO,*/			{{new TokenLambda()} , {NT.EXP}},
-/* DEFINICION_ENUM,*/	{PalRes.PAL_RES_enum, new TokenId(null),new TokenLlaves(ABIERTO),new TokenId(null),NT.RENUM, new TokenPuntoYComa()},
-/* RENUM,*/				{{NT.OP_ASIG,NT.RSENTENCIA_ASIG,NT.RENUM2},{new TokenComa(),new TokenId(null),NT.RENUM},{new TokenLambda()}},
-/* RENUM2,*/			{{new TokenComa(),new TokenId(null),NT.RENUM}, {new TokenLambda()}},
-/* DEFINICION_STRUCT,*/
+/* CORCHETES,*/			{ {new TokenLambda()} , {corcheteAbierto,NT.CONTENIDO, corcheteCerrado,NT.CORCHETES}},
+/* CONTENIDO,*/			{ {new TokenLambda()} , {NT.EXP}},
+/* DEFINICION_ENUM,*/	{ {PalRes.PAL_RES_enum, new TokenId(null),llaveAbierta,new TokenId(null),NT.RENUM, new TokenPuntoyComa()} },
+/* RENUM,*/				{ {NT.OP_ASIG,NT.RSENTENCIA_ASIG,NT.RENUM2},{new TokenComa(),new TokenId(null),NT.RENUM},{new TokenLambda()}},
+/* RENUM2,*/			{ {new TokenComa(),new TokenId(null),NT.RENUM}, {new TokenLambda()}},
+/* DEFINICION_STRUCT,*/	{ {PalRes.PAL_RES_struct, new TokenId(null),corcheteAbierto, NT.L_VARIABLES,corcheteCerrado, NT.LISTA_IDENS}},
 /* L_VARIABLES,*/
 /* DEF_VAR,*/
 /* DEFINICION_TYPEDEF,*/
