@@ -1,6 +1,7 @@
 package analizadorSintactico;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
@@ -30,7 +31,7 @@ public class AnalizadorSintactico {
 	
 	public boolean analizar(){
 				
-		
+		tokenActual=lexico.Scan();
 		return analizarRec(NT.PROGRAMA,0);
 	}
 	
