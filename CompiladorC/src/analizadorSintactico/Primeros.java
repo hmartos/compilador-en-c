@@ -1,6 +1,6 @@
 package analizadorSintactico;
 
-import tablaSimbolos.TablaSimbolos.PalabraReservada;
+import tablaSimbolos.PalRes;
 import token.Token;
 import token.Token.TipoToken;
 import token.TokenAsig.TipoTokenAsig;
@@ -72,7 +72,7 @@ public class Primeros {
 						tActual.getTipo().equals(TipoToken.NUM_REAL)){
 					ret = true;
 				} else if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_ESP_NULL)){
+					if(tActual.getAtributo().equals(PalRes.PAL_ESP_NULL)){
 						ret = true;
 					}
 				}else if(tActual.getTipo().equals(TipoToken.PARENTESIS)){
@@ -125,7 +125,7 @@ public class Primeros {
 				if(main(NT.EXP2, tActual) || main(NT.OP_UNARIOS, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getTipo().equals(PalabraReservada.PAL_RES_sizeof)){
+					if(tActual.getTipo().equals(PalRes.PAL_RES_sizeof)){
 						ret = true;
 					}
 				}
@@ -275,8 +275,8 @@ public class Primeros {
 				break;
 			case CASE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_case) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_default)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_case) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_default)){
 						ret = true;
 					}
 				}
@@ -299,8 +299,8 @@ public class Primeros {
 				break;
 			case CASES:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_case) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_default)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_case) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_default)){
 						ret = true;
 					}
 				}else{
@@ -317,7 +317,7 @@ public class Primeros {
 				break;
 			case SENTENCIA_CASE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalabraReservada.PAL_RES_switch);
+					ret = tActual.getAtributo().equals(PalRes.PAL_RES_switch);
 				}
 				break;
 			case RSENTENCIA_ASIG:
@@ -338,9 +338,9 @@ public class Primeros {
 				break;
 			case SENTENCIA_BUCLE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_do) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_while) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_for)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_do) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_while) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_for)){
 						ret = true;
 					}
 				}
@@ -349,7 +349,7 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalabraReservada.PAL_RES_else);
+					ret = tActual.getAtributo().equals(PalRes.PAL_RES_else);
 				}
 				break;
 			case RSENTENCIA_IF:
@@ -357,7 +357,7 @@ public class Primeros {
 				break;
 			case SENTENCIA_IF:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalabraReservada.PAL_RES_if);
+					ret = tActual.getAtributo().equals(PalRes.PAL_RES_if);
 				}
 				break;
 			case RSCANF2:
@@ -403,11 +403,11 @@ public class Primeros {
 				break;
 			case OTRAS_SENTENCIAS:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_break) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_continue) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_FUN_printf) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_FUN_scanf) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_return)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_break) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_continue) ||
+							tActual.getAtributo().equals(PalRes.PAL_FUN_printf) ||
+							tActual.getAtributo().equals(PalRes.PAL_FUN_scanf) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_return)){
 						ret = true;
 					}
 				}
@@ -452,25 +452,25 @@ public class Primeros {
 				break;
 			case TIPO_PRIMITIVO:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_int) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_float) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_double) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_char) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_void)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_int) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_float) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_double) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_char) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_void)){
 						ret = true;
 					}
 				}
 				break;
 			case MODIFICADOR:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_auto) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_const) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_volatile) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_register) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_extern) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_unsigned) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_signed) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_static)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_auto) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_const) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_volatile) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_register) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_extern) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_unsigned) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_signed) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_static)){
 						ret = true;
 					}
 				}else{
@@ -525,9 +525,9 @@ public class Primeros {
 				break;
 			case RDEF_TYPEDEF:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_struct) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_union) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_RES_enum)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_struct) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_union) ||
+							tActual.getAtributo().equals(PalRes.PAL_RES_enum)){
 						ret = true;
 					}
 				}else{
@@ -536,7 +536,7 @@ public class Primeros {
 				break;
 			case DEFINICION_TYPEDEF:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret =tActual.getAtributo().equals(PalabraReservada.PAL_RES_typedef);
+					ret =tActual.getAtributo().equals(PalRes.PAL_RES_typedef);
 				}
 				break;
 			case DEF_VAR:
@@ -554,7 +554,7 @@ public class Primeros {
 				break;
 			case DEFINICION_STRUCT:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalabraReservada.PAL_RES_struct);
+					ret = tActual.getAtributo().equals(PalRes.PAL_RES_struct);
 				}
 				break;
 			case RENUM2:
@@ -575,7 +575,7 @@ public class Primeros {
 				break;
 			case DEFINICION_ENUM:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalabraReservada.PAL_RES_enum);
+					ret = tActual.getAtributo().equals(PalRes.PAL_RES_enum);
 				}
 				break;
 			case CONTENIDO:
@@ -601,13 +601,13 @@ public class Primeros {
 				break;
 			case DEFINICION_UNION:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalabraReservada.PAL_RES_union);
+					ret = tActual.getAtributo().equals(PalRes.PAL_RES_union);
 				}
 				break;
 			case RIFDEF2:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_RES_else) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_elif)){
+					if(tActual.getAtributo().equals(PalRes.PAL_RES_else) ||
+							tActual.getAtributo().equals(PalRes.PAL_MAC_elif)){
 						ret = true;
 					}
 				}else{
@@ -634,13 +634,13 @@ public class Primeros {
 				break;
 			case RMACRO:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalabraReservada.PAL_MAC_define) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_include) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_ifdef) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_undef) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_ifndef) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_error) ||
-							tActual.getAtributo().equals(PalabraReservada.PAL_MAC_pragma)){
+					if(tActual.getAtributo().equals(PalRes.PAL_MAC_define) ||
+							tActual.getAtributo().equals(PalRes.PAL_MAC_include) ||
+							tActual.getAtributo().equals(PalRes.PAL_MAC_ifdef) ||
+							tActual.getAtributo().equals(PalRes.PAL_MAC_undef) ||
+							tActual.getAtributo().equals(PalRes.PAL_MAC_ifndef) ||
+							tActual.getAtributo().equals(PalRes.PAL_MAC_error) ||
+							tActual.getAtributo().equals(PalRes.PAL_MAC_pragma)){
 						ret = true;
 					}
 				}
