@@ -38,6 +38,7 @@ import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
 import analizadorLexico.AnalizadorLexico;
+import analizadorSintactico.AnalizadorSintactico;
 
 public class ClasePrincipal extends JFrame {
 
@@ -53,6 +54,7 @@ public class ClasePrincipal extends JFrame {
 	ContenedorTS cuadroTS;
 	
 	AnalizadorLexico analizador;
+	AnalizadorSintactico sintactico;
 	TablaSimbolos TS;
 	GestorDeErrores GE;
 	ArrayList<Token> listaToken;
@@ -221,6 +223,7 @@ public class ClasePrincipal extends JFrame {
 				}	
 			}else if (botonCompleto==e.getSource()){
 				if (analizador!=null){
+					/*
 					try{
 						Token nuevoToken=null;	
 						while(nuevoToken==null||nuevoToken.getTipo()!=Token.TipoToken.FIN){
@@ -228,9 +231,14 @@ public class ClasePrincipal extends JFrame {
 							listaToken.add(nuevoToken);
 						}
 					}catch (Exception excepcion){ excepcion.printStackTrace();}
+					
+					
 					actualizarTextoToken();
 					actualizarTextoError();
-					cuadroTS.actualizar(cuadroTS.representada);
+					cuadroTS.actualizar(cuadroTS.representada);ç
+					*/
+					System.out.println(sintactico.analizar());
+					
 				}
 				
 			}else if (botonIniciar==e.getSource()){
@@ -258,9 +266,11 @@ public class ClasePrincipal extends JFrame {
 					
 					
 					if (modoTextoEscrito){
-						analizador =new AnalizadorLexico(true,textoCodigo.getText(),TS,GE); 
+						analizador =new AnalizadorLexico(true,textoCodigo.getText(),TS,GE);
+						sintactico= new AnalizadorSintactico(analizador, GE, TS);
 					}else{
 						analizador = new AnalizadorLexico(false,ruta, TS,GE);
+						sintactico= new AnalizadorSintactico(analizador, GE, TS);
 						
 					}
 					

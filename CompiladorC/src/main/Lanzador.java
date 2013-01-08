@@ -19,5 +19,16 @@ public class Lanzador {
 		
 	}
 	
+	/*
+	public static void main(String[] args) {
+		AnalizadorLexico al =AnalizadorLexico();
+		TablaSimbolos ts=TablaSimbolos();
+		
+		
+		
+		
+	}
+*/	
+	
 
 }

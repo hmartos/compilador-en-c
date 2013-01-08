@@ -64,18 +64,28 @@ public class AnalizadorLexico {
 		
 	}
 	
-	public void devolverChar() throws IOException
+	public void devolverChar() 
 	{
 		nChar--;
-		br.reset();
+		try {
+			br.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
-	public int leerChar() throws IOException //Pasamos el int para poder marcar final : -1
+	public int leerChar()  //Pasamos el int para poder marcar final : -1
 	{
 		nChar++;
-		br.mark(1);
-		return br.read();
+		try {
+			br.mark(1);
+			return br.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}return -1; //Si hay una excepcion devuelve final de fichero.
 		
 	}
 	
@@ -85,7 +95,7 @@ public class AnalizadorLexico {
 	 * @return
 	 * @throws IOException 
 	 */
-	public Token Scan() throws IOException{ 
+	public Token Scan() { 
 		
 		
 		
