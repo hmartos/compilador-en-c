@@ -47,7 +47,7 @@ public enum NT {
 	 TIPO,
 	 RTIPO,
 	 MODIFICADOR,
-	 
+	 L_MODIFICADORES,
 	 TIPO_PRIMITIVO,
 	 RTIPO2,
 	 L_SENTENCIAS,
@@ -123,5 +123,4 @@ public enum NT {
 	 REXP3_2,
 	 L_PARAMS_LLAMADA,
 	 RES_LISTA_LLAMADA
-
 }
