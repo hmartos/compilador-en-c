@@ -261,17 +261,35 @@ public class Primeros {
 				ret = main(NT.EXP_ORL, tActual);
 				break;
 			case REXP:
-				if(main(NT.OP_ASIG, tActual)){
+				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
+					ret = true;
+				}else if(main(NT.OP_ASIG, tActual)){
 					ret = true;
 				}else if(main(NT.REXP_COND, tActual)){
 					ret = true;
 				}
 				break;
 			case EXP:
-				ret = main(NT.EXP_COND, tActual);
+				if(tActual.getTipo().equals(TipoToken.NUM_ENTERO) ||
+						tActual.getTipo().equals(TipoToken.NUM_REAL) || tActual.getTipo().equals(TipoToken.ID)){
+					ret = true;
+				}else{
+					if(tActual.getTipo().equals(TipoToken.PAL_RES)){
+						if(tActual.getAtributo().equals(PalRes.PAL_RES_sizeof) ||
+								tActual.getAtributo().equals(PalRes.PAL_ESP_NULL)){
+							ret = true;
+						}
+					}else if(tActual.getTipo().equals(TipoToken.PARENTESIS)){
+							if(tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO)){
+								ret = true;
+							}
+					}else{
+						ret = main(NT.OP_UNARIOS, tActual);
+					}
+				}
 				break;
 			case CONSTANTE:
-				ret = main(NT.EXP, tActual);
+				ret = main(NT.EXP_COND, tActual);
 				break;
 			case CASE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
@@ -473,21 +491,24 @@ public class Primeros {
 							tActual.getAtributo().equals(PalRes.PAL_RES_static)){
 						ret = true;
 					}
+				}
+				break;
+			case L_MODIFICADORES:
+				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
+					ret = true;
 				}else{
-					ret = tActual.getTipo().equals(TipoToken.LAMBDA);
+					ret = main(NT.MODIFICADOR,tActual);
 				}
 				break;
 			case RTIPO:
 				if(tActual.getTipo().equals(TipoToken.ID)){
-					ret = true;
-				}else if(main(NT.TIPO, tActual)){
 					ret = true;
 				}else{
 					ret = main(NT.TIPO_PRIMITIVO, tActual);
 				}
 				break;
 			case TIPO:
-				if(main(NT.MODIFICADOR, tActual)){
+				if(main(NT.L_MODIFICADORES, tActual)){
 					ret = true;
 				}else{
 					ret = main(NT.RTIPO, tActual);
@@ -645,11 +666,7 @@ public class Primeros {
 				}
 				break;
 			case MACROS:
-				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
-					ret = true;
-				}else{
-					ret = tActual.getTipo().equals(TipoToken.ALMOHADILLA);
-				}
+				ret = tActual.getTipo().equals(TipoToken.ALMOHADILLA);
 				break;
 			case RDEF_VARIABLE2:
 				if(tActual.getTipo().equals(TipoToken.COMA)){
