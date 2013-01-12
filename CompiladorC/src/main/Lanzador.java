@@ -1,9 +1,6 @@
 package main;
 
 import interfaz.ClasePrincipal;
-import tablaSimbolos.TablaSimbolos;
-import token.Token;
-import analizadorLexico.AnalizadorLexico;
 
 public class Lanzador {
 

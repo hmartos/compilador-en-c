@@ -1,6 +1,5 @@
 package token;
 
-import token.TokenOpDespl.TipoTokenOpDespl;
 
 public class TokenRelComp extends Token {
 

@@ -2,7 +2,6 @@ package token;
 
 import tablaSimbolos.AtributosTablaPalRes;
 import tablaSimbolos.PalRes;
-import token.TokenAsig.TipoTokenAsig;
 
 public class TokenPalRes extends Token {
 

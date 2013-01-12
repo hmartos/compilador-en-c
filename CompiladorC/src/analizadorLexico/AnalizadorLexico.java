@@ -12,8 +12,37 @@ import java.io.StringReader;
 
 import tablaSimbolos.AtributosTablaPalRes;
 import tablaSimbolos.EntradaTabla;
+import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
-import token.*;
+import token.Token;
+import token.TokenAlmohadilla;
+import token.TokenAmpersand;
+import token.TokenAndL;
+import token.TokenAsig;
+import token.TokenAsterisco;
+import token.TokenComa;
+import token.TokenComillasChar;
+import token.TokenCorchetes;
+import token.TokenEntrecomillado;
+import token.TokenFin;
+import token.TokenId;
+import token.TokenLlaves;
+import token.TokenNumEntero;
+import token.TokenNumReal;
+import token.TokenOpDespl;
+import token.TokenOpMult;
+import token.TokenOpSeleccion;
+import token.TokenOpTernario;
+import token.TokenOpUnario;
+import token.TokenOrB;
+import token.TokenOrL;
+import token.TokenPalRes;
+import token.TokenParentesis;
+import token.TokenPuntoyComa;
+import token.TokenRelComp;
+import token.TokenRelIgual;
+import token.TokenSimboloAdicion;
+import token.TokenXorB;
 
 public class AnalizadorLexico {
 
@@ -353,6 +382,9 @@ public class AnalizadorLexico {
 					EntradaTabla entrada= TS.busquedaPalabraReservada(bufferString);  			// Busco el ID en la tabla
 					if (entrada!=null){												  			// Si no esta creo una entrada nueva
 						tokenGen=new TokenPalRes((AtributosTablaPalRes) entrada.getAtt());
+						if(tokenGen.getAtributo().equals(PalRes.PAL_MAC_pragma) || tokenGen.getAtributo().equals(PalRes.PAL_MAC_error)){   //Si leemos pragma o error, ignoramos hasta el salto de linea, vamos al estado 30, como si hubieramos le’do //
+							eAct = Estado.e30;
+						}
 					}else{															  			// si no meto el ID en su atributo
 						tokenGen=new TokenId(bufferString);
 						TS.insertar(bufferString); 									  			// Lo introducimos en la TS para verlo en la demo.
