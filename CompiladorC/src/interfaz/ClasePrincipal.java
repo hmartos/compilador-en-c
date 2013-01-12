@@ -238,7 +238,11 @@ public class ClasePrincipal extends JFrame {
 					actualizarTextoError();
 					cuadroTS.actualizar(cuadroTS.representada);ç
 					*/
-					System.out.println(sintactico.analizar());
+					if(sintactico.analizar()){
+						System.out.println("Perfect");
+					}else{
+						System.out.println("Nada");
+					}
 					
 				}
 				

@@ -53,7 +53,7 @@ public class AnalizadorSintactico {
 			if (termAct instanceof NT){
 				int nReglaNT=selectorRegla((NT) termAct);
 				if(nReglaNT!=-1){
-					valido=valido&&analizarRec((NT) termAct,nReglaNT);
+					valido=valido && analizarRec((NT) termAct,nReglaNT);
 					nTerm++;
 				
 				}else{//No se puede aplicar ninguna regla
