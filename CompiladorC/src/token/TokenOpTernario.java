@@ -1,6 +1,5 @@
 package token;
 
-import token.TokenLlaves.TipoTokenLlaves;
 
 public class TokenOpTernario extends Token{
 	

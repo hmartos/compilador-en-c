@@ -1,13 +1,10 @@
 package analizadorSintactico;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
+import gestorErrores.GestorDeErrores;
 import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import token.TokenLambda;
-import gestorErrores.GestorDeErrores;
 import analizadorLexico.AnalizadorLexico;
 
 public class AnalizadorSintactico {

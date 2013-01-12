@@ -1,6 +1,5 @@
 package token;
 
-import token.TokenOpDespl.TipoTokenOpDespl;
 
 public class TokenOpSeleccion extends Token {
 

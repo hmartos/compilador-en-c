@@ -1,7 +1,5 @@
 package token;
 
-import token.TokenParentesis.TipoTokenParentesis;
-
 public class TokenLlaves extends Token{
 	TipoTokenLlaves tipoAtb;
 	

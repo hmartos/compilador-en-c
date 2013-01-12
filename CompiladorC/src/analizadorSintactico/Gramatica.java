@@ -99,7 +99,7 @@ public class Gramatica {
 /* RMACRO,*/			{{PalRes.PAL_MAC_define,new TokenId(null), NT.EXP},		{PalRes.PAL_MAC_include,NT.RINCLUDE},	
 						{PalRes.PAL_MAC_ifdef,new TokenId(null), NT.RIFDEF,new TokenAlmohadilla(),PalRes.PAL_MAC_endif},
 						{PalRes.PAL_MAC_undef,new TokenId(null)},	{PalRes.PAL_MAC_ifndef,new TokenId(null)},	
-						{PalRes.PAL_MAC_error, X}}, /*falta saber leer hasta \n*/
+						{PalRes.PAL_MAC_error},{PalRes.PAL_MAC_pragma}}, /*Aqui no ponemos nada, pero en léxico cuando generamos uno de estos tokens, leemos hasta EOL*/
 
 /* RINCLUDE,*/			{{NT.ENTRECOMILLADO},{menor,new TokenId(null),punto,new TokenId(null),mayor}},
 /* RIFDEF,*/			{{new TokenAlmohadilla(),NT.RIFDEF2,NT.RIFDEF},	{NT.L_SENTENCIAS},{new TokenLambda()}},	

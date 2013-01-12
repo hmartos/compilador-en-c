@@ -1,6 +1,5 @@
 package token;
 
-import token.TokenOpDespl.TipoTokenOpDespl;
 
 public class TokenOpMult extends Token {
 

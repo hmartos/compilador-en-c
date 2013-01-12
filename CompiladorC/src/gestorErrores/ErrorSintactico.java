@@ -1,6 +1,5 @@
 package gestorErrores;
 
-import gestorErrores.ErrorLexico.TipoErrorLexico;
 import tablaSimbolos.PalRes;
 import token.Token;
 
