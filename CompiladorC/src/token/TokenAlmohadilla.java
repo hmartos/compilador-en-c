@@ -16,4 +16,9 @@ public class TokenAlmohadilla extends Token {
 	public Object getAtributo() {
 		return null;
 	}
+	
+	public boolean equals(TipoToken t){
+		if(t==TipoToken.ALMOHADILLA) return true;
+		return false;
+	}
 }

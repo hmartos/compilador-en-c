@@ -3,6 +3,8 @@ package analizadorLexico;
 import gestorErrores.ErrorLexico;
 import gestorErrores.GestorDeErrores;
 
+import interfaz.ClasePrincipal;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,11 +12,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaPalRes;
 import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
+import token.Token.TipoToken;
 import token.TokenAlmohadilla;
 import token.TokenAmpersand;
 import token.TokenAndL;
@@ -148,7 +152,7 @@ public class AnalizadorLexico {
 		//charAct=leerChar(); //==> Para tratar de seguir leyendo el token, con lo que llevabamos e ignorar el error.
 		
 		
-		while (tokenGen==null){
+		while (tokenGen==null || (tokenGen.getTipo().equals(TipoToken.PAL_RES) && (tokenGen.getAtributo().equals(PalRes.PAL_MAC_pragma) || tokenGen.getAtributo().equals(PalRes.PAL_MAC_error)))){
 			//GE.generarError(eAct,charAct,nChar,nLinea);
 			switch (eAct){	// miramos en que estado estamos y entraremos en la rama del switch correspondiente
 			case e0:{
@@ -384,6 +388,8 @@ public class AnalizadorLexico {
 						tokenGen=new TokenPalRes((AtributosTablaPalRes) entrada.getAtt());
 						if(tokenGen.getAtributo().equals(PalRes.PAL_MAC_pragma) || tokenGen.getAtributo().equals(PalRes.PAL_MAC_error)){   //Si leemos pragma o error, ignoramos hasta el salto de linea, vamos al estado 30, como si hubieramos le’do //
 							eAct = Estado.e30;
+							charAct = leerChar();
+							break;
 						}
 					}else{															  			// si no meto el ID en su atributo
 						tokenGen=new TokenId(bufferString);
@@ -682,11 +688,15 @@ public class AnalizadorLexico {
 				break;
 			}
 			
-			case e30:{																// En el estado 30, estamos leyendo el comentario con //
-				if(charAct == '\n' || charAct == -1) {  							
-					eAct=Estado.e0;													// Hemos terminado de leer el comentario de // cuando reconocemos EOL							
+			case e30:{											// En el estado 30, estamos leyendo el comentario con // o con pragma o error
+				if(charAct == '\n' || charAct == -1) { 							
 					nChar=0;														// reseteamos los caracteres leidos
-					nLinea++;														// incrementamos el número de líneas leídos
+					nLinea++; // incrementamos el número de líneas leídos
+					if(tokenGen == null){
+							eAct = Estado.e0; // Hemos terminado de leer el comentario de // cuando reconocemos EOL p EOF
+					}else{
+						return tokenGen;
+					}
 				} else {
 					eAct=Estado.e30;
 				}

@@ -1,5 +1,7 @@
 package token;
 
+import token.Token.TipoToken;
+
 public class TokenAmpersand extends Token {
 	
 	public TokenAmpersand(){
@@ -15,5 +17,10 @@ public class TokenAmpersand extends Token {
 	@Override
 	public Object getAtributo() {
 		return null;
+	}
+	
+	public boolean equals(TipoToken t){
+		if(t==TipoToken.AMPERSAND) return true;
+		return false;
 	}
 }

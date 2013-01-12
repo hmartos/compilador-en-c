@@ -1,5 +1,7 @@
 package token;
 
+import token.Token.TipoToken;
+
 public class TokenComillasChar extends Token {
 
 	
@@ -21,5 +23,10 @@ char caracter;
 	public Object getAtributo() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public boolean equals(TipoToken t){
+		if(t==TipoToken.COMILLAS_CHAR) return true;
+		return false;
 	}
 }
