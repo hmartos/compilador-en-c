@@ -1,5 +1,7 @@
 package token;
 
+import token.Token.TipoToken;
+
 
 public class TokenCorchetes extends Token{
 	TipoTokenCorchetes tipoAtb;
@@ -21,5 +23,10 @@ public class TokenCorchetes extends Token{
 	@Override
 	public TipoTokenCorchetes getAtributo() {
 		return tipoAtb;
+	}
+	
+	public boolean equals(TipoToken t){
+		if(t==TipoToken.CORCHETE) return true;
+		return false;
 	}
 }

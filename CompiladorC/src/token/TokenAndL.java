@@ -1,5 +1,7 @@
 package token;
 
+import token.Token.TipoToken;
+
 public class TokenAndL extends Token {
 	
 	public TokenAndL(){
@@ -14,5 +16,10 @@ public class TokenAndL extends Token {
 	public Object getAtributo() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public boolean equals(TipoToken t){
+		if(t==TipoToken.AND_L) return true;
+		return false;
 	}
 }

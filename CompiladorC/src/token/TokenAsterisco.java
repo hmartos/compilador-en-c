@@ -1,5 +1,7 @@
 package token;
 
+import token.Token.TipoToken;
+
 public class TokenAsterisco extends Token {
 	
 	public TokenAsterisco(){
@@ -12,5 +14,10 @@ public class TokenAsterisco extends Token {
 	public Object getAtributo() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public boolean equals(TipoToken t){
+		if(t==TipoToken.ASTERISCO) return true;
+		return false;
 	}
 }

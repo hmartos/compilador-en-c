@@ -57,7 +57,7 @@ public class ClasePrincipal extends JFrame {
 	AnalizadorSintactico sintactico;
 	TablaSimbolos TS;
 	GestorDeErrores GE;
-	ArrayList<Token> listaToken;
+	static ArrayList<Token> listaToken;
 	String ruta;
 	JFileChooser seleFile; //Asi recuerda el ultimo directorio
 
@@ -131,8 +131,9 @@ public class ClasePrincipal extends JFrame {
 		seleFile = new JFileChooser();
 	
 	}
-	
-	
+	public static ArrayList<Token> getListaToken(){
+		return listaToken;
+	}
 	void actualizarTextoError(){
 		//ACTUALIZACION TEXTO ERROR
 		textoError.setText("");
@@ -365,17 +366,6 @@ public class ClasePrincipal extends JFrame {
 		}
 	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

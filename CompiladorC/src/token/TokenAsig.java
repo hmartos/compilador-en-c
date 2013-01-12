@@ -1,5 +1,7 @@
 package token;
 
+import token.Token.TipoToken;
+
 public class TokenAsig extends Token {
 
 	TipoTokenAsig tipoAsig;
@@ -23,5 +25,10 @@ public class TokenAsig extends Token {
 	@Override
 	public TipoTokenAsig getAtributo() {
 		return tipoAsig;
+	}
+	
+	public boolean equals(TipoToken t){
+		if(t==TipoToken.ASIGNACION) return true;
+		return false;
 	}
 }
