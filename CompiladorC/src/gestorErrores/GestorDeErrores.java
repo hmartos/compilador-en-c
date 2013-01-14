@@ -13,7 +13,7 @@ public class GestorDeErrores {
 		cola=new ArrayList<ErrorCompilador>();
 	}
 	
-	public void add(ErrorLexico e){
+	public void add(ErrorCompilador e){
 		this.cola.add(e);
 	}
 

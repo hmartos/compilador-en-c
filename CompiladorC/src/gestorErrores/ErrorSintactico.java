@@ -1,5 +1,6 @@
 package gestorErrores;
 
+import analizadorSintactico.NT;
 import tablaSimbolos.PalRes;
 import token.Token;
 
@@ -7,6 +8,15 @@ public class ErrorSintactico extends ErrorCompilador {
 	
 	Token tokenRecibido;
 	Object esperado;
+	NT reglaAct;
+	
+	public ErrorSintactico(int row,int col,String s,Token tR,Object esp,NT reglaAct) {
+		super(row,col,s);
+		super.tipo=ErrorCompilador.TipoError.SINTACTICO;
+		tokenRecibido=tR;
+		esperado=esp;
+		this.reglaAct=reglaAct;
+	}
 	
 	public ErrorSintactico(int row,int col,String s,Token tR,Object esp) {
 		super(row,col,s);
@@ -35,9 +45,9 @@ public class ErrorSintactico extends ErrorCompilador {
 
 		}
 		
+		cadena+="\n"+"Info Depuracion: NT actual -> "+reglaAct.toString();
 		
-		
-		return description;
+		return cadena;
 	}
 	
 }

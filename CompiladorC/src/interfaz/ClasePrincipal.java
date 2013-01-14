@@ -234,16 +234,17 @@ public class ClasePrincipal extends JFrame {
 					}catch (Exception excepcion){ excepcion.printStackTrace();}
 					
 					
-					actualizarTextoToken();
-					actualizarTextoError();
-					cuadroTS.actualizar(cuadroTS.representada);ç
+					
+					
 					*/
 					if(sintactico.analizar()){
 						System.out.println("Perfect");
 					}else{
 						System.out.println("Nada");
 					}
-					
+					actualizarTextoToken();
+					actualizarTextoError();
+					cuadroTS.actualizar(cuadroTS.representada);
 				}
 				
 			}else if (botonIniciar==e.getSource()){

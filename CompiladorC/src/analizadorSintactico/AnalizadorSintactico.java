@@ -1,5 +1,6 @@
 package analizadorSintactico;
 
+import gestorErrores.ErrorSintactico;
 import gestorErrores.GestorDeErrores;
 import tablaSimbolos.PalRes;
 import tablaSimbolos.TablaSimbolos;
@@ -50,9 +51,11 @@ public class AnalizadorSintactico {
 		 */
 		while (nTerm<regla.length){
 			Object termAct=regla[nTerm];
+						
 			if (termAct instanceof NT){
 				int nReglaNT=selectorRegla((NT) termAct);
 				if(nReglaNT!=-1){
+					System.out.println("Aplicamos "+termAct.toString());
 					valido=valido && analizarRec((NT) termAct,nReglaNT);
 					nTerm++;
 				
@@ -62,38 +65,56 @@ public class AnalizadorSintactico {
 					}
 					else{
 						//Lanzar error.
-						//No se ha podido aplicar ninguna regla.
+						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,null,nT));
 						
 						valido=false;
+						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
+						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
+							return valido;
+						}
 					}
 				}
 			}else{  //Es un terminal
 				if (termAct instanceof PalRes){//Es un terminal palabra reservada
 					if(tokenActual.getAtributo().equals(termAct)){
+						//Coincide con la palabra reservada esperada.
+						System.out.println("Coincide "+termAct.toString());
 						nTerm++;
 						tokenActual=lexico.Scan();
+						System.out.println(".  nuevo token: "+tokenActual.toString());
 					}
 					else{
 						//Lanzar error.
-						//Se esperaba palabra clave...
-						//LE podemos pasar termAct. 
+						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT)); 
 						valido=false;
+						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
+						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
+							return valido;
+						}
+					
 					}
 					
 				}else{ //Es cualquier otro terminal (en forma de token)
 					
 					Token termTokenAct=(Token) termAct;
-					if(tokenActual.getTipo().equals( termTokenAct.getTipo()) &&
-							tokenActual.getAtributo().equals(termTokenAct.getAtributo())){ 
+					if((tokenActual.getTipo().equals(Token.TipoToken.ID)&&termTokenAct.getTipo().equals(Token.TipoToken.ID))
+							//Caso especial para el tipo id pues no importa que tenga en el atributo (equals comprueba el atributo).
+							||(tokenActual.equals(termTokenAct))){ 
 						//El token actual coincide con el terminal de la regla.
+						System.out.println("Coincide "+termAct.toString());
 						nTerm++;
 						tokenActual=lexico.Scan();
+						System.out.println(".  nuevo token: "+tokenActual.toString());
 						
 					}else{
 						//Lanzar error.
-						//Se esperaba token tal...
+						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT));
 						valido=false;
-			
+						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
+						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
+							return valido;
+						}
+					
 					}
 				}
 				
@@ -129,7 +150,7 @@ public class AnalizadorSintactico {
 		 */
 		
 		while (nRegla<gram.length){
-			while (nTerm<gram.length){
+			while (nRegla<gram.length && nTerm<gram[nRegla].length){
 				Object termAct=gram[nRegla][nTerm];
 				if (termAct instanceof NT){ // El elemento de la regla es un NoTerminal
 					if (Primeros.main((NT) termAct, tokenActual)){
@@ -162,8 +183,9 @@ public class AnalizadorSintactico {
 						}else{ //Es cualquier otro terminal (en forma de token)
 							
 							Token termTokenAct=(Token) termAct;
-							if(tokenActual.getTipo().equals( termTokenAct.getTipo()) &&
-									tokenActual.getAtributo().equals(termTokenAct.getAtributo())){ 
+							if((tokenActual.getTipo().equals(Token.TipoToken.ID)&&termTokenAct.getTipo().equals(Token.TipoToken.ID))
+									//Caso especial para el tipo id pues no importa que tenga en el atributo (equals comprueba el atributo).		 
+									||tokenActual.equals(termTokenAct)){  
 								//El token actual coincide con el terminal de la regla.
 								return nRegla;
 								
