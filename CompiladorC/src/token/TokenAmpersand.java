@@ -19,8 +19,9 @@ public class TokenAmpersand extends Token {
 		return null;
 	}
 	
+	/*
 	public boolean equals(TipoToken t){
 		if(t==TipoToken.AMPERSAND) return true;
 		return false;
-	}
+	}*/
 }

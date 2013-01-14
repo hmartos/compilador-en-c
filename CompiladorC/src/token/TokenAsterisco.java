@@ -15,9 +15,9 @@ public class TokenAsterisco extends Token {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	/*
 	public boolean equals(TipoToken t){
 		if(t==TipoToken.ASTERISCO) return true;
 		return false;
-	}
+	}*/
 }

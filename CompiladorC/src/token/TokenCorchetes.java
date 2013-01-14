@@ -24,9 +24,9 @@ public class TokenCorchetes extends Token{
 	public TipoTokenCorchetes getAtributo() {
 		return tipoAtb;
 	}
-	
+	/*
 	public boolean equals(TipoToken t){
 		if(t==TipoToken.CORCHETE) return true;
 		return false;
-	}
+	}*/
 }

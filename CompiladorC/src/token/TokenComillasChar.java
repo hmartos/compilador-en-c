@@ -25,8 +25,10 @@ char caracter;
 		return null;
 	}
 	
-	public boolean equals(TipoToken t){
-		if(t==TipoToken.COMILLAS_CHAR) return true;
-		return false;
+	/*Para la gramatica usamos el equals. No usar el equals para
+	comparar las cadenas que contiene el token
+	 */
+	public boolean equals(Object a){
+		return a instanceof TokenComillasChar;
 	}
 }

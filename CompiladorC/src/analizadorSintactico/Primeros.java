@@ -463,6 +463,8 @@ public class Primeros {
 					ret = true;
 				}else if(main(NT.OTRAS_SENTENCIAS, tActual)){
 					ret = true;
+				}else if(main(NT.TIPO,tActual)){
+					ret = true;
 				}
 				break;
 			case BLOQUE_SENTENCIAS:
