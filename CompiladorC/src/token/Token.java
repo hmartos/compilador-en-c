@@ -16,7 +16,19 @@ public abstract class Token {
 		return ("token tipo: "+tipo.toString());
 	}
 	
+	public boolean equals(Object a){
+	if (a instanceof Token){	
+		Token otroToken= (Token)a;
 	
+		if (this.getTipo().equals( otroToken.getTipo())){
+			if (this.getAtributo()==null) return otroToken.getAtributo()==null;
+			else return (this.getAtributo().equals(otroToken.getAtributo()));
+		
+		} else return false;
+				
+		
+	}else return false;
+	}
 	
 	
 	static public enum TipoToken {

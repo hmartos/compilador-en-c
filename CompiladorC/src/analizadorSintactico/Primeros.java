@@ -29,6 +29,26 @@ public class Primeros {
 	 * Àr pertenece a los primeros de D? S’, pues usamos la regla A ::= CD
 	 * 
 	 */
+	
+	
+	
+	/*
+	ArrayList<ArrayList<Token>> 
+	
+	
+	
+	public boolean main(NT estado, Token tActual){
+		
+	}
+	
+	*/
+	
+	
+	
+	
+	
+	
+	
 	public static boolean main(NT estado, Token tActual){
 		boolean ret = false;
 		switch(estado){
@@ -53,7 +73,7 @@ public class Primeros {
 				break;
 			case REXP3: // Primeros = TokenParentesis.ABIERTO y Lambda
 				if(tActual.getTipo().equals(TipoToken.PARENTESIS)){ //Si es un parentesis
-					if(tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO)){ //Tiene que ser abierto
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO)){ //Tiene que ser abierto
 						ret = true;
 					}
 				}else if(tActual.getTipo().equals(TipoToken.LAMBDA)){ //Si es lambda
@@ -72,15 +92,15 @@ public class Primeros {
 						tActual.getTipo().equals(TipoToken.NUM_REAL)){
 					ret = true;
 				} else if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_ESP_NULL)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_ESP_NULL)){
 						ret = true;
 					}
 				}else if(tActual.getTipo().equals(TipoToken.PARENTESIS)){
-					if(tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO)){
 						ret = true;
 					}
 				}else if(tActual.getTipo().equals(TipoToken.LLAVE)){
-					if(tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO)){
 						ret = true;
 					}
 				}else if(tActual.getTipo().equals(TipoToken.COMILLAS_CHAR)){
@@ -106,8 +126,8 @@ public class Primeros {
 				break;
 			case OP_INC:
 				if(tActual.getTipo().equals(TipoToken.OP_UNARIO)){
-					if(tActual.getAtributo().equals(TipoTokenOpUnario.DECREMENTO) ||
-							tActual.getAtributo().equals(TipoTokenOpUnario.INCREMENTO)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenOpUnario.DECREMENTO) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenOpUnario.INCREMENTO)){
 						ret = true;
 					}
 				}
@@ -117,7 +137,7 @@ public class Primeros {
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.AMPERSAND) || tActual.getTipo().equals(TipoToken.ASTERISCO)){
 					ret = true;
-				}else if(tActual.getAtributo().equals(TipoTokenOpUnario.NOT_L) || tActual.getAtributo().equals(TipoTokenOpUnario.NOT_B)){
+				}else if(tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenOpUnario.NOT_L) || tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenOpUnario.NOT_B)){
 					ret = true;
 				}
 				break;
@@ -131,7 +151,7 @@ public class Primeros {
 				}
 				break;
 			case OP_MULT:
-				if(tActual.getAtributo().equals(TipoToken.ASTERISCO) || tActual.getTipo().equals(TipoToken.OP_MULT)){
+				if(tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoToken.ASTERISCO) || tActual.getTipo().equals(TipoToken.OP_MULT)){
 					ret = true;
 				}
 				break;
@@ -252,7 +272,7 @@ public class Primeros {
 					ret = true;
 				}else{
 					if(tActual.getTipo().equals(TipoToken.OP_TERNARIO) &&
-							tActual.getAtributo().equals(TipoTokenOpTernario.INTERROGACION)){
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenOpTernario.INTERROGACION)){
 						return true;
 					}
 				}
@@ -275,12 +295,12 @@ public class Primeros {
 					ret = true;
 				}else{
 					if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-						if(tActual.getAtributo().equals(PalRes.PAL_RES_sizeof) ||
-								tActual.getAtributo().equals(PalRes.PAL_ESP_NULL)){
+						if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_sizeof) ||
+								tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_ESP_NULL)){
 							ret = true;
 						}
 					}else if(tActual.getTipo().equals(TipoToken.PARENTESIS)){
-							if(tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO)){
+							if(tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO)){
 								ret = true;
 							}
 					}else{
@@ -293,8 +313,8 @@ public class Primeros {
 				break;
 			case CASE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_case) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_default)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_case) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_default)){
 						ret = true;
 					}
 				}
@@ -317,8 +337,8 @@ public class Primeros {
 				break;
 			case CASES:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_case) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_default)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_case) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_default)){
 						ret = true;
 					}
 				}else{
@@ -327,7 +347,7 @@ public class Primeros {
 				break;
 			case L_CASES:
 				if(tActual.getTipo().equals(TipoToken.LLAVE)){
-					ret = tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
 					
 				}else{
 					ret = main(NT.CASE, tActual);
@@ -335,7 +355,7 @@ public class Primeros {
 				break;
 			case SENTENCIA_CASE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalRes.PAL_RES_switch);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_switch);
 				}
 				break;
 			case RSENTENCIA_ASIG:
@@ -356,9 +376,9 @@ public class Primeros {
 				break;
 			case SENTENCIA_BUCLE:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_do) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_while) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_for)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_do) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_while) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_for)){
 						ret = true;
 					}
 				}
@@ -367,7 +387,7 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalRes.PAL_RES_else);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_else);
 				}
 				break;
 			case RSENTENCIA_IF:
@@ -375,7 +395,7 @@ public class Primeros {
 				break;
 			case SENTENCIA_IF:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalRes.PAL_RES_if);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_if);
 				}
 				break;
 			case RSCANF2:
@@ -421,11 +441,11 @@ public class Primeros {
 				break;
 			case OTRAS_SENTENCIAS:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_break) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_continue) ||
-							tActual.getAtributo().equals(PalRes.PAL_FUN_printf) ||
-							tActual.getAtributo().equals(PalRes.PAL_FUN_scanf) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_return)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_break) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_continue) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_FUN_printf) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_FUN_scanf) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_return)){
 						ret = true;
 					}
 				}
@@ -451,14 +471,14 @@ public class Primeros {
 				}else if(main(NT.SENTENCIA, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.LLAVE)){
-					ret = tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
 				}
 				break;
 			case L_SENTENCIAS:
 				if(main(NT.SENTENCIA, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.LLAVE)){
-					ret = tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
 				}
 				break;
 			case RTIPO2:
@@ -470,25 +490,25 @@ public class Primeros {
 				break;
 			case TIPO_PRIMITIVO:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_int) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_float) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_double) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_char) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_void)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_int) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_float) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_double) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_char) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_void)){
 						ret = true;
 					}
 				}
 				break;
 			case MODIFICADOR:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_auto) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_const) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_volatile) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_register) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_extern) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_unsigned) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_signed) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_static)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_auto) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_const) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_volatile) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_register) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_extern) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_unsigned) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_signed) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_static)){
 						ret = true;
 					}
 				}
@@ -539,16 +559,16 @@ public class Primeros {
 				break;
 			case RDEF_FUNCION:
 				if(tActual.getTipo().equals(TipoToken.LLAVE)){
-					ret = tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenLlaves.ABIERTO);
 				}else{
 					ret = tActual.getTipo().equals(TipoToken.PUNTOYCOMA);
 				}
 				break;
 			case RDEF_TYPEDEF:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_struct) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_union) ||
-							tActual.getAtributo().equals(PalRes.PAL_RES_enum)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_struct) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_union) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_enum)){
 						ret = true;
 					}
 				}else{
@@ -557,7 +577,7 @@ public class Primeros {
 				break;
 			case DEFINICION_TYPEDEF:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret =tActual.getAtributo().equals(PalRes.PAL_RES_typedef);
+					ret =tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_typedef);
 				}
 				break;
 			case DEF_VAR:
@@ -575,7 +595,7 @@ public class Primeros {
 				break;
 			case DEFINICION_STRUCT:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalRes.PAL_RES_struct);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_struct);
 				}
 				break;
 			case RENUM2:
@@ -589,14 +609,14 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.ASIGNACION)){
-					ret = tActual.getAtributo().equals(TipoTokenAsig.ASIG);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenAsig.ASIG);
 				}else{
 					ret = tActual.getTipo().equals(TipoToken.COMA);
 				}
 				break;
 			case DEFINICION_ENUM:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalRes.PAL_RES_enum);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_enum);
 				}
 				break;
 			case CONTENIDO:
@@ -610,7 +630,7 @@ public class Primeros {
 				if(tActual.getTipo().equals(TipoToken.LAMBDA)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.CORCHETE)){
-					ret = tActual.getAtributo().equals(TipoTokenCorchetes.ABIERTO);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenCorchetes.ABIERTO);
 				}
 				break;
 			case LISTA_IDENS:
@@ -622,13 +642,13 @@ public class Primeros {
 				break;
 			case DEFINICION_UNION:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					ret = tActual.getAtributo().equals(PalRes.PAL_RES_union);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_union);
 				}
 				break;
 			case RIFDEF2:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_RES_else) ||
-							tActual.getAtributo().equals(PalRes.PAL_MAC_elif)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_RES_else) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_elif)){
 						ret = true;
 					}
 				}else{
@@ -649,18 +669,18 @@ public class Primeros {
 				if(main(NT.ENTRECOMILLADO, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.REL_COMP)){
-					ret = tActual.getAtributo().equals(TipoTokenRelComp.MENOR);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenRelComp.MENOR);
 				}
 				break;
 			case RMACRO:
 				if(tActual.getTipo().equals(TipoToken.PAL_RES)){
-					if(tActual.getAtributo().equals(PalRes.PAL_MAC_define) ||
-							tActual.getAtributo().equals(PalRes.PAL_MAC_include) ||
-							tActual.getAtributo().equals(PalRes.PAL_MAC_ifdef) ||
-							tActual.getAtributo().equals(PalRes.PAL_MAC_undef) ||
-							tActual.getAtributo().equals(PalRes.PAL_MAC_ifndef) ||
-							tActual.getAtributo().equals(PalRes.PAL_MAC_error) ||
-							tActual.getAtributo().equals(PalRes.PAL_MAC_pragma)){
+					if(tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_define) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_include) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_ifdef) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_undef) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_ifndef) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_error) ||
+							tActual.getAtributo()!=null && tActual.getAtributo().equals(PalRes.PAL_MAC_pragma)){
 						ret = true;
 					}
 				}
@@ -686,7 +706,7 @@ public class Primeros {
 				if(main(NT.CORCHETES, tActual) || main(NT.RDEF_VARIABLE, tActual)){
 					ret = true;
 				}else if(tActual.getTipo().equals(TipoToken.PARENTESIS)){
-					ret = tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO);
+					ret = tActual.getAtributo()!=null && tActual.getAtributo().equals(TipoTokenParentesis.ABIERTO);
 				}
 				break;
 			case RDEFINICION:
