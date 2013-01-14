@@ -172,7 +172,7 @@ public class AnalizadorSintactico {
 					
 					 //Es un terminal
 						if (termAct instanceof PalRes){//Es un terminal palabra reservada
-							if(tokenActual.getAtributo().equals(termAct)){
+							if(tokenActual.getAtributo()!=null && tokenActual.getAtributo().equals(termAct)){
 								return nRegla;
 							}
 							else{
