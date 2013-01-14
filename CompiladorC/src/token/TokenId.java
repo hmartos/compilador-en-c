@@ -22,5 +22,11 @@ public class TokenId extends Token {
 		
 		return id;
 	}
+	/*Para la gramatica usamos el equals. No usar el equals para
+	comparar el lexema que contiene el token
+	 */
+	public boolean equals(Object a){
+		return a instanceof TokenId;
+	}
 	
 }

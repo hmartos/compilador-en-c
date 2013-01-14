@@ -19,4 +19,11 @@ public class TokenNumEntero extends Token {
 		return num;
 	}
 	
+	/*Para la gramatica usamos el equals. No usar el equals para
+	comparar los numeros que contiene el token
+	 */
+	public boolean equals(Object a){
+		return a instanceof TokenNumEntero;
+	}
+	
 }

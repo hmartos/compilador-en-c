@@ -17,9 +17,9 @@ public class TokenAndL extends Token {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	/*
 	public boolean equals(TipoToken t){
 		if(t==TipoToken.AND_L) return true;
 		return false;
-	}
+	}*/
 }

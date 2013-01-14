@@ -26,9 +26,9 @@ public class TokenAsig extends Token {
 	public TipoTokenAsig getAtributo() {
 		return tipoAsig;
 	}
-	
+	/*
 	public boolean equals(TipoToken t){
 		if(t==TipoToken.ASIGNACION) return true;
 		return false;
-	}
+	}*/
 }

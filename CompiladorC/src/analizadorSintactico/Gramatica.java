@@ -31,6 +31,22 @@ import token.TokenRelIgual;
 import token.TokenSimboloAdicion;
 import token.TokenXorB;
 
+/* IMPORTANTE, MODIFICACIONES
+ * 
+ * - Desde Sentencia , Tipo y Exp no están factorizados para TokenID
+ * - Creemos que en OP_UNARIOS debe ir tokenLambda como produccion.
+ * 		para que desde Exp pueda  bajar hasta exp1 y etc.
+ * 
+ */
+
+
+
+
+
+
+
+
+
 public class Gramatica {
 	
 	/*ATENCION:
@@ -133,7 +149,7 @@ public class Gramatica {
 
 /* L_SENTENCIAS,*/		{ {llaveAbierta, NT.BLOQUE_SENTENCIAS,llaveCerrada}, {NT.SENTENCIA} },
 /* BLOQUE_SENTENCIAS,*/ { {NT.SENTENCIA,NT.BLOQUE_SENTENCIAS} , {llaveAbierta, NT.BLOQUE_SENTENCIAS,llaveCerrada} , {new TokenLambda()} },
-/* SENTENCIA,*/			{ {new TokenPuntoyComa()},{NT.SENTENCIA_IF},{NT.SENTENCIA_BUCLE},{NT.EXP,new TokenPuntoyComa()},{NT.SENTENCIA_CASE},{NT.OTRAS_SENTENCIAS, new TokenPuntoyComa()} },
+/* SENTENCIA,*/			{ {new TokenPuntoyComa()},{NT.SENTENCIA_IF},{NT.SENTENCIA_BUCLE},{NT.EXP,new TokenPuntoyComa()},{NT.SENTENCIA_CASE},{NT.OTRAS_SENTENCIAS, new TokenPuntoyComa()}, {NT.TIPO,NT.RDEFINICION}},
 /* OTRAS_SENTENCIAS,*/	{ {PalRes.PAL_RES_break},{PalRes.PAL_RES_continue},{PalRes.PAL_FUN_printf,parentesisAbierto,NT.ENTRECOMILLADO,NT.RPRINTF,parentesisCerrado},{PalRes.PAL_FUN_scanf,parentesisAbierto,NT.ENTRECOMILLADO,NT.RSCANF,parentesisCerrado},{PalRes.PAL_RES_return,NT.EXP} },
 /* ENTRECOMILLADO,*/    { {new TokenEntrecomillado(null)} },
 /* RPRINTF,*/			{ {new TokenComa(),NT.REFERENCIA,NT.INDIRECCION,NT.RPRINTF2}, {new TokenLambda()} },
