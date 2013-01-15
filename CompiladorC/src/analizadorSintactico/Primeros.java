@@ -1,13 +1,18 @@
 package analizadorSintactico;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import tablaSimbolos.PalRes;
 import token.Token;
+import token.TokenLambda;
 import token.Token.TipoToken;
 import token.TokenAsig.TipoTokenAsig;
 import token.TokenCorchetes.TipoTokenCorchetes;
 import token.TokenLlaves.TipoTokenLlaves;
 import token.TokenOpTernario.TipoTokenOpTernario;
 import token.TokenOpUnario.TipoTokenOpUnario;
+import token.TokenPalRes;
 import token.TokenParentesis.TipoTokenParentesis;
 import token.TokenRelComp.TipoTokenRelComp;
 
@@ -26,28 +31,138 @@ public class Primeros {
 	 * 
 	 * Àr pertenece a los primeros de C? No.
 	 * Àlambda pertenece a los primeros de C? S’, pues entonces seguimos con esa regla
-	 * Àr pertenece a los primeros de D? S’, pues usamos la regla A ::= CD
-	 * 
+	 * Àr pertenece a los primeros de D? S’, pues usamos la regla A :ArrayList<E> 
 	 */
 	
-	
+	ArrayList<HashSet<Object>> listaPrimeros; 
 	
 	/*
-	ArrayList<ArrayList<Token>> 
-	
-	
-	
-	public boolean main(NT estado, Token tActual){
+	public Primeros(){
+		Token tokenLambda= new TokenLambda();
 		
+		for (int nNT=0; nNT<NT.values().length;nNT++){
+			Object[][] derivaciones= Gramatica.reglasGramatica[nNT];
+			for (int nDeriv=0;nDeriv<derivaciones.length;nDeriv++){
+				if (derivaciones[nDeriv][0].equals(tokenLambda)){
+					listaPrimeros.get(nNT).add(tokenLambda);
+				}
+				else{
+					int nTerm=0;
+					while (nTerm<derivaciones[nDeriv].length && derivaciones[nDeriv][nTerm]instanceof NT ){
+						if derivaciones[nDeriv][nTerm]
+					}
+				}
+			}
+		}
 	}
 	
 	*/
 	
 	
 	
+	public boolean estaPrimeros(NT estado, Token tActual){
+		//Devuelve si en los primeros de NT se encuentra tActual
+		
+		if (tActual instanceof TokenPalRes){
+			PalRes pal=(PalRes) tActual.getAtributo();
+			return listaPrimeros.get(estado.ordinal()).contains(pal);
+		}
+		else return listaPrimeros.get(estado.ordinal()).contains(tActual);
+		
+	}
+	
+	public Primeros(){
+		calculoPrimeros();
+	}
 	
 	
 	
+	
+	public void calculoPrimeros(){
+		//Inicializacion del Array y HashMap
+		listaPrimeros=new ArrayList<HashSet<Object>>();
+		for (int nNT=0; nNT<NT.values().length;nNT++){
+			listaPrimeros.add( new HashSet<Object>());
+		}
+		
+		
+		
+		boolean actualizar=true;
+		Token tokenLambda= new TokenLambda();
+		while (actualizar){
+			actualizar=false;
+			for (int nNT=0; nNT<NT.values().length;nNT++){
+				Object[][] derivaciones= Gramatica.reglasGramatica[nNT];
+				for (int nDeriv=0;nDeriv<derivaciones.length;nDeriv++){
+					if (derivaciones[nDeriv][0].equals(tokenLambda)){
+						if (listaPrimeros.get(nNT).add(tokenLambda)){
+							//Si cambia devuelve true:
+							actualizar=true;
+						}else{
+							actualizar=actualizar || false;	
+						}
+						
+					}
+					else{
+						int nTerm=0;
+						boolean salir=false;
+						while (!salir && nTerm<derivaciones[nDeriv].length 
+								&& derivaciones[nDeriv][nTerm]instanceof NT ){
+							
+							NT termNTAct=(NT) derivaciones[nDeriv][nTerm];
+							//Añade los primeros del termino actual menos lambda (si lo contuviera).
+							HashSet<Object> sinLambda= new HashSet<Object> (listaPrimeros.get(termNTAct.ordinal()));
+							sinLambda.remove(tokenLambda);
+							
+							if (listaPrimeros.get(nNT).addAll (sinLambda)){
+							//Si cambia devuelve true:
+								actualizar=true;
+							}else{
+								actualizar=actualizar || false;	
+							}
+							
+							if (listaPrimeros.get(termNTAct.ordinal()).contains(tokenLambda)){
+								nTerm++; // El term NT actual tiene en sus primeros a Lambda asique podemos mirar el sigueinte
+								
+							}else salir=true; // Si no lo contiene no miramos mas. Esto es para salir del bucle.
+						}
+						//Hemos salido del bucle. 
+						//Si es por alcanzada length podemos añadir lambda a los primeros 
+						//(Todos los terminos de la produccionson NT y sus primeros tienen lambda)
+						if (nTerm==derivaciones[nDeriv].length){
+							if (listaPrimeros.get(nNT).add(tokenLambda)){
+								//Si cambia devuelve true:
+								actualizar=true;
+							}else{
+								actualizar=actualizar || false;	
+							}
+						}
+						//Si no hemos salido por encontrar length, y tampoco por salir (Es un NT sin primero lambda)
+						//entonces es que hemos encontrado un T. Le agregamos a los primeros.
+						else if (!salir){
+							if (listaPrimeros.get(nNT).add(derivaciones[nDeriv][nTerm])){
+								//Si cambia devuelve true:
+								actualizar=true;
+							}else{
+								actualizar=actualizar || false;	
+							}	
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
 	
 	public static boolean main(NT estado, Token tActual){
 		boolean ret = false;
@@ -751,5 +866,6 @@ public class Primeros {
 		return ret;
 		
 	}
+	*/
 
 }
