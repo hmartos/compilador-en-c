@@ -25,4 +25,8 @@ String cadena;
 		return a instanceof TokenEntrecomillado;
 	}
 	
+	public int hashCode(){
+		return tipo.ordinal()*1000;
+	}
+	
 }

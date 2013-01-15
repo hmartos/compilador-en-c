@@ -30,6 +30,13 @@ public abstract class Token {
 	}else return false;
 	}
 	
+	public int hashCode(){
+		int code=tipo.ordinal()*1000;
+		if (getAtributo()!=null)code+=getAtributo().hashCode();
+		return code;
+		
+	}
+	
 	
 	static public enum TipoToken {
 		PAL_RES,ID,PARENTESIS,ASIGNACION, OR_L, NUM_ENTERO, ENTRECOMILLADO, FIN, AMPERSAND,

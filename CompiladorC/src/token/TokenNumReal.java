@@ -25,5 +25,7 @@ public class TokenNumReal extends Token {
 	public boolean equals(Object a){
 		return a instanceof TokenNumReal;
 	}
-	
+	public int hashCode(){
+		return tipo.ordinal()*1000;
+	}
 }
