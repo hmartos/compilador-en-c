@@ -111,7 +111,7 @@ public class Gramatica {
 /* RDEF_VARIABLE2,*/	{{new TokenComa(),new TokenId(null),NT.RDEF_VARIABLE},	{new TokenPuntoyComa()}},
 
 /* MACROS,*/			{{new TokenAlmohadilla(),NT.RMACRO}},
-/* RMACRO,*/			{{PalRes.PAL_MAC_define,new TokenId(null), NT.EXP},	{PalRes.PAL_MAC_include,NT.RINCLUDE},	
+/* RMACRO,*/			{{PalRes.PAL_MAC_define,NT.IDENTIFICADOR, NT.EXP},	{PalRes.PAL_MAC_include,NT.RINCLUDE},	
 						{PalRes.PAL_MAC_ifdef,new TokenId(null), NT.RIFDEF,new TokenAlmohadilla(),PalRes.PAL_MAC_endif},
 						{PalRes.PAL_MAC_undef,new TokenId(null)},	{PalRes.PAL_MAC_ifndef,new TokenId(null)},	
 						{PalRes.PAL_MAC_error},{PalRes.PAL_MAC_pragma}}, /*Aqui no ponemos nada, pero en léxico cuando generamos uno de estos tokens, leemos hasta EOL*/
@@ -151,7 +151,7 @@ public class Gramatica {
 
 /* L_SENTENCIAS,*/		{ {llaveAbierta, NT.BLOQUE_SENTENCIAS,llaveCerrada}, {NT.SENTENCIA} },
 /* BLOQUE_SENTENCIAS,*/ { {NT.SENTENCIA,NT.BLOQUE_SENTENCIAS} , {llaveAbierta, NT.BLOQUE_SENTENCIAS,llaveCerrada} , {new TokenLambda()} },
-/* SENTENCIA,*/			{ {new TokenPuntoyComa()},{NT.SENTENCIA_IF},{NT.SENTENCIA_BUCLE},{NT.EXP,new TokenPuntoyComa()},{NT.SENTENCIA_CASE},{NT.OTRAS_SENTENCIAS, new TokenPuntoyComa()}, {NT.L_DEFINICIONES}},
+/* SENTENCIA,*/			{ {new TokenPuntoyComa()},{NT.SENTENCIA_IF},{NT.SENTENCIA_BUCLE},{NT.REXP4},{NT.SENTENCIA_CASE},{NT.OTRAS_SENTENCIAS, new TokenPuntoyComa()}, {NT.MACROS},{NT.DEFINICION_STRUCT},{NT.DEFINICION_ENUM},{NT.DEFINICION_UNION},{NT.DEFINICION_TYPEDEF}},
 /* OTRAS_SENTENCIAS,*/	{ {PalRes.PAL_RES_break},{PalRes.PAL_RES_continue},{PalRes.PAL_FUN_printf,parentesisAbierto,NT.ENTRECOMILLADO,NT.RPRINTF,parentesisCerrado},{PalRes.PAL_FUN_scanf,parentesisAbierto,NT.ENTRECOMILLADO,NT.RSCANF,parentesisCerrado},{PalRes.PAL_RES_return,NT.EXP} },
 /* ENTRECOMILLADO,*/    { {new TokenEntrecomillado(null)} },
 /* RPRINTF,*/			{ {new TokenComa(),NT.REFERENCIA,NT.INDIRECCION,NT.RPRINTF2}, {new TokenLambda()} },
@@ -217,13 +217,17 @@ public class Gramatica {
 /* REXP3,*/				{{NT.TIPO_PRIMITIVO,NT.INDIRECCION,parentesisCerrado,NT.EXP},{NT.EXP_SIN_IDEN,NT.REXP,parentesisCerrado},{NT.MODIFICADOR,NT.L_MODIFICADORES,NT.RTIPO,parentesisCerrado,NT.EXP},{new TokenId(null),NT.REXP3_2,parentesisCerrado,NT.AUX}},
 /*EXP_SIN_IDEN*/		{ {new TokenAmpersand(),NT.INDIRECCION,new TokenId(null),NT.RIDENTIFICADOR},{NT.INDIRECCION2,new TokenId(null),NT.RIDENTIFICADOR},
      	                  {new TokenNumEntero(0)},{new TokenNumReal(0)},{parentesisAbierto,NT.REXP3},{PalRes.PAL_ESP_NULL},{llaveAbierta,NT.LISTA_EXP,llaveCerrada},{new TokenComillasChar()},{NT.ENTRECOMILLADO} },
-/*REXP3_2*/				{ {NT.INDIRECCION2}, {NT.RIDENTIFICADOR,NT.REXP3_3} },
-/*REXP3_3*/				{ {NT.OP_ASIG,NT.EXP}, {NT.REXP_COND} },
+/*REXP3_2*/				{ {NT.INDIRECCION2}, {NT.RIDENTIFICADOR,NT.REXPRESIONES} },
+
+/*REXPRESIONES*/				{ {NT.OP_ASIG,NT.EXP}, {NT.REXP}, {NT.REXP_COND},{NT.REXP_ORL},{NT.REXP_ANDL},{NT.REXP_ORB},{NT.REXP_XORB},{NT.REXP_ANDB},{NT.REXP_REL},{NT.REXP_COMP},{NT.REXP_DESPL},{NT.REXP_AD},{NT.REXP_MULT},{NT.OP_SELECCION,NT.EXP3}},
 /*INDIRECCION2*/		{ {new TokenAsterisco(),NT.INDIRECCION} },
 /* L_PARAMS_LLAMADA,*/	{{NT.EXP, NT.RES_LISTA_PARAMS_LLAMADA},{new TokenLambda()}},
 /* RES_LISTA_PARAMS_LLAMADA*/ 	{{new TokenComa(), NT.EXP, NT.RES_LISTA_PARAMS_LLAMADA}, {new TokenLambda()}},
 /*AUX*/					{ {NT.EXP}, {new TokenLambda()} },	
-		
+
+/*REXP4*/				{ {NT.TIPO_PRIMITIVO,NT.INDIRECCION,NT.RDEFINICION},{NT.EXP_SIN_IDEN,NT.REXP, new TokenPuntoyComa()},{NT.MODIFICADOR,NT.L_MODIFICADORES,NT.RTIPO,NT.RDEFINICION},{new TokenId(null),NT.REXP3_2,NT.RDEFINICION}}
+	
+	
 	};
 	
 	
