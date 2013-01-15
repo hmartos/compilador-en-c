@@ -220,14 +220,7 @@ public class Gramatica {
 	
 	
 	
-	static Object[][] regla_PROGRAMA = 
-		{{NT.L_DEFINICIONES, new TokenFin()}};
-	
-	static Object[][] regla_L_DEFINICIONES = 
-		{{new TokenLambda()},{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES}};
 
-	
-	Object[][] aaa;
 	
 	
 	

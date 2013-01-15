@@ -74,11 +74,13 @@ public class AnalizadorSintactico {
 						//Lanzar error.
 						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,null,nT));
 						System.out.println("=====> ERROR!!: No podemos aplicar ningua regla para "+termAct.toString()+" con el token "+ tokenActual.toString());
-						valido=false;
+						//Para el depurado en cuanto hay un error devolvemos false (Solo probamos programas correctos)
+						return false;
+						/*valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
 							return valido;
-						}
+						}*/
 					}
 				}
 			}else{  //Es un terminal
@@ -92,13 +94,15 @@ public class AnalizadorSintactico {
 					}
 					else{
 						//Lanzar error.
-						System.out.println("=====> ERROR!!: No coincide "+termAct.toString()+" con el token "+ tokenActual.toString());
+						System.out.println("=====> ERROR!!: No coincide esperado "+termAct.toString()+" con el token "+ tokenActual.toString());
 						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT)); 
-						valido=false;
+						//Para el depurado en cuanto hay un error devolvemos false (Solo probamos programas correctos)
+						return false;
+						/*valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
 							return valido;
-						}
+						}*/
 					
 					}
 					
@@ -117,12 +121,14 @@ public class AnalizadorSintactico {
 					}else{
 						//Lanzar error.
 						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT));
-						System.out.println("=====> ERROR!!: No coincide "+termAct.toString()+" con el token "+ tokenActual.toString());
-						valido=false;
+						System.out.println("=====> ERROR!!: No coincide esperado "+termAct.toString()+" con  "+ tokenActual.toString());
+						//Para el depurado en cuanto hay un error devolvemos false (Solo probamos programas correctos)
+						return false;
+						/*valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
 							return valido;
-						}
+						}*/
 					
 					}
 				}
@@ -224,34 +230,7 @@ public class AnalizadorSintactico {
 	
 	
 	
-	/*
-	private boolean analisis_PROGRAMA(){
-		if (Primeros.estaPrimeros(noTerminales.L_DEFINICIONES, tActual)) return analisis_L_DEFINICIONES();
-		else if (Primeros.estaPrimeros(noTerminales.L_DEFINICIONES, tokenLambda)){
-			return tActual.getTipo().equals(Token.TipoToken.FIN);
-		}
-		return false;
-	}
-	
-	private boolean analisis_L_DEFINICIONES() {
-		
-		if (Primeros.estaPrimeros(noTerminales.DEFINICION_GLOBAL, tActual))return analisis_DEFINICION_GLOBAL();
-		else if (Primeros.estaPrimeros(noTerminales.DEFINICION_GLOBAL, tokenLambda)){
-			if (Primeros.estaPrimeros(noTerminales.L_DEFINICIONES, tActual))return analisis_L_DEFINICIONES();
-			
-		}
-		return false;
-	}
-	MACROS T | A| B
-	private boolean analisis_DEFINICION_GLOBAL() {
-		if (Primeros.estaPrimeros(noTerminales.MACROS, tActual)) return analisis_MACROS();
-		else if macros is landa {
-			if primeros de T return T
-		}
-		
-		return false;
-	}
-*/
+
 
 	
 	
