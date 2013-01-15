@@ -55,22 +55,25 @@ public class AnalizadorSintactico {
 		 */
 		while (nTerm<regla.length){
 			Object termAct=regla[nTerm];
-						
+			System.out.println("Estamos en "+nT.toString()+ ". Vamos por " +termAct.toString());
+			
 			if (termAct instanceof NT){
 				int nReglaNT=selectorRegla((NT) termAct);
 				if(nReglaNT!=-1){
-					System.out.println("Aplicamos "+termAct.toString());
+					//System.out.println("Aplicamos "+termAct.toString());
 					valido=valido && analizarRec((NT) termAct,nReglaNT);
 					nTerm++;
 				
 				}else{//No se puede aplicar ninguna regla
 					if(primeros.estaPrimeros((NT) termAct, tokenLambda)){
 						nTerm++;
+						System.out.println("Tomamos "+termAct.toString()+" como LAMBDA");
+
 					}
 					else{
 						//Lanzar error.
 						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,null,nT));
-						
+						System.out.println("=====> ERROR!!: No podemos aplicar ningua regla para "+termAct.toString()+" con el token "+ tokenActual.toString());
 						valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
@@ -89,6 +92,7 @@ public class AnalizadorSintactico {
 					}
 					else{
 						//Lanzar error.
+						System.out.println("=====> ERROR!!: No coincide "+termAct.toString()+" con el token "+ tokenActual.toString());
 						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT)); 
 						valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
@@ -113,6 +117,7 @@ public class AnalizadorSintactico {
 					}else{
 						//Lanzar error.
 						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT));
+						System.out.println("=====> ERROR!!: No coincide "+termAct.toString()+" con el token "+ tokenActual.toString());
 						valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){

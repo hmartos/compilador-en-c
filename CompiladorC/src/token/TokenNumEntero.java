@@ -25,5 +25,7 @@ public class TokenNumEntero extends Token {
 	public boolean equals(Object a){
 		return a instanceof TokenNumEntero;
 	}
-	
+	public int hashCode(){
+		return tipo.ordinal()*1000;
+	}
 }

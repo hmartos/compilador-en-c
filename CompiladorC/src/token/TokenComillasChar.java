@@ -31,4 +31,7 @@ char caracter;
 	public boolean equals(Object a){
 		return a instanceof TokenComillasChar;
 	}
+	public int hashCode(){
+		return tipo.ordinal()*1000;
+	}
 }

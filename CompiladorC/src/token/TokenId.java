@@ -28,5 +28,8 @@ public class TokenId extends Token {
 	public boolean equals(Object a){
 		return a instanceof TokenId;
 	}
+	public int hashCode(){
+		return tipo.ordinal()*1000;
+	}
 	
 }
