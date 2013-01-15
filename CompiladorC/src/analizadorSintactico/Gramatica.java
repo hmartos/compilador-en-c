@@ -103,7 +103,7 @@ public class Gramatica {
 	
 	static Object[][][] reglasGramatica={
 /*PROGRAMA,*/ 			{{NT.L_DEFINICIONES,new TokenFin()} , {new TokenFin()}},
-/* L_DEFINICIONES,*/	{{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES} },
+/* L_DEFINICIONES,*/	{{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES} ,{new TokenLambda()}},
 /* DEFINICION_GLOBAL,*/	{{NT.MACROS},{NT.TIPO, NT.RDEFINICION},{NT.DEFINICION_STRUCT}, {NT.DEFINICION_ENUM},{NT.DEFINICION_UNION}, {NT.DEFINICION_TYPEDEF},},
 /* RDEFINICION,*/		{{new TokenPuntoyComa()},	{new TokenId(null),NT.RDEFINICION2}},
 /* RDEFINICION2,*/		{{NT.CORCHETES, NT.RDEF_VARIABLE},	{parentesisAbierto,NT.L_PARAMS,parentesisCerrado,NT.RDEF_FUNCION}},
@@ -212,17 +212,17 @@ public class Gramatica {
 /* EXP2,*/				{{NT.EXP3, NT.REXP2}},
 /* REXP2,*/				{{NT.OP_INC},{NT.OP_SELECCION,NT.EXP3}, {new TokenLambda()}},
 /* OP_SELECCION,*/		{{new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.PUNTO)},{new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.FLECHA)}},
-/* EXP3,*/				{{NT.IDENTIFICADOR},{new TokenNumEntero(0)}, {new TokenNumReal(0)}, {parentesisAbierto, NT.REXP3,parentesisCerrado}, {PalRes.PAL_ESP_NULL},{llaveAbierta,NT.LISTA_EXP,llaveCerrada},{new TokenComillasChar()}, {new TokenEntrecomillado(null)}},
+/* EXP3,*/				{{NT.IDENTIFICADOR},{new TokenNumEntero(0)}, {new TokenNumReal(0)}, {parentesisAbierto, NT.REXP3}, {PalRes.PAL_ESP_NULL},{llaveAbierta,NT.LISTA_EXP,llaveCerrada},{new TokenComillasChar()}, {new TokenEntrecomillado(null)}},
 /* LISTA_EXP,*/			{{new TokenLambda()}, {NT.EXP, new TokenComa(), NT.LISTA_EXP}},
-/* REXP3,*/				{{NT.TIPO_PRIMITIVO,NT.INDIRECCION},{NT.EXP_SIN_IDEN,NT.REXP},{NT.MODIFICADOR,NT.L_MODIFICADORES,NT.RTIPO},{new TokenId(null),NT.REXP3_2}},
+/* REXP3,*/				{{NT.TIPO_PRIMITIVO,NT.INDIRECCION,parentesisCerrado,NT.EXP},{NT.EXP_SIN_IDEN,NT.REXP,parentesisCerrado},{NT.MODIFICADOR,NT.L_MODIFICADORES,NT.RTIPO,parentesisCerrado,NT.EXP},{new TokenId(null),NT.REXP3_2,parentesisCerrado,NT.AUX}},
 /*EXP_SIN_IDEN*/		{ {new TokenAmpersand(),NT.INDIRECCION,new TokenId(null),NT.RIDENTIFICADOR},{NT.INDIRECCION2,new TokenId(null),NT.RIDENTIFICADOR},
-     	                  {new TokenNumEntero(0)},{new TokenNumReal(0)},{parentesisAbierto,NT.REXP3,parentesisCerrado},{PalRes.PAL_ESP_NULL},{llaveAbierta,NT.LISTA_EXP,llaveCerrada},{new TokenComillasChar()},{NT.ENTRECOMILLADO} },
+     	                  {new TokenNumEntero(0)},{new TokenNumReal(0)},{parentesisAbierto,NT.REXP3},{PalRes.PAL_ESP_NULL},{llaveAbierta,NT.LISTA_EXP,llaveCerrada},{new TokenComillasChar()},{NT.ENTRECOMILLADO} },
 /*REXP3_2*/				{ {NT.INDIRECCION2}, {NT.RIDENTIFICADOR,NT.REXP3_3} },
 /*REXP3_3*/				{ {NT.OP_ASIG,NT.EXP}, {NT.REXP_COND} },
 /*INDIRECCION2*/		{ {new TokenAsterisco(),NT.INDIRECCION} },
 /* L_PARAMS_LLAMADA,*/	{{NT.EXP, NT.RES_LISTA_PARAMS_LLAMADA},{new TokenLambda()}},
-/* RES_LISTA_PARAMS_LLAMADA*/ 	{{new TokenComa(), NT.EXP, NT.RES_LISTA_PARAMS_LLAMADA}, {new TokenLambda()}}
-		
+/* RES_LISTA_PARAMS_LLAMADA*/ 	{{new TokenComa(), NT.EXP, NT.RES_LISTA_PARAMS_LLAMADA}, {new TokenLambda()}},
+/*AUX*/					{ {NT.EXP}, {new TokenLambda()} },	
 		
 	};
 	
