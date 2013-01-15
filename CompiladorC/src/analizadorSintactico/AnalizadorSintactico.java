@@ -18,12 +18,16 @@ public class AnalizadorSintactico {
 	Object[][] aa= {{"","asda"}};
 	int col;
 	int row;
+	Primeros primeros;
 	
 	public AnalizadorSintactico(AnalizadorLexico al,GestorDeErrores ge,TablaSimbolos ts){
+		
+		tokenLambda=new TokenLambda();
+		primeros=new Primeros();
+		primeros.calculoPrimeros();
 		lexico=al;
 		errores=ge;
 		simbolos=ts;
-		tokenLambda=new TokenLambda();
 	}
 	
 	
@@ -60,7 +64,7 @@ public class AnalizadorSintactico {
 					nTerm++;
 				
 				}else{//No se puede aplicar ninguna regla
-					if(Primeros.main((NT) termAct, tokenLambda)){
+					if(primeros.estaPrimeros((NT) termAct, tokenLambda)){
 						nTerm++;
 					}
 					else{
@@ -153,11 +157,11 @@ public class AnalizadorSintactico {
 			while (nRegla<gram.length && nTerm<gram[nRegla].length){
 				Object termAct=gram[nRegla][nTerm];
 				if (termAct instanceof NT){ // El elemento de la regla es un NoTerminal
-					if (Primeros.main((NT) termAct, tokenActual)){
+					if (primeros.estaPrimeros((NT) termAct, tokenActual)){
 					//El token actual coincide con el Primero del NoTerminal
 						return nRegla; //La regla que aplicaremos será esta.
 						
-					}else if (Primeros.main((NT) termAct, tokenLambda)){
+					}else if (primeros.estaPrimeros((NT) termAct, tokenLambda)){
 					//No coincide con los Primeros pero estos pueden ser Lambda
 						nTerm++; //Seguimos mirando los proximos terminos de esta regla.
 					}else{
@@ -217,8 +221,8 @@ public class AnalizadorSintactico {
 	
 	/*
 	private boolean analisis_PROGRAMA(){
-		if (Primeros.main(noTerminales.L_DEFINICIONES, tActual)) return analisis_L_DEFINICIONES();
-		else if (Primeros.main(noTerminales.L_DEFINICIONES, tokenLambda)){
+		if (Primeros.estaPrimeros(noTerminales.L_DEFINICIONES, tActual)) return analisis_L_DEFINICIONES();
+		else if (Primeros.estaPrimeros(noTerminales.L_DEFINICIONES, tokenLambda)){
 			return tActual.getTipo().equals(Token.TipoToken.FIN);
 		}
 		return false;
@@ -226,16 +230,16 @@ public class AnalizadorSintactico {
 	
 	private boolean analisis_L_DEFINICIONES() {
 		
-		if (Primeros.main(noTerminales.DEFINICION_GLOBAL, tActual))return analisis_DEFINICION_GLOBAL();
-		else if (Primeros.main(noTerminales.DEFINICION_GLOBAL, tokenLambda)){
-			if (Primeros.main(noTerminales.L_DEFINICIONES, tActual))return analisis_L_DEFINICIONES();
+		if (Primeros.estaPrimeros(noTerminales.DEFINICION_GLOBAL, tActual))return analisis_DEFINICION_GLOBAL();
+		else if (Primeros.estaPrimeros(noTerminales.DEFINICION_GLOBAL, tokenLambda)){
+			if (Primeros.estaPrimeros(noTerminales.L_DEFINICIONES, tActual))return analisis_L_DEFINICIONES();
 			
 		}
 		return false;
 	}
 	MACROS T | A| B
 	private boolean analisis_DEFINICION_GLOBAL() {
-		if (Primeros.main(noTerminales.MACROS, tActual)) return analisis_MACROS();
+		if (Primeros.estaPrimeros(noTerminales.MACROS, tActual)) return analisis_MACROS();
 		else if macros is landa {
 			if primeros de T return T
 		}
