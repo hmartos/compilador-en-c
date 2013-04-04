@@ -5,7 +5,11 @@ public class TokenRelComp extends Token {
 
 	TipoTokenRelComp tipoAtb;
 	
-	
+	public TokenRelComp(TipoTokenRelComp t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.REL_COMP;
+		tipoAtb=t;
+	}
 	public TokenRelComp(TipoTokenRelComp t){
 		super.tipo=Token.TipoToken.REL_COMP;
 		tipoAtb=t;

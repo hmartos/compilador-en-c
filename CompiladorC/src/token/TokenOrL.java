@@ -2,6 +2,11 @@ package token;
 
 public class TokenOrL extends Token {
 	
+	public TokenOrL(int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.OR_L;
+	}
+	
 	public TokenOrL(){
 		super.tipo=Token.TipoToken.OR_L;
 	}

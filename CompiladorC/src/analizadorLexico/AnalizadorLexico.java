@@ -190,7 +190,7 @@ public class AnalizadorLexico {
 					case ('#'):{								// Leemos desde el estado 0, #
 						nChar = 0;
 						//charAct=leerChar(); 					//Accion semantica A
-						tokenGen = new TokenAlmohadilla();
+						tokenGen = new TokenAlmohadilla(nLinea,nChar);
 						break;
 					}
 					
@@ -203,62 +203,62 @@ public class AnalizadorLexico {
 
 					case ('('):	{								// Leemos desde el estado 0, (
 						eAct=Estado.e13;
-						tokenGen = new TokenParentesis(TokenParentesis.TipoTokenParentesis.ABIERTO);  //Accion Semantica O, GenerarToken (
+						tokenGen = new TokenParentesis(TokenParentesis.TipoTokenParentesis.ABIERTO,nLinea,nChar);  //Accion Semantica O, GenerarToken (
 						break;				
 					}
 					
 					case (')'):									// Leemos desde el estado 0, )
 					{
 						eAct=Estado.e14;
-						tokenGen = new TokenParentesis(TokenParentesis.TipoTokenParentesis.CERRADO);  //Accion Semantica O, GenerarToken )
+						tokenGen = new TokenParentesis(TokenParentesis.TipoTokenParentesis.CERRADO,nLinea,nChar);  //Accion Semantica O, GenerarToken )
 						break;
 					}
 					case ('{'):									// Leemos desde el estado 0, {
 					{
 						eAct=Estado.e15;
-						tokenGen = new TokenLlaves(TokenLlaves.TipoTokenLlaves.ABIERTO);  //Accion Semantica S, GenerarToken {
+						tokenGen = new TokenLlaves(TokenLlaves.TipoTokenLlaves.ABIERTO,nLinea,nChar);  //Accion Semantica S, GenerarToken {
 						break;
 					}
 					case ('}'):									// Leemos desde el estado 0, }
 					{
 						eAct=Estado.e16;
-						tokenGen = new TokenLlaves(TokenLlaves.TipoTokenLlaves.CERRADO);  //Accion Semantica S, GenerarToken }
+						tokenGen = new TokenLlaves(TokenLlaves.TipoTokenLlaves.CERRADO,nLinea,nChar);  //Accion Semantica S, GenerarToken }
 						break;
 					}
 					case ('['):									// Leemos desde el estado 0, [
 					{
 						eAct=Estado.e17;
-						tokenGen = new TokenCorchetes(TokenCorchetes.TipoTokenCorchetes.ABIERTO);  //Accion Semantica R, GenerarToken [
+						tokenGen = new TokenCorchetes(TokenCorchetes.TipoTokenCorchetes.ABIERTO,nLinea,nChar);  //Accion Semantica R, GenerarToken [
 						break;
 					}
 					case (']'):									// Leemos desde el estado 0, ]
 					{
 						eAct=Estado.e18;
-						tokenGen = new TokenCorchetes(TokenCorchetes.TipoTokenCorchetes.CERRADO);  //Accion Semantica R, GenerarToken ]
+						tokenGen = new TokenCorchetes(TokenCorchetes.TipoTokenCorchetes.CERRADO,nLinea,nChar);  //Accion Semantica R, GenerarToken ]
 						break;
 					}	
 					case (','):									// Leemos desde el estado 0, ,
 					{
 						eAct=Estado.e19;
-						tokenGen = new TokenComa();  			//Accion Semantica Q, GenerarToken ,
+						tokenGen = new TokenComa(nLinea,nChar);  			//Accion Semantica Q, GenerarToken ,
 						break;
 					}
 					case (';'):									// Leemos desde el estado 0, ;				
 					{
 						eAct=Estado.e20;
-						tokenGen = new TokenPuntoyComa(); 		//Accion Semantica J, GenerarToken ;
+						tokenGen = new TokenPuntoyComa(nLinea,nChar); 		//Accion Semantica J, GenerarToken ;
 						break;
 					}
 					case (':'):									// Leemos desde el estado 0, :
 					{
 						eAct=Estado.e21;
-						tokenGen = new TokenOpTernario(TokenOpTernario.TipoTokenOpTernario.DOSPUNTOS);  //Accion Semantica V, GenerarToken :
+						tokenGen = new TokenOpTernario(TokenOpTernario.TipoTokenOpTernario.DOSPUNTOS,nLinea,nChar);  //Accion Semantica V, GenerarToken :
 						break;
 					}
 					case ('?'):									// Leemos desde el estado 0, ?
 					{
 						eAct=Estado.e22;
-						tokenGen = new TokenOpTernario(TokenOpTernario.TipoTokenOpTernario.INTERROGACION);  //Accion Semantica V, GenerarToken ?
+						tokenGen = new TokenOpTernario(TokenOpTernario.TipoTokenOpTernario.INTERROGACION,nLinea,nChar);  //Accion Semantica V, GenerarToken ?
 						break;
 					}
 					case ('|'):									// Leemos desde el estado 0, |
@@ -312,7 +312,7 @@ public class AnalizadorLexico {
 						break;
 					}
 					case ('.'):{ 								// Leemos desde el estado 0, .
-						tokenGen = new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.PUNTO);  // Acción semántica DZ, Generar Token .
+						tokenGen = new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.PUNTO,nLinea,nChar);  // Acción semántica DZ, Generar Token .
 						break;
 					}
 					case ('^'):{								// Leemos desde el estado 0, ^
@@ -348,7 +348,7 @@ public class AnalizadorLexico {
 						}
 						else if (charAct==-1){					// Leemos desde el estado 0, EOF
 							//estado por asignar.  
-							tokenGen=new TokenFin();			// Acción semántica K, hemos terminado de leer  el fichero
+							tokenGen=new TokenFin(nLinea,nChar);			// Acción semántica K, hemos terminado de leer  el fichero
 						
 						}
 						else if (charAct=='\\'){					
@@ -385,14 +385,14 @@ public class AnalizadorLexico {
 				} else if (esCaracterPermitido(charAct) && (charAct!='_')){			// lee un delimitador
 					EntradaTabla entrada= TS.busquedaPalabraReservada(bufferString);  			// Busco el ID en la tabla
 					if (entrada!=null){												  			// Si no esta creo una entrada nueva
-						tokenGen=new TokenPalRes((AtributosTablaPalRes) entrada.getAtt());
+						tokenGen=new TokenPalRes((AtributosTablaPalRes) entrada.getAtt(),nLinea,nChar);
 						if(tokenGen.getAtributo().equals(PalRes.PAL_MAC_pragma) || tokenGen.getAtributo().equals(PalRes.PAL_MAC_error)){   //Si leemos pragma o error, ignoramos hasta el salto de linea, vamos al estado 30, como si hubieramos le’do //
 							eAct = Estado.e30;
 							charAct = leerChar();
 							break;
 						}
 					}else{															  			// si no meto el ID en su atributo
-						tokenGen=new TokenId(bufferString);
+						tokenGen=new TokenId(bufferString,nLinea,nChar);
 						TS.insertar(bufferString); 									  			// Lo introducimos en la TS para verlo en la demo.
 					}
 					devolverChar();											        // Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
@@ -475,7 +475,7 @@ public class AnalizadorLexico {
 				} else if (esCaracterPermitido(charAct)){ 					//Cualquier caracter menos "_"
 					EntradaTabla entrada= TS.busquedaPalabraReservada(bufferString);  			// Busco el ID en la tabla
 					if (entrada!=null){												  			// Si no esta creo una entrada nueva
-						tokenGen=new TokenPalRes((AtributosTablaPalRes) entrada.getAtt());
+						tokenGen=new TokenPalRes((AtributosTablaPalRes) entrada.getAtt(),nLinea,nChar);
 						devolverChar();
 					}else {
 						String descr="Macro no definida.";
@@ -517,7 +517,7 @@ public class AnalizadorLexico {
 					boolean ret;
 					ret = analizarCadena(bufferString);
 					if(ret){
-						tokenGen=new TokenNumEntero(Integer.valueOf(bufferString)); // Acción semántica D, convertir la cadena a número y generar el token entero
+						tokenGen=new TokenNumEntero(Integer.valueOf(bufferString),nLinea,nChar); // Acción semántica D, convertir la cadena a número y generar el token entero
 						devolverChar();// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 						//No ponemos que va al estado 9 porque los estado finales no los implementamos
 					}else{
@@ -571,7 +571,7 @@ public class AnalizadorLexico {
 					bufferString+=(char)charAct; 								// Accion semantica B, concatena caracter al final de la cadena que está leyendo
 					charAct=leerChar(); 										// Accion semantica A, leemos siguiente caracter
 				} else if (esCaracterPermitido(charAct)||esLetra(charAct)){
-					tokenGen=new TokenNumReal(Float.valueOf(bufferString));		// Acción semántica E, convierte la cadena en numero y general el token numero real
+					tokenGen=new TokenNumReal(Float.valueOf(bufferString),nLinea,nChar);		// Acción semántica E, convierte la cadena en numero y general el token numero real
 					devolverChar();												// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				}  else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -586,7 +586,7 @@ public class AnalizadorLexico {
 						
 			case e10:{															// En el estado 10, ya hemos leido ", analizo el siguiente charAct
 				if (charAct=='"'){
-					tokenGen=new TokenEntrecomillado(bufferString);				// Acción semántica M, leemos el entrecomillado 
+					tokenGen=new TokenEntrecomillado(bufferString,nLinea,nChar);				// Acción semántica M, leemos el entrecomillado 
 				} else if(charAct=='\\'){
 					bufferString+=(char)charAct; 								// Accion semantica B, concatena caracter al final de la cadena que está leyendo
 					charAct=leerChar();											// Accion semantica A, leemos siguiente caracter
@@ -619,12 +619,12 @@ public class AnalizadorLexico {
 			
 			case e23:{     														// En el estado 23, llevamos leido |, analizamos charAct
 				if(charAct == '=') {
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.ORB_ASIG); // Acción semántica H, generamos token asignación |=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.ORB_ASIG,nLinea,nChar); // Acción semántica H, generamos token asignación |=
 				} else if(charAct == '|') {										
-					tokenGen = new TokenOrL();									// Acción semántica W, genera token ||
+					tokenGen = new TokenOrL(nLinea,nChar);									// Acción semántica W, genera token ||
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {
 					devolverChar(); 											// Accion Semántica EZ(Decr. caracter leido)
-					tokenGen = new TokenOrB();		 							// Acción semántica G, genera token ||
+					tokenGen = new TokenOrB(nLinea,nChar);		 							// Acción semántica G, genera token ||
 				}  else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
 					GE.add(e);                                              	//Añadimos a la cola de errores
@@ -638,9 +638,9 @@ public class AnalizadorLexico {
 			
 			case e26:{ 		       													// En el estado 26, llevamos leido %
 				if(charAct == '='){				
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.MOD_ASIG);		// Accion Semántica H, genera token %=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.MOD_ASIG,nLinea,nChar);		// Accion Semántica H, genera token %=
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {						
-					tokenGen = new TokenOpMult(TokenOpMult.TipoTokenOpMult.MOD);	// Accion Semántica BZ, genera token %
+					tokenGen = new TokenOpMult(TokenOpMult.TipoTokenOpMult.MOD,nLinea,nChar);	// Accion Semántica BZ, genera token %
 					devolverChar(); 												// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				}  else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -655,7 +655,7 @@ public class AnalizadorLexico {
 			
 			case e27:{																// En el estado 27, llevamos leido /
 				if(charAct == '='){			
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.DIV_ASIG); 	// Accion Semántica H, genera token /=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.DIV_ASIG,nLinea,nChar); 	// Accion Semántica H, genera token /=
 				} else if(charAct == '/'){											// Llevamos leido //
 					eAct=Estado.e30;
 					charAct = leerChar();											// Acción semántica A, leemos siguiente caracter
@@ -663,7 +663,7 @@ public class AnalizadorLexico {
 					eAct=Estado.e29;
 					charAct = leerChar();											// Acción semántica A, leemos siguiente caracter
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {
-					tokenGen = new TokenOpMult(TokenOpMult.TipoTokenOpMult.DIV);	// Acción semántica BZ , genera token /
+					tokenGen = new TokenOpMult(TokenOpMult.TipoTokenOpMult.DIV,nLinea,nChar);	// Acción semántica BZ , genera token /
 					devolverChar(); 												// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				}  else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -718,9 +718,9 @@ public class AnalizadorLexico {
 
 			case e33:{																// En el estado 33, llevamos leido *
 				if(charAct == '='){
-					tokenGen=new TokenAsig(TokenAsig.TipoTokenAsig.MULT_ASIG);		// Acción semántica H, generamos token *=
+					tokenGen=new TokenAsig(TokenAsig.TipoTokenAsig.MULT_ASIG,nLinea,nChar);		// Acción semántica H, generamos token *=
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {
-					tokenGen = new TokenAsterisco();								// Acción semántica F, genera token *
+					tokenGen = new TokenAsterisco(nLinea,nChar);								// Acción semántica F, genera token *
 					devolverChar(); 												// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				}  else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -735,11 +735,11 @@ public class AnalizadorLexico {
 			
 			case e35:{																// En el estado 35, llevamos leido &
 				if(charAct == '='){
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.ANDB_ASIG);	// Acción semántica H, generamos token &=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.ANDB_ASIG,nLinea,nChar);	// Acción semántica H, generamos token &=
 				} else if(charAct == '&') {
-					tokenGen = new TokenAndL();										// Acción semántica X, generamos token &&	
+					tokenGen = new TokenAndL(nLinea,nChar);										// Acción semántica X, generamos token &&	
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {
-					tokenGen = new TokenAmpersand();								// Acción semántica U, generamos token &
+					tokenGen = new TokenAmpersand(nLinea,nChar);								// Acción semántica U, generamos token &
 					devolverChar();													// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -754,9 +754,9 @@ public class AnalizadorLexico {
 
 			case e38:{																									// En el estado 38, llevamos leido !
 				if(charAct == '='){	
-					tokenGen = new TokenRelIgual(TokenRelIgual.TipoTokenRelIgual.DISTINTO);								// Acción semántica Y, generamos token !=
+					tokenGen = new TokenRelIgual(TokenRelIgual.TipoTokenRelIgual.DISTINTO,nLinea,nChar);								// Acción semántica Y, generamos token !=
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)){				// token !
-					tokenGen = new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.NOT_L);								// Acción semántica CZ, generamos token !=
+					tokenGen = new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.NOT_L,nLinea,nChar);								// Acción semántica CZ, generamos token !=
 					devolverChar();																						// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -771,9 +771,9 @@ public class AnalizadorLexico {
 			
 			case e40:{																							// En el estado 40, llevamos leido =
 				if(charAct == '='){																				// token ==
-					tokenGen = new TokenRelIgual(TokenRelIgual.TipoTokenRelIgual.IGUAL);						// Acción semántica Y, generamos token ==
+					tokenGen = new TokenRelIgual(TokenRelIgual.TipoTokenRelIgual.IGUAL,nLinea,nChar);						// Acción semántica Y, generamos token ==
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {				// token =
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.ASIG);		// Acción semántica H, generamos token =
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.ASIG,nLinea,nChar);		// Acción semántica H, generamos token =
 					devolverChar();												// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -788,11 +788,11 @@ public class AnalizadorLexico {
 			
 			case e42:{						 	// En el estado 42, llevamos leido +
 				if(charAct == '='){	    	 
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.SUMA_ASIG);			             // Acción semántica H, generamos token +=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.SUMA_ASIG,nLinea,nChar);			             // Acción semántica H, generamos token +=
 				} else if(charAct == '+'){	 
-					tokenGen = new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.INCREMENTO);			 // Acción semántica CZ, generamos token ++
+					tokenGen = new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.INCREMENTO,nLinea,nChar);			 // Acción semántica CZ, generamos token ++
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)){						 
-					tokenGen = new TokenSimboloAdicion(TokenSimboloAdicion.TipoTokenSimboloAdicion.SUMA);// Acción semántica I, generamos token +
+					tokenGen = new TokenSimboloAdicion(TokenSimboloAdicion.TipoTokenSimboloAdicion.SUMA,nLinea,nChar);// Acción semántica I, generamos token +
 					devolverChar(); 											// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -807,13 +807,13 @@ public class AnalizadorLexico {
 			
 			case e45:{						// En el estado 45, llevamos leido -
 				if(charAct == '='){			
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.RESTA_ASIG);						  // Acción semántica H, generamos token -=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.RESTA_ASIG,nLinea,nChar);						  // Acción semántica H, generamos token -=
 				} else if(charAct == '-') {     
-					tokenGen = new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.DECREMENTO);			  // Acción semántica CZ, generamos token --
+					tokenGen = new TokenOpUnario(TokenOpUnario.TipoTokenOpUnario.DECREMENTO,nLinea,nChar);			  // Acción semántica CZ, generamos token --
 				} else if(charAct == '>') {	
-					tokenGen = new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.FLECHA);		  // Acción semántica DZ, generamos token ->
+					tokenGen = new TokenOpSeleccion(TokenOpSeleccion.TipoTokenOpSeleccion.FLECHA,nLinea,nChar);		  // Acción semántica DZ, generamos token ->
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {
-					tokenGen = new TokenSimboloAdicion(TokenSimboloAdicion.TipoTokenSimboloAdicion.RESTA);// Acción semántica I, generamos token -
+					tokenGen = new TokenSimboloAdicion(TokenSimboloAdicion.TipoTokenSimboloAdicion.RESTA,nLinea,nChar);// Acción semántica I, generamos token -
 					devolverChar();																		  // Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				}  else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -828,9 +828,9 @@ public class AnalizadorLexico {
 			
 			case e47:{						// En el estado 47, llevamos leido ^
 				if(charAct == '='){			
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.XORB_ASIG);	// Acción semántica H, generamos token ^=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.XORB_ASIG,nLinea,nChar);	// Acción semántica H, generamos token ^=
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {					
-					tokenGen = new TokenXorB(); 									// Acción semántica T, generamos token ^
+					tokenGen = new TokenXorB(nLinea,nChar); 									// Acción semántica T, generamos token ^
 					devolverChar();													// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
@@ -845,13 +845,13 @@ public class AnalizadorLexico {
 			
 			case e49:{						// En el estado 49, llevamos leido <
 				if(charAct == '=') {		
-					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.IGUAL_MENOR); // Acción semántica Z, generamos token <=
+					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.IGUAL_MENOR,nLinea,nChar); // Acción semántica Z, generamos token <=
 				} else if(charAct == '<') {
 					charAct=leerChar(); 													// Acción Semántica A, leemos otro caracter 
 					eAct=Estado.e53;
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {
 					devolverChar(); 														// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
-					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.MENOR);		// Accion semantica Z, generamos token <
+					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.MENOR,nLinea,nChar);		// Accion semantica Z, generamos token <
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
 					GE.add(e);                                              	//Añadimos a la cola de errores
@@ -865,13 +865,13 @@ public class AnalizadorLexico {
 			
 			case e51:{						// En el estado 51, llevamos leido >
 				if(charAct == '=') {		
-					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.IGUAL_MAYOR);	// Acción semántica Z, generamos token >=
+					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.IGUAL_MAYOR,nLinea,nChar);	// Acción semántica Z, generamos token >=
 				} else if(charAct == '>') {
 					charAct=leerChar();														// Acción Semántica A, leemos otro caracter
 					eAct=Estado.e52;
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {
 					devolverChar(); 														// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
-					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.MAYOR);		// Accion semantica Z, generamos token >
+					tokenGen = new TokenRelComp(TokenRelComp.TipoTokenRelComp.MAYOR,nLinea,nChar);		// Accion semantica Z, generamos token >
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
 					GE.add(e);                                              	//Añadimos a la cola de errores
@@ -885,10 +885,10 @@ public class AnalizadorLexico {
 
 			case e52:{						// En el estado 52, llevamos leido >>
 				if(charAct == '=') { 
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.DESP_DER_ASIG);		// Acción semántica H, generamos token >>=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.DESP_DER_ASIG,nLinea,nChar);		// Acción semántica H, generamos token >>=
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {				
 					devolverChar();															// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
-					tokenGen = new TokenOpDespl(TokenOpDespl.TipoTokenOpDespl.DESPL_DER);	// Acción semántica AZ, generamos token >>
+					tokenGen = new TokenOpDespl(TokenOpDespl.TipoTokenOpDespl.DESPL_DER,nLinea,nChar);	// Acción semántica AZ, generamos token >>
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
 					GE.add(e);                                              	//Añadimos a la cola de errores
@@ -902,10 +902,10 @@ public class AnalizadorLexico {
 			
 			case e53:{						// En el estado 51, llevamos leido <<
 				if(charAct == '=') {	
-					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.DESP_IZQ_ASIG); 		// Acción semántica H, generamos token <<=
+					tokenGen = new TokenAsig(TokenAsig.TipoTokenAsig.DESP_IZQ_ASIG,nLinea,nChar); 		// Acción semántica H, generamos token <<=
 				} else if(esCaracterPermitido(charAct) || esLetra(charAct) || Character.isDigit(charAct)) {				
 					devolverChar(); 														// Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
-					tokenGen = new TokenOpDespl(TokenOpDespl.TipoTokenOpDespl.DESPL_IZQ);	// Acción semántica AZ, generamos token <<
+					tokenGen = new TokenOpDespl(TokenOpDespl.TipoTokenOpDespl.DESPL_IZQ,nLinea,nChar);	// Acción semántica AZ, generamos token <<
 				} else {
 					ErrorLexico e = new ErrorLexico(nLinea,nChar," (Prosigue lectura token)",ErrorLexico.TipoErrorLexico.TIPO1,(char) charAct,bufferString); //Creamos un nuevo error de TIPO1
 					GE.add(e);                                              	//Añadimos a la cola de errores
@@ -975,21 +975,21 @@ public class AnalizadorLexico {
 						charAct=leerChar();							// Acción Semántica A. leemos otro caracter
 						if(charAct == '\''){						
 							if(c == 'b'){
-								tokenGen = new TokenComillasChar('\b');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\b',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}else if(c == 't'){
-								tokenGen = new TokenComillasChar('\t');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\t',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}else if(c == 'n'){
-								tokenGen = new TokenComillasChar('\n');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\n',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}else if(c == 'f'){
-								tokenGen = new TokenComillasChar('\f');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\f',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}else if(c == 'r'){
-								tokenGen = new TokenComillasChar('\r');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\r',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}else if(c == '"'){
-								tokenGen = new TokenComillasChar('\"');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\"',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}else if(c == '\''){
-								tokenGen = new TokenComillasChar('\'');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\'',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}else if(c == '\\'){
-								tokenGen = new TokenComillasChar('\\');			// Acción semántica HZ, generar token carácter
+								tokenGen = new TokenComillasChar('\\',nLinea,nChar);			// Acción semántica HZ, generar token carácter
 							}
 							else{
 								ErrorLexico e = new ErrorLexico(nLinea,nChar, "No se permite este carácter especial(Reset lectura token)",ErrorLexico.TipoErrorLexico.TIPO5,(char) charAct); //Creamos un nuevo error de TIPO5
@@ -1010,7 +1010,7 @@ public class AnalizadorLexico {
 					bufferString+=(char)charAct; 
 					charAct=leerChar();											// Acción Semántica A. leemos otro caracter
 					if(charAct == '\''){						
-						tokenGen = new TokenComillasChar(v);					// Acción semántica HZ, generar token carácter
+						tokenGen = new TokenComillasChar(v,nLinea,nChar);					// Acción semántica HZ, generar token carácter
 					}
 				}
 

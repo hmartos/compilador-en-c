@@ -4,6 +4,11 @@ public class TokenOpDespl extends Token {
 
 	TipoTokenOpDespl tipoAtb;
 	
+	public TokenOpDespl(TipoTokenOpDespl t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.OP_DESPL;
+		tipoAtb=t;
+	}
 	
 	public TokenOpDespl(TipoTokenOpDespl t){
 		super.tipo=Token.TipoToken.OP_DESPL;

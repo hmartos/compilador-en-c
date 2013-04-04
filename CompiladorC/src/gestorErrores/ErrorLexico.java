@@ -48,7 +48,7 @@ public class ErrorLexico  extends ErrorCompilador{
 			cadena+="Carácter mal formado \'"+leido +"\'.";
 			break;
 		}
-		cadena+= " ("+row+","+column+")";
+		
 		if (buffer!=null) cadena+=" Buffer previo:  \""+buffer+ "\"";
 		if (description!=null && description!="") cadena+= "\nDescripción: "+description;
 		return cadena+="\n";

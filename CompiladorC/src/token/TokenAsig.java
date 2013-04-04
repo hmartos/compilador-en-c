@@ -6,7 +6,11 @@ public class TokenAsig extends Token {
 
 	TipoTokenAsig tipoAsig;
 	
-	
+	public TokenAsig(TipoTokenAsig t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.ASIGNACION;
+		tipoAsig=t;
+	}
 	public TokenAsig(TipoTokenAsig t){
 		super.tipo=Token.TipoToken.ASIGNACION;
 		tipoAsig=t;

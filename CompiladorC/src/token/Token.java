@@ -3,10 +3,29 @@ package token;
 public abstract class Token {
 
 	TipoToken tipo;
+	int linea, columna;
+	
+	
+	public int getLinea() {
+		return linea;
+	}
 
-	
-	
+	public int getCol() {
+		return columna;
+	}
+
 	public abstract Object getAtributo();
+	
+	//Manentemos este constructor por compatibilidad con la gramatica, donde no nos interesa linea y columna
+	public Token(){
+		linea=0;
+		columna=0;
+	}
+	
+	public Token(int l, int c){
+		linea=l;
+		columna=c;
+	}
 	
 	public TipoToken getTipo() {
 			return tipo;

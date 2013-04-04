@@ -18,6 +18,7 @@ public class ErrorCompilador {
 	
 	public String toString(){
 		String cadena="Error "+this.tipo;
+		cadena+= " ("+row+" : "+column+") ";
 		return cadena;
 	}
 }

@@ -9,6 +9,12 @@ public class TokenPalRes extends Token {
 	AtributosTablaPalRes entrada;
 	
 	
+	public TokenPalRes(AtributosTablaPalRes e,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.PAL_RES;
+		entrada=e;
+	}
+	
 	public TokenPalRes(AtributosTablaPalRes e){
 		super.tipo=Token.TipoToken.PAL_RES;
 		entrada=e;

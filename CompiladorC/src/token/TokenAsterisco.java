@@ -4,6 +4,10 @@ import token.Token.TipoToken;
 
 public class TokenAsterisco extends Token {
 	
+	public TokenAsterisco(int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.ASTERISCO;
+	}
 	public TokenAsterisco(){
 		super.tipo=Token.TipoToken.ASTERISCO;
 	}

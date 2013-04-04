@@ -4,6 +4,12 @@ package token;
 
 public class TokenNumReal extends Token {
 	float num;
+	
+	public TokenNumReal(float e,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.NUM_REAL;
+		num=e;
+	}
 	public TokenNumReal(float e){
 		super.tipo=Token.TipoToken.NUM_REAL;
 		num=e;

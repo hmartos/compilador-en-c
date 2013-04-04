@@ -4,6 +4,11 @@ public class TokenOpUnario extends Token {
 
 	TipoTokenOpUnario tipoAtb;
 	
+	public TokenOpUnario(TipoTokenOpUnario t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.OP_UNARIO;
+		tipoAtb=t;
+	}
 	
 	public TokenOpUnario(TipoTokenOpUnario t){
 		super.tipo=Token.TipoToken.OP_UNARIO;

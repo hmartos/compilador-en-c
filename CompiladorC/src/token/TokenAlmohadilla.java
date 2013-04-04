@@ -2,6 +2,11 @@ package token;
 
 public class TokenAlmohadilla extends Token {
 	
+	public TokenAlmohadilla(int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.ALMOHADILLA;
+	}
+	
 	public TokenAlmohadilla(){
 		super.tipo=Token.TipoToken.ALMOHADILLA;
 	}

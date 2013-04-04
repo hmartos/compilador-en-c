@@ -7,6 +7,11 @@ public class TokenRelIgual extends Token {
 
 	TipoTokenRelIgual tipoAsig;
 	
+	public TokenRelIgual(TipoTokenRelIgual t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.REL_IGUAL;
+		tipoAsig=t;
+	}
 	
 	public TokenRelIgual(TipoTokenRelIgual t){
 		super.tipo=Token.TipoToken.REL_IGUAL;

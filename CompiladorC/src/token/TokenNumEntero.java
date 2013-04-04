@@ -4,6 +4,12 @@ package token;
 
 public class TokenNumEntero extends Token {
 	int num;
+	
+	public TokenNumEntero(int e,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.NUM_ENTERO;
+		num=e;
+	}
 	public TokenNumEntero(int e){
 		super.tipo=Token.TipoToken.NUM_ENTERO;
 		num=e;

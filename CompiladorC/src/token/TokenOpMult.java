@@ -5,6 +5,11 @@ public class TokenOpMult extends Token {
 
 	TipoTokenOpMult tipoAtb;
 	
+	public TokenOpMult(TipoTokenOpMult t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.OP_MULT;
+		tipoAtb=t;
+	}
 	
 	public TokenOpMult(TipoTokenOpMult t){
 		super.tipo=Token.TipoToken.OP_MULT;
