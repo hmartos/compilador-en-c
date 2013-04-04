@@ -3,6 +3,10 @@ package token;
 import token.Token.TipoToken;
 
 public class TokenComa extends Token{
+	public TokenComa(int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.COMA;
+	}
 	public TokenComa(){
 		super.tipo=Token.TipoToken.COMA;
 	}

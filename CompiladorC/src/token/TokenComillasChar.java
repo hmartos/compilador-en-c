@@ -7,7 +7,11 @@ public class TokenComillasChar extends Token {
 	
 char caracter;
 	
-	
+	public TokenComillasChar(char e,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.COMILLAS_CHAR;
+		caracter=e;
+	}
 	public TokenComillasChar(char e){
 		super.tipo=Token.TipoToken.COMILLAS_CHAR;
 		caracter=e;

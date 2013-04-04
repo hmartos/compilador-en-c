@@ -1,6 +1,10 @@
 package token;
 
 public class TokenLambda extends Token {
+	public TokenLambda(int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.LAMBDA;
+	}
 	
 	public TokenLambda(){
 		super.tipo=Token.TipoToken.LAMBDA;

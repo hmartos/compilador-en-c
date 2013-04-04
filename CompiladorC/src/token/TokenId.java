@@ -6,7 +6,11 @@ public class TokenId extends Token {
 
 	
 	String id;
-	
+	public TokenId(String e,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.ID;
+		id=e;
+	}
 	
 	public TokenId(String e){
 		super.tipo=Token.TipoToken.ID;

@@ -5,7 +5,11 @@ public class TokenEntrecomillado extends Token {
 	
 String cadena;
 	
-	
+	public TokenEntrecomillado(String e,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.ENTRECOMILLADO;
+		cadena=e;
+	}
 	public TokenEntrecomillado(String e){
 		super.tipo=Token.TipoToken.ENTRECOMILLADO;
 		cadena=e;

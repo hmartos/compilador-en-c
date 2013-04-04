@@ -6,6 +6,11 @@ import token.Token.TipoToken;
 public class TokenCorchetes extends Token{
 	TipoTokenCorchetes tipoAtb;
 	
+	public TokenCorchetes(TipoTokenCorchetes t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.CORCHETE;
+		tipoAtb=t;
+	}
 	
 	public TokenCorchetes(TipoTokenCorchetes t){
 		super.tipo=Token.TipoToken.CORCHETE;

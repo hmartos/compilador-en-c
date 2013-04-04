@@ -4,6 +4,10 @@ import token.Token.TipoToken;
 
 public class TokenAmpersand extends Token {
 	
+	public TokenAmpersand(int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.AMPERSAND;
+	}
 	public TokenAmpersand(){
 		super.tipo=Token.TipoToken.AMPERSAND;
 	}

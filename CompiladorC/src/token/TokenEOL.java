@@ -1,7 +1,7 @@
 package token;
 
 public class TokenEOL extends Token {
-
+//CREO QUE ESTE TOKEN NO ES NECESARIO.
 	
 	
 	public TokenEOL(){

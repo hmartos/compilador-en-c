@@ -4,6 +4,10 @@ import token.Token.TipoToken;
 
 public class TokenAndL extends Token {
 	
+	public TokenAndL(int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.AND_L;
+	}
 	public TokenAndL(){
 		super.tipo=Token.TipoToken.AND_L;
 	}

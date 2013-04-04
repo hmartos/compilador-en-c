@@ -1,5 +1,8 @@
 package analizadorSintactico;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import gestorErrores.ErrorSintactico;
 import gestorErrores.GestorDeErrores;
 import tablaSimbolos.PalRes;
@@ -7,20 +10,19 @@ import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import token.TokenLambda;
 import analizadorLexico.AnalizadorLexico;
+import analizadorSemantico.AnalizadorSemantico;
 
 public class AnalizadorSintactico {
 	
 	AnalizadorLexico lexico;
+	AnalizadorSemantico semantico;
 	GestorDeErrores errores;
 	TablaSimbolos simbolos;
 	Token tokenActual;
 	Token tokenLambda;
-	Object[][] aa= {{"","asda"}};
-	int col;
-	int row;
 	Primeros primeros;
 	
-	public AnalizadorSintactico(AnalizadorLexico al,GestorDeErrores ge,TablaSimbolos ts){
+	public AnalizadorSintactico(AnalizadorLexico al,GestorDeErrores ge,TablaSimbolos ts,AnalizadorSemantico s){
 		
 		tokenLambda=new TokenLambda();
 		primeros=new Primeros();
@@ -28,18 +30,19 @@ public class AnalizadorSintactico {
 		lexico=al;
 		errores=ge;
 		simbolos=ts;
+		semantico=s;
 	}
 	
 	
 	public boolean analizar(){
 				
 		tokenActual=lexico.Scan();
-		return analizarRec(NT.PROGRAMA,0);
+		return analizarRec(NT.PROGRAMA,0)==null? true:false;
 	}
 	
 	
-	
-	boolean analizarRec(NT nT,int nRegla){
+	//Retorna los atributos de este nodo (NT). null si hay un error.
+	HashMap<String,Object> analizarRec(NT nT,int nRegla){
 		
 		Object[] regla=Gramatica.reglasGramatica[nT.ordinal()][nRegla];
 		int nTerm=0;
@@ -53,15 +56,28 @@ public class AnalizadorSintactico {
 		 * 		Si no se puede aplicar ninguna pero en sus primeros esta lambda, continuamos con el siguiente termino.
 		 * 		Si no se puede aplicar ninguna y no esta lambda -> error
 		 */
+		
+		//Parte semantico: atributos de este NT
+		HashMap<String,Object> atribActual = new HashMap<String,Object>();
+		
+		/*Parte semantico: la lista con los atributos que recibe de sus hijos (en caso de ser un NT)
+		o el token que coincide con el T (en caso de ser T) 
+		Para eso ponemos object.*/
+		ArrayList<Object> listaAtrib= new ArrayList<Object>();
+		
+		
 		while (nTerm<regla.length){
 			Object termAct=regla[nTerm];
 			System.out.println("Estamos en "+nT.toString()+ ". Vamos por " +termAct.toString());
 			
+			
+			
 			if (termAct instanceof NT){
 				int nReglaNT=selectorRegla((NT) termAct);
 				if(nReglaNT!=-1){
-					//System.out.println("Aplicamos "+termAct.toString());
-					valido=valido && analizarRec((NT) termAct,nReglaNT);
+					HashMap<String,Object> atribHijo=analizarRec((NT) termAct,nReglaNT);
+					if (atribHijo==null) valido=false;
+					listaAtrib.add(atribHijo); //Semantico
 					nTerm++;
 				
 				}else{//No se puede aplicar ninguna regla
@@ -72,10 +88,10 @@ public class AnalizadorSintactico {
 					}
 					else{
 						//Lanzar error.
-						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,null,nT));
+						errores.add(new ErrorSintactico(tokenActual.getLinea(), tokenActual.getCol(), "",tokenActual,null,nT));
 						System.out.println("=====> ERROR!!: No podemos aplicar ningua regla para "+termAct.toString()+" con el token "+ tokenActual.toString());
 						//Para el depurado en cuanto hay un error devolvemos false (Solo probamos programas correctos)
-						return false;
+						return null;
 						/*valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
@@ -89,15 +105,16 @@ public class AnalizadorSintactico {
 						//Coincide con la palabra reservada esperada.
 						System.out.println("Coincide "+termAct.toString());
 						nTerm++;
+						listaAtrib.add(tokenActual); //Semantico
 						tokenActual=lexico.Scan();
 						System.out.println(".  nuevo token: "+tokenActual.toString());
 					}
 					else{
 						//Lanzar error.
 						System.out.println("=====> ERROR!!: No coincide esperado "+termAct.toString()+" con el token "+ tokenActual.toString());
-						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT)); 
+						errores.add(new ErrorSintactico(tokenActual.getLinea(), tokenActual.getCol(), "",tokenActual,termAct,nT)); 
 						//Para el depurado en cuanto hay un error devolvemos false (Solo probamos programas correctos)
-						return false;
+						return null;
 						/*valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
@@ -115,15 +132,16 @@ public class AnalizadorSintactico {
 						//El token actual coincide con el terminal de la regla.
 						System.out.println("Coincide "+termAct.toString());
 						nTerm++;
+						listaAtrib.add(tokenActual); //Semantico
 						tokenActual=lexico.Scan();
 						System.out.println(".  nuevo token: "+tokenActual.toString());
 						
 					}else{
 						//Lanzar error.
-						errores.add(new ErrorSintactico(-1, -1, "",tokenActual,termAct,nT));
+						errores.add(new ErrorSintactico(tokenActual.getLinea(), tokenActual.getCol(), "",tokenActual,termAct,nT));
 						System.out.println("=====> ERROR!!: No coincide esperado "+termAct.toString()+" con  "+ tokenActual.toString());
 						//Para el depurado en cuanto hay un error devolvemos false (Solo probamos programas correctos)
-						return false;
+						return null;
 						/*valido=false;
 						tokenActual=lexico.Scan(); // y seguimos con el siguiente token para ver si coincide en ese contexto.
 						if (tokenActual.getTipo().equals(Token.TipoToken.FIN)){
@@ -135,9 +153,11 @@ public class AnalizadorSintactico {
 				
 			}
 		}
-		
-		
-		return valido;
+		if (valido){
+			semantico.ejecutar(nT,nRegla,listaAtrib,atribActual);
+		//AQUI ha acabado la regla y se deben ejecutar las acciones semanticas.
+		}
+		return valido ? atribActual : null;
 	}
 	
 	

@@ -4,6 +4,11 @@ public class TokenSimboloAdicion extends Token {
 
 	TipoTokenSimboloAdicion tipoAsig;
 	
+	public TokenSimboloAdicion(TipoTokenSimboloAdicion t,int l, int c){
+		super(l,c);
+		super.tipo=Token.TipoToken.SIMBOLO_ADICION;
+		tipoAsig=t;
+	}
 	
 	public TokenSimboloAdicion(TipoTokenSimboloAdicion t){
 		super.tipo=Token.TipoToken.SIMBOLO_ADICION;
