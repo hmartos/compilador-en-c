@@ -38,6 +38,7 @@ import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
 import analizadorLexico.AnalizadorLexico;
+import analizadorSemantico.AnalizadorSemantico;
 import analizadorSintactico.AnalizadorSintactico;
 
 public class ClasePrincipal extends JFrame {
@@ -55,6 +56,8 @@ public class ClasePrincipal extends JFrame {
 	
 	AnalizadorLexico analizador;
 	AnalizadorSintactico sintactico;
+	AnalizadorSemantico semantico;
+	
 	TablaSimbolos TS;
 	GestorDeErrores GE;
 	static ArrayList<Token> listaToken;
@@ -273,10 +276,12 @@ public class ClasePrincipal extends JFrame {
 					
 					if (modoTextoEscrito){
 						analizador =new AnalizadorLexico(true,textoCodigo.getText(),TS,GE);
-						sintactico= new AnalizadorSintactico(analizador, GE, TS);
+						semantico= new AnalizadorSemantico(GE, TS);
+						sintactico= new AnalizadorSintactico(analizador, GE, TS, semantico);
 					}else{
 						analizador = new AnalizadorLexico(false,ruta, TS,GE);
-						sintactico= new AnalizadorSintactico(analizador, GE, TS);
+						semantico= new AnalizadorSemantico(GE, TS);
+						sintactico= new AnalizadorSintactico(analizador, GE, TS, semantico);
 						
 					}
 					

@@ -16,6 +16,10 @@ public class GestorDeErrores {
 	public void add(ErrorCompilador e){
 		this.cola.add(e);
 	}
+	
+	public void addLista(ArrayList<ErrorCompilador> lista){
+		cola.addAll(lista);
+	}
 
 	public ArrayList<ErrorCompilador> getListaErrores() {
 		return cola;
