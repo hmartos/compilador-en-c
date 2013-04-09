@@ -1,8 +1,11 @@
 package analizadorSemantico;
 
+import gestorErrores.ErrorCompilador;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
 public class AccionCondicionada extends Accion {
@@ -140,7 +143,7 @@ public class AccionCondicionada extends Accion {
 		valor2=null;
 		
 	}
-	public void ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual) {
+	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual,TablaSimbolos ts) {
 		//Object oper1 = valor1==null ? (listaAtrib.get(emisor1).
 		Object oper1=null;
 		Object oper2=null;
@@ -191,11 +194,13 @@ public class AccionCondicionada extends Accion {
 		if (hacerTrue) accionesEjecutar=accionesTrue;
 		else accionesEjecutar=accionesFalse;
 		
+		ArrayList<ErrorCompilador> listaErrores = new ArrayList<ErrorCompilador>(); 
 		if(accionesEjecutar!=null){
 			for(int i=0;i<accionesEjecutar.length;i++){
-				accionesEjecutar[i].ejecutar(listaAtrib, atribActual);
+				listaErrores.addAll(accionesEjecutar[i].ejecutar(listaAtrib, atribActual,ts));
 			}
 		}
+		return listaErrores;
 
 	}
 	

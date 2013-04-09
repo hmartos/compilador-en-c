@@ -1,9 +1,13 @@
 package analizadorSemantico;
 
+import gestorErrores.ErrorCompilador;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tablaSimbolos.TablaSimbolos;
+
 public abstract class  Accion {
-	public abstract void ejecutar(ArrayList<Object> listaAtrib,HashMap<String,Object>atribActual);
+	public abstract ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String,Object>atribActual,TablaSimbolos ts);
 		
 }

@@ -1,8 +1,11 @@
 package analizadorSemantico;
 
+import gestorErrores.ErrorCompilador;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
 public class AccionAsignar extends Accion {
@@ -96,7 +99,7 @@ public class AccionAsignar extends Accion {
 		valor2=null;
 		
 	}
-	public void ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual) {
+	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual,TablaSimbolos ts) {
 		//Object oper1 = valor1==null ? (listaAtrib.get(emisor1).
 		Object oper1=null;
 		Object oper2=null;
@@ -143,6 +146,7 @@ public class AccionAsignar extends Accion {
 			resultado=oper1;
 		}
 		atribActual.put(atrReceptor, resultado);
+		return new ArrayList<ErrorCompilador>();
 
 	}
 	
