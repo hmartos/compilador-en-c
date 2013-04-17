@@ -167,11 +167,11 @@ public class AccionCondicionada extends Accion {
 			
 			//mismo codigo que para oper1
 			if (emisor2<-1){ //Es un valor directo
-				oper1=valor2;
+				oper2=valor2;
 			}else{ //Es un valor de la listaAtrib.
 				Object emi;
-				if (emisor1==-1) emi=atribActual; //es atribActual
-				else emi=listaAtrib.get(emisor1);// es de listaAtrib
+				if (emisor2==-1) emi=atribActual; //es atribActual
+				else emi=listaAtrib.get(emisor2);// es de listaAtrib
 				
 				if (emi instanceof HashMap){// es una lista de atributos de un NT
 					oper2=((HashMap<String, Object>) emi).get(atrEmisor2);
@@ -213,6 +213,17 @@ public class AccionCondicionada extends Accion {
 				return op1==op2;
 			}else if (operacion.equals("distinto")){
 				return op1!=op2;
+			}
+		}
+		
+		else if ((oper1 instanceof String)&& (oper2 instanceof String)){
+			String op1= (String)oper1;
+			String op2=(String)oper2;
+			if (operacion.equals("igual")){
+				return op1.equals(op2);
+				
+			}else if (operacion.equals("distinto")){
+				return !op1.equals(op2);
 			}
 		}
 		return false;

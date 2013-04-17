@@ -269,53 +269,71 @@ public class AccionesGramatica {
 	/*67.2.  λ*/
 /*68. EXP_ORB  -> */
 	/*68.1. EXP_XORB REXP_ORB*/
-/*69. REXP_ORB ->  */
-	/*69.1. | EXP_ORB */
-	/*69.2.  λ*/
-/*70. EXP_XORB  ->  */
-	/*70.1. EXP_ANDB REXP_XORB*/
-/*71. REXP_XORB -> */
-	/*71.1. ^ EXP_XORB */
-	/*71.2.  λ*/
-/*72. EXP_ANDB  ->  */
-	/*72.1. EXP_REL REXP_ANDB */
-/*73. REXP_ANDB -> */
-	/*73.1. & EXP_ANDB */
-	/*73.2.  λ*/
-/*74. EXP_REL -> */
-	/*74.1. EXP_COMP REXP_REL*/
-/*75. REXP_REL -> */
-	/*75.1. OP_REL EXP_REL */
-	/*75.2.  λ*/
-/*76. OP_REL -> */
-	/*76.1. != */
-	/*76.2.  == */
-/*77. EXP_COMP -> */
-	/*77.1. EXP_DESPL  REXP_COMP */
-/*78. REXP_COMP -> */
-	/*78.1. OP_COMP   EXP_COMP  */
-	/*78.2.   λ*/
-/*79. OP_COMP ->   */
-	/*79.1. < */
-	/*79.2. <= */
-	/*79.3.  > */
-	/*79.4.  >= */
-/*80. EXP_DESPL -> */
-	/*80.1. EXP_AD REXP_DESPL*/
-/*81. REXP_DESPL -> */
-	/*81.1. OP_DESPL  EXP_DESPL */
-	/*81.2.  λ*/
-/*82. OP_DESPL ->  */
-	/*82.1.  >> */
-	/*82.2.  << */
-/*83. EXP_AD  ->  */
-	/*83.1. EXP_MULT REXP_AD*/
-/*84. REXP_AD  ->  */
-	/*84.1. OP_AD EXP_AD */
-	/*84.2.  λ*/
-/*85. OP_AD  ->   */
-	/*85.1. + */
-	/*85.2.  -*/
+/*69. REXP_ORB ->  */			{
+	/*69.1. | EXP_ORB */ 			{new AccionAsignar("tipo", 1, "tipo")},
+	/*69.2.  λ*/					{new AccionAsignar("tipo","vacio")} 
+								},
+/*70. EXP_XORB  ->  */			{
+	/*70.1. EXP_ANDB REXP_XORB*/	{} //compatible
+								},
+/*71. REXP_XORB -> */			{
+	/*71.1. ^ EXP_XORB */			{new AccionAsignar("tipo", 1, "tipo")},
+	/*71.2.  λ*/					{new AccionAsignar("tipo","vacio")} 
+								},
+/*72. EXP_ANDB  ->  */			{
+	/*72.1. EXP_REL REXP_ANDB */	{}//compatible
+								},
+/*73. REXP_ANDB -> */			{
+	/*73.1. & EXP_ANDB */			{new AccionAsignar("tipo", 1, "tipo")},
+	/*73.2.  λ*/					{new AccionAsignar("tipo","vacio")} 
+								},
+/*74. EXP_REL -> */				{
+	/*74.1. EXP_COMP REXP_REL*/		{}//compatible
+								},
+/*75. REXP_REL -> */			{
+	/*75.1. OP_REL EXP_REL */		{new AccionAsignar("tipo", 1, "tipo")},
+	/*75.2.  λ*/					{new AccionAsignar("tipo","vacio")}
+								},
+/*76. OP_REL -> */				{
+	/*76.1. != */					{new AccionAsignar("tipo","vacio")},
+	/*76.2.  == */					{new AccionAsignar("tipo","vacio")}
+								},
+/*77. EXP_COMP -> */			{
+	/*77.1. EXP_DESPL  REXP_COMP */	{}//compatible
+								},
+/*78. REXP_COMP -> */			{
+	/*78.1. OP_COMP   EXP_COMP  */	{new AccionAsignar("tipo", 1, "tipo")},
+	/*78.2.   λ*/					{new AccionAsignar("tipo","vacio")}
+								},
+/*79. OP_COMP ->   */			{
+	/*79.1. < */					{new AccionAsignar("tipo","vacio")},
+	/*79.2. <= */					{new AccionAsignar("tipo","vacio")},
+	/*79.3.  > */					{new AccionAsignar("tipo","vacio")},
+	/*79.4.  >= */					{new AccionAsignar("tipo","vacio")}
+								},
+/*80. EXP_DESPL -> */			{
+	/*80.1. EXP_AD REXP_DESPL*/		{}//compatible
+								},
+/*81. REXP_DESPL -> */			{
+	/*81.1. OP_DESPL  EXP_DESPL */	{new AccionAsignar("tipo", 1, "tipo")},
+	/*81.2.  λ*/					{new AccionAsignar("tipo","vacio")}
+								},
+/*82. OP_DESPL ->  */			{
+	/*82.1.  >> */					{new AccionAsignar("tipo","vacio")},
+	/*82.2.  << */					{new AccionAsignar("tipo","vacio")}
+								},
+/*83. EXP_AD  ->  */			{
+	/*83.1. EXP_MULT REXP_AD*/		{}//compatible
+								},
+/*84. REXP_AD  ->  */			{
+	/*84.1. OP_AD EXP_AD */			{new AccionAsignar("tipo", 1, "tipo")},
+	/*84.2.  λ*/					{new AccionAsignar("tipo","vacio")}
+								},
+								
+/*85. OP_AD  ->   */		
+	/*85.1. + */					
+	/*85.2.  -*/				
+							
 /*86. EXP_MULT -> */
 	/*86.1. EXP1 REXP_MULT*/
 /*87. REXP_MULT -> */
