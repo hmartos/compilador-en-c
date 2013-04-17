@@ -18,7 +18,7 @@ public class AccionesGramatica {
 	/*3.3.  DEFINICION_STRUCT */	{},
 	/*3.4. DEFINICION_ENUM */		{},
 	/*3.5. DEFINICION_UNION */		{},
-	/*3.6.  DEFINICION_TYPEDEF*/	{}}
+	/*3.6.  DEFINICION_TYPEDEF*/	{}},
 /*4. RDEFINICION -> */
 	/*4.1. ;  */
 	/*4.2. iden RDEFINICION2*/
@@ -204,22 +204,22 @@ public class AccionesGramatica {
 /*50. SENTENCIA_ELSE -> */
 	/*50.1. else L_SENTENCIAS */
 	/*50.2.  λ*/
-/*51. SENTENCIA_BUCLE -> */
-	/*51.1. do L_SENTENCIAS while(EXP) */
-	/*51.2.  while(EXP) L_SENTENCIAS */
-	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/
-/*52. CAMPO  -> */
-	/*52.1. λ */
-	/*52.2.   EXP*/
-/*53. SENTENCIA_CASE -> */
-	/*53.1. switch (EXP) L_CASES*/
-/*54. L_CASES  -> */
-	/*54.1. CASE */
-	/*54.2.  {CASES}*/
-/*55. CASES  ->  */
-	/*55.1. case EXP_COND: RCASES */
-	/*55.2.  default: RCASES2 */
-	/*55.3.  λ*/
+/*51. SENTENCIA_BUCLE -> */			{
+	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto","null",new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))},
+	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto","null",new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))},
+	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto","null",new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))}},
+/*52. CAMPO  -> */	{
+	/*52.1. λ */			{new AccionAsignar("tipo","vacio")},
+	/*52.2.   EXP*/		{new AccionAsignar("tipo",0,"tipo")}},
+/*53. SENTENCIA_CASE -> */	{
+	/*53.1. switch (EXP) L_CASES*/	{}},
+/*54. L_CASES  -> */ {
+	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
+	/*54.2.  {CASES}*/	{new AccionAsignar("tipo",1,"tipo")}},
+/*55. CASES  ->  */	{
+	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","entero", new AccionCondicionada(1,"esConstante","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))
+	/*55.2.  default: RCASES2 */	{new AccionCondicionada("tipo",2,"tipo")},
+	/*55.3.  λ*/		{}},
 /*56. RCASES  ->  */
 	/*56.1. BLOQUE_SENTENCIAS CASES */
 	/*56.2.  λ*/
