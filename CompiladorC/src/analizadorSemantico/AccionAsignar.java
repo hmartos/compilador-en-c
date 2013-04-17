@@ -123,11 +123,11 @@ public class AccionAsignar extends Accion {
 			
 			//mismo codigo que para oper1
 			if (emisor2<-1){ //Es un valor directo
-				oper1=valor2;
+				oper2=valor2;
 			}else{ //Es un valor de la listaAtrib.
 				Object emi;
-				if (emisor1==-1) emi=atribActual; //es atribActual
-				else emi=listaAtrib.get(emisor1);// es de listaAtrib
+				if (emisor2==-1) emi=atribActual; //es atribActual
+				else emi=listaAtrib.get(emisor2);// es de listaAtrib
 				
 				if (emi instanceof HashMap){// es una lista de atributos de un NT
 					oper2=((HashMap<String, Object>) emi).get(atrEmisor2);
