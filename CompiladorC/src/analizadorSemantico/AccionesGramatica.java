@@ -245,47 +245,47 @@ public class AccionesGramatica {
 	/*52.1. ? */			{new AccionAsignar("tipo","vacio")},
 	/*52.2.   EXP*/		{new AccionAsignar("tipo",0,"tipo")}},
 /*53. SENTENCIA_CASE -> */	{
-	/*53.1. switch (EXP) L_CASES*/	{}},
+	/*53.1. switch (EXP) L_CASES*/	{new AccionCondicionada(2,"tipo","igual","entero", new AccionAsignar("tipo",4,"tipo"), new AccionAsignar("tipo","error"))}},
 /*54. L_CASES  -> */ {
 	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
 	/*54.2.  {CASES}*/	{new AccionAsignar("tipo",1,"tipo")}},
 /*55. CASES  ->  */	{
 	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","igual","entero", new AccionCondicionada(1,"esConstante","igual","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
 	/*55.2.  default: RCASES2 */	{new AccionAsignar("tipo",2,"tipo")},
-	/*55.3.  ?*/		{}},
-/*56. RCASES  ->  */
-	/*56.1. BLOQUE_SENTENCIAS CASES */
-	/*56.2.  ?*/
-/*57. RCASES2  -> */
-	/*57.1.  BLOQUE_SENTENCIAS */
-	/*57.2.  ?*/
-	/*57.3. */
-/*58. CASE ->  */
-	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */
-	/*58.2.  default: BLOQUE_SENTENCIAS*/
+	/*55.3.  ?*/		{new AccionAsignar("tipo","vacio")}},
+/*56. RCASES  ->  */{
+	/*56.1. BLOQUE_SENTENCIAS CASES */	{new AccionCondicionada(0,"tipo","igual","vacio", new AccionAsignar("tipo",1,"tipo"), new AccionAsignar("tipo","error"))},
+	/*56.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
+/*57. RCASES2  -> */{
+	/*57.1.  BLOQUE_SENTENCIAS */	{new AccionAsignar("tipo",0,"tipo")},
+	/*57.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
+	/*57.3. */ //esta regla no existe
+/*58. CASE ->  */{
+	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */	{new AccionCondicionada(1,"tipo","igual","entero", new AccionCondicionada(1,"esConstante","igual","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
+	/*58.2.  default: BLOQUE_SENTENCIAS*/	{new AccionAsignar("tipo",2,"tipo")}},
 
 
 /* - - Definicion de Expresiones - -*/
 
-/*59. EXP -> */
-	/*59.1. EXP_COND REXP*/
-/*60. REXP -> */
-	/*60.1. OP_ASIG EXP */
-	/*60.2.  ?*/
-/*61. OP_ASIG  -> */
-	/*61.1. =  */
-	/*61.2.  += */
-	/*61.3.  -= */
-	/*61.4.  *= */
-	/*61.5.  /= */
-	/*61.6.  <<= */
-	/*61.7.  >>= */
-	/*61.8.  &= */
-	/*61.9.  |= */
-	/*61.10.  ^= */
-	/*61.11.  %=*/
-/*62. EXP_COND  -> */
-	/*62.1. EXP_ORL REXP_COND*/
+/*59. EXP -> */{
+	/*59.1. EXP_COND REXP*/	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"))}},
+/*60. REXP -> */{
+	/*60.1. OP_ASIG EXP */	{new AccionAsignar("tipo",1,"tipo")},
+	/*60.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
+/*61. OP_ASIG  -> */{
+	/*61.1. =  */	{new AccionAsignar("tipo","vacio")},
+	/*61.2.  += */	{new AccionAsignar("tipo","vacio")},
+	/*61.3.  -= */	{new AccionAsignar("tipo","vacio")},
+	/*61.4.  *= */	{new AccionAsignar("tipo","vacio")},
+	/*61.5.  /= */	{new AccionAsignar("tipo","vacio")},
+	/*61.6.  <<= */	{new AccionAsignar("tipo","vacio")},
+	/*61.7.  >>= */	{new AccionAsignar("tipo","vacio")},
+	/*61.8.  &= */	{new AccionAsignar("tipo","vacio")},
+	/*61.9.  |= */	{new AccionAsignar("tipo","vacio")},
+	/*61.10.  ^= */	{new AccionAsignar("tipo","vacio")},
+	/*61.11.  %=*/	{new AccionAsignar("tipo","vacio")}},
+/*62. EXP_COND  -> */{
+	/*62.1. EXP_ORL REXP_COND*/	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
 /*63. REXP_COND ->*/
 	/*63.1.  ? */
 	/*63.2.  ? EXP : EXP REXP_COND*/
