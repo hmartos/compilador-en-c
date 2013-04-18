@@ -250,7 +250,7 @@ public class AccionesGramatica {
 	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
 	/*54.2.  {CASES}*/	{new AccionAsignar("tipo",1,"tipo")}},
 /*55. CASES  ->  */	{
-	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","entero", new AccionCondicionada(1,"esConstante","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
+	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","igual","entero", new AccionCondicionada(1,"esConstante","igual","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
 	/*55.2.  default: RCASES2 */	{new AccionAsignar("tipo",2,"tipo")},
 	/*55.3.  ?*/		{}},
 /*56. RCASES  ->  */
