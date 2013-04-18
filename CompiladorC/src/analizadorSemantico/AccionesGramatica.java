@@ -32,7 +32,7 @@ public class AccionesGramatica {
 	
 /*5. RDEFINICION2 -> */					{
 	/*5.1. CORCHETES RDEF_VARIABLE */		{new AccionAsignar("tipo",1,"tipo")},
-	/*5.2. (L_PARAMS) RDEF_FUNCION*/		{new AccionCondicionada(0,"tipo","igual","vacio",new AccionAsignar("tipo","vacio"),new AccionCondicionada(0,"tipo","igual",1,new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error")))},
+	/*5.2. (L_PARAMS) RDEF_FUNCION*/		{new AccionCondicionada(1,"tipo","igual","vacio",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual",1,new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error")))},
 										},
 							
 /*6. RDEF_VARIABLE -> */				{ // DUDAAAAA
@@ -160,8 +160,8 @@ public class AccionesGramatica {
 /*32. TIPO -> */ {
 	/*32.1. L_MODIFICADORES RTIPO*/ {new AccionCondicionada(0,"tipo","igual","vacio", new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))}},
 /*33. RTIPO -> */ {
-	/*33.1. TIPO_PRIMITIVO INDIRECCION */
-	/*33.2.  iden INDIRECCION*/ },
+	/*33.1. TIPO_PRIMITIVO INDIRECCION */	{new AccionAsignar("tipo",0,"tipo"),new AccionAsignar("numDim",1,"num")},
+	/*33.2.  iden INDIRECCION*/ 			{new AccionCondicionada(/*Si 0,"tipo", estaEnLaTabla*/, new Accion[] {new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("numDim",1,"num")})}},
 /*34. INDIRECCION -> */ {
 	/*34.1. * INDIRECCION */ {new AccionAsignar("tipo","vacio")},
 	/*34.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
