@@ -149,10 +149,10 @@ public class AccionesGramatica {
 	/*29.3.  iden RL_PARAMS3*/ {new AccionAsignar("tipo",1,"tipo")}},
 /*30. RL_PARAMS2 -> */ {
 	/*30.1. ? */ {new AccionAsignar("tipo","vacio")},
-	/*30.2.   ,TIPO RL_PARAMS2*/ },
+	/*30.2.   ,TIPO RL_PARAMS2*/ {new AccionCondicionada(1,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo","vacio")))}},
 /*31. RL_PARAMS3 -> */ {
 	/*31.1. ? */ {new AccionAsignar("tipo","vacio")},
-	/*31.2.   ,TIPO iden RL_PARAMS3*/ },
+	/*31.2.   ,TIPO iden RL_PARAMS3*/ {new AccionCondicionada(1,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo","vacio")))}},
 
 
 /* - - Definicion de Tipos - -*/
