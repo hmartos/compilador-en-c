@@ -457,8 +457,8 @@ public class AccionesGramatica {
 	/*104.2.  ?*/								{new AccionAsignar("tipo","vacio")}},
 /*105. REXP4 -> */{
 	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionCondicionada("estaEnTS",2,"lexema",new AccionAsignar("tipo","error"),new AccionAsignar("tipo",0,"tipo"))},
-	/*105.2.  EXP_SIN_IDEN REXP; */																{},
-	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{/*TS*/},
+	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},
+	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar***,,"tipo")}))}},
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*TS*/},
 	/*105.5.  OP_INC IDENTIFICADOR*/															{}},
 
