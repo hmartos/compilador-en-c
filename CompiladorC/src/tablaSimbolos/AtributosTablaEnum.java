@@ -7,6 +7,12 @@ public class AtributosTablaEnum extends Atributo {
 	int dim;
 	ArrayList<Integer> tamaños;
 	
+	@Override
+	public String getTipo() {
+		
+		return tipo;
+	}
+	
 	
 	
 }
