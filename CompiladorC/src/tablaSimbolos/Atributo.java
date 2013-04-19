@@ -1,5 +1,6 @@
 package tablaSimbolos;
 
-public class Atributo {
+public abstract class Atributo {
 
+	public abstract String getTipo();
 }
