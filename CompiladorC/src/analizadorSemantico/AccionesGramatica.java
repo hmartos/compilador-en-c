@@ -35,7 +35,7 @@ public class AccionesGramatica {
 	/*5.2. (L_PARAMS) RDEF_FUNCION*/		{new AccionCondicionada(1,"tipo","igual","vacio",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual",1,new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error")))},
 										},
 							
-/*6. RDEF_VARIABLE -> */				{ // DUDAAAAA
+/*6. RDEF_VARIABLE -> */				{ 
 	/*6.1. OP_ASIG EXP RDEF_VARIABLE2 */	{new AccionCondicionada(1,"tipo","igual",2,"tipo",new AccionAsignar("tipo",2,"tipo"),new AccionCondicionada(2,"tipo","igual","vacio",new AccionAsignar("tipo",1,"tipo"), new AccionAsignar("tipo","error")))},
 	/*6.2. RDEF_VARIABLE2*/					{new AccionAsignar("tipo",1,"tipo")},   
 										},  
@@ -295,13 +295,13 @@ public class AccionesGramatica {
 	/*65.1. |*/		{new AccionAsignar("tipo",1,"tipo")},
 	/*65.2.  EXP_ORL */	//esta sobra, va dentro de la 65.1
 	/*65.3.  ?*/	{new AccionAsignar("tipo","vacio")}},	
-/*66. EXP_ANDL -> */
-	/*66.1. EXP_ORB REXP_ANDL*/
-/*67. REXP_ANDL -> */
-	/*67.1. && EXP_ANDL */
-	/*67.2.  ?*/
-/*68. EXP_ORB  -> */
-	/*68.1. EXP_XORB REXP_ORB*/
+/*66. EXP_ANDL -> */			{
+	/*66.1. EXP_ORB REXP_ANDL*/		{}	}, // Es compatible
+/*67. REXP_ANDL -> */		{
+	/*67.1. && EXP_ANDL */		{new AccionAsignar("tipo", 1, "tipo")},
+	/*67.2.  ?*/			    {new AccionAsignar("tipo","vacio")} },
+/*68. EXP_ORB  -> */			{
+	/*68.1. EXP_XORB REXP_ORB*/		{  }},   // Es compatible
 /*69. REXP_ORB ->  */			{
 	/*69.1. | EXP_ORB */ 			{new AccionAsignar("tipo", 1, "tipo")},
 	/*69.2.  ?*/					{new AccionAsignar("tipo","vacio")} 
@@ -456,7 +456,7 @@ public class AccionesGramatica {
 	/*104.1. EXP */								{new AccionAsignar("tipo",0,"tipo")},
 	/*104.2.  ?*/								{new AccionAsignar("tipo","vacio")}},
 /*105. REXP4 -> */{
-	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{/*TS*/},
+	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionCondicionada("estaEnTS",2,"lexema",new AccionAsignar("tipo","error"),new AccionAsignar("tipo",0,"tipo"))},
 	/*105.2.  EXP_SIN_IDEN REXP; */																{},
 	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{/*TS*/},
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*TS*/},
