@@ -1,5 +1,9 @@
 package analizadorSemantico;
 
+import acciones.Accion;
+import acciones.AccionAsignar;
+import acciones.AccionCondicionada;
+
 public class AccionesGramatica {
 	
 	

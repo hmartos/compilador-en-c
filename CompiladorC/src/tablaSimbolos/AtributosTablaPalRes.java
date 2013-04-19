@@ -14,4 +14,7 @@ public class AtributosTablaPalRes extends Atributo {
 		return palabra;
 	}
 
+	public String getLexema(){
+		return palabra.toString().substring(8);
+	}
 }
