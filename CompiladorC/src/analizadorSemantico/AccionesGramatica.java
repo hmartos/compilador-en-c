@@ -93,15 +93,15 @@ public class AccionesGramatica {
 	/*14.2.  ;*/								{new AccionAsignar("tipo","vacio")},
 											},
 /*15. IDENTIFICADOR -> */								{
-	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/	{  /******* Calcular con el & y los * y el RIDENTIFICADOR, si son corchetes y tal*******************************/},
+	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/	{new AccionCondicionada(0,"tieneAmp","igual","true",new Accion[] {new AccionAsignar("tipo",2,tipo()/*Saca del objeto 2 de la regla el tipo de la TS*/},new Accion[] {})},
 														},
 /*16. RIDENTIFICADOR ->*/		{					
-	/*16.1.  CORCHETES */			{new AccionAsignar("tipo",0,"tipo")},
+	/*16.1.  CORCHETES */			{new Accion[] {AccionAsignar("tipo",0,"tipo"), AccionAsignar("numCorchetes",0,"num")}},
 	/*16.2.  (L_PARAMS_LLAMADA) */	{new AccionAsignar("tipo",1,"tipo")},
 								},
 /*17. CORCHETES ->*/ {	
 	/*17.1.  ? */    {new AccionAsignar("tipo","vacio"), new AccionAsignar("num","0")},
-	/*17.2.  [CONTENIDO] CORCHETES*/ {new AccionAsignar("tipo","vacio"),new AccionAsignar("num",3,"0")}},
+	/*17.2.  [CONTENIDO] CORCHETES*/ {new AccionAsignar("tipo","vacio"),new AccionAsignar("num",3,Integer.toString(Integer.parseInt("num")+1))}},
 /*18. CONTENIDO -> */ {
 	/*18.1. ? */ {new AccionAsignar("tipo","vacio")},
 	/*18.2.  EXP*/ {new AccionAsignar("tipo",0,"tipo")}},
@@ -219,7 +219,7 @@ public class AccionesGramatica {
 	/*43.1. , REFERENCIA   INDIRECCION   RPRINTF2 */ 
 	/*43.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 /*44. REFERENCIA -> */ {
-	/*44.1. & */ {new AccionAsignar("tipo","vacio")},
+	/*44.1. & */ {new Accion[] {AccionAsignar("tipo","vacio"), AccionAsignar("numAmp","true")}},
 	/*44.2.   ?*/ {new AccionAsignar("tipo","vacio")}},
 /*45. RPRINTF2 -> */ {
 	/*45.1. EXP RPRINTF*/ {new AccionCondicionada(1,"tipo","igual","error", new AccionAsignar("tipo","error"), new AccionAsignar("tipo",0,"tipo"))}},
@@ -464,7 +464,5 @@ public class AccionesGramatica {
 
 	
 	};
-	
-	
 }
 
