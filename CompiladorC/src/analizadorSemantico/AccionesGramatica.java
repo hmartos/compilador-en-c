@@ -286,15 +286,15 @@ public class AccionesGramatica {
 	/*61.11.  %=*/	{new AccionAsignar("tipo","vacio")}},
 /*62. EXP_COND  -> */{
 	/*62.1. EXP_ORL REXP_COND*/	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
-/*63. REXP_COND ->*/
-	/*63.1.  ? */
-	/*63.2.  ? EXP : EXP REXP_COND*/
-/*64. EXP_ORL  ->  */
-	/*64.1. EXP_ANDL REXP_ORL*/
-/*65. REXP_ORL -> */
-	/*65.1. |*/
-	/*65.2.  EXP_ORL */
-	/*65.3.  ?*/
+/*63. REXP_COND ->*/{
+	/*63.1.  ? */	{new AccionAsignar("tipo","vacio")},
+	/*63.2.  ? EXP : EXP REXP_COND*/	{new AccionCondicionada(1,"tipo","esCompatible",3,"tipo", new AccionCondicionada(1,"tipo","esCompatible",4,"tipo", new AccionAsignar("tipo",1,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))}},
+/*64. EXP_ORL  ->  */{
+	/*64.1. EXP_ANDL REXP_ORL*/	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"))}},
+/*65. REXP_ORL -> */{
+	/*65.1. |*/		{new AccionAsignar("tipo",1,"tipo")},
+	/*65.2.  EXP_ORL */	//esta sobra, va dentro de la 65.1
+	/*65.3.  ?*/	{new AccionAsignar("tipo","vacio")}},	
 /*66. EXP_ANDL -> */
 	/*66.1. EXP_ORB REXP_ANDL*/
 /*67. REXP_ANDL -> */
