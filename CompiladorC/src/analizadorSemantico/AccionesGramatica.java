@@ -296,32 +296,32 @@ public class AccionesGramatica {
 	/*65.2.  EXP_ORL */	//esta sobra, va dentro de la 65.1
 	/*65.3.  ?*/	{new AccionAsignar("tipo","vacio")}},	
 /*66. EXP_ANDL -> */			{
-	/*66.1. EXP_ORB REXP_ANDL*/		{}	}, // Es compatible
+	/*66.1. EXP_ORB REXP_ANDL*/		{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}}, 
 /*67. REXP_ANDL -> */		{
 	/*67.1. && EXP_ANDL */		{new AccionAsignar("tipo", 1, "tipo")},
 	/*67.2.  ?*/			    {new AccionAsignar("tipo","vacio")} },
 /*68. EXP_ORB  -> */			{
-	/*68.1. EXP_XORB REXP_ORB*/		{  }},   // Es compatible
+	/*68.1. EXP_XORB REXP_ORB*/		{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}}, 
 /*69. REXP_ORB ->  */			{
 	/*69.1. | EXP_ORB */ 			{new AccionAsignar("tipo", 1, "tipo")},
 	/*69.2.  ?*/					{new AccionAsignar("tipo","vacio")} 
 								},
 /*70. EXP_XORB  ->  */			{
-	/*70.1. EXP_ANDB REXP_XORB*/	{} //compatible
+	/*70.1. EXP_ANDB REXP_XORB*/	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"))} 
 								},
 /*71. REXP_XORB -> */			{
 	/*71.1. ^ EXP_XORB */			{new AccionAsignar("tipo", 1, "tipo")},
 	/*71.2.  ?*/					{new AccionAsignar("tipo","vacio")} 
 								},
 /*72. EXP_ANDB  ->  */			{
-	/*72.1. EXP_REL REXP_ANDB */	{}//compatible
+	/*72.1. EXP_REL REXP_ANDB */	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}
 								},
 /*73. REXP_ANDB -> */			{
 	/*73.1. & EXP_ANDB */			{new AccionAsignar("tipo", 1, "tipo")},
 	/*73.2.  ?*/					{new AccionAsignar("tipo","vacio")} 
 								},
 /*74. EXP_REL -> */				{
-	/*74.1. EXP_COMP REXP_REL*/		{}//compatible
+	/*74.1. EXP_COMP REXP_REL*/		{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}
 								},
 /*75. REXP_REL -> */			{
 	/*75.1. OP_REL EXP_REL */		{new AccionAsignar("tipo", 1, "tipo")},
@@ -332,7 +332,7 @@ public class AccionesGramatica {
 	/*76.2.  == */					{new AccionAsignar("tipo","vacio")}
 								},
 /*77. EXP_COMP -> */			{
-	/*77.1. EXP_DESPL  REXP_COMP */	{}//compatible
+	/*77.1. EXP_DESPL  REXP_COMP */	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}
 								},
 /*78. REXP_COMP -> */			{
 	/*78.1. OP_COMP   EXP_COMP  */	{new AccionAsignar("tipo", 1, "tipo")},
@@ -345,7 +345,7 @@ public class AccionesGramatica {
 	/*79.4.  >= */					{new AccionAsignar("tipo","vacio")}
 								},
 /*80. EXP_DESPL -> */			{
-	/*80.1. EXP_AD REXP_DESPL*/		{}//compatible
+	/*80.1. EXP_AD REXP_DESPL*/		{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}
 								},
 /*81. REXP_DESPL -> */			{
 	/*81.1. OP_DESPL  EXP_DESPL */	{new AccionAsignar("tipo", 1, "tipo")},
@@ -356,7 +356,7 @@ public class AccionesGramatica {
 	/*82.2.  << */					{new AccionAsignar("tipo","vacio")}
 								},
 /*83. EXP_AD  ->  */			{
-	/*83.1. EXP_MULT REXP_AD*/		{}//compatible
+	/*83.1. EXP_MULT REXP_AD*/		{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}
 								},
 /*84. REXP_AD  ->  */			{
 	/*84.1. OP_AD EXP_AD */			{new AccionAsignar("tipo", 1, "tipo")},
@@ -367,7 +367,7 @@ public class AccionesGramatica {
 	/*85.1. + */						{new AccionAsignar("tipo","vacio")},
 	/*85.2.  -*/						{new AccionAsignar("tipo","vacio")}},
 /*86. EXP_MULT -> */{
-	/*86.1. EXP1 REXP_MULT*/{/*esCompatible*/}},
+	/*86.1. EXP1 REXP_MULT*/	{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
 /*87. REXP_MULT -> */{
 	/*87.1. OP_MULT EXP_MULT */			{new AccionAsignar("tipo",1,"tipo")},
 	/*87.2.  ?*/						{new AccionAsignar("tipo","vacio")}},
@@ -390,7 +390,7 @@ public class AccionesGramatica {
 	/*91.1. ++ */						{new AccionAsignar("tipo","vacio")},
 	/*91.2.  --*/						{new AccionAsignar("tipo","vacio")}},
 /*92. EXP2 ->  */{
-	/*92.1. EXP3  REXP2*/				{/*esCompatible*/}},
+	/*92.1. EXP3  REXP2*/				{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
 /*93. REXP2  -> */{
 	/*93.1. OP_INC */					{new AccionAsignar("tipo",0,"tipo")},
 	/*93.2.  OP_SELECCION EXP3 */		{new AccionAsignar("tipo",0,"tipo")},
@@ -413,7 +413,7 @@ public class AccionesGramatica {
 
 /*97. REXP3 ->  */{
 	/*97.1. TIPO_PRIMITIVO INDIRECCION) EXP */			{/*sePuedeHacerCasting*/},
-	/*97.2.  EXP_SIN_IDEN REXP) */						{/*esCompatible*/},
+	/*97.2.  EXP_SIN_IDEN REXP) */						{new AccionCondicionada(0,"tipo","esCompatible",1,"tipo", new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))},
 	/*97.3.  MODIFICADOR L_MODIFICADORES RTIPO) EXP */	{/*sePuedeHacerCasting*/},
 	/*97.4.  iden REXP3_2 ) AUX*/						{/*esTipoDefinidoPorUsuario, esCompatible, esMayor*/new AccionCondicionada(/*si*/1,"esCasting","igual","true",/*entonces0*/new AccionCondicionada(/*si1*/4,"tipo","igual","vacio",/*entonces1*/new AccionAsignar("tipo",1,"tipo"),/*si no1*/new AccionCondicionada(/*si2*/4,"tipo","igual","error",/*entonces2*/new AccionAsignar("tipo",1,"tipo"),/*si no2*/new AccionAsignar("tipo","error"))),/*si no0*//*esCompatible*/null)}},
 /*98. EXP_SIN_IDEN -> */{
