@@ -19,8 +19,10 @@ public class CondicionEsCompatible extends ElemBinario implements Condicion {
 	
 	
 	public CondicionEsCompatible(Operando op1, Operando op2) {
-		super(op1, op2);
-		// TODO Auto-generated constructor stub
+		super();
+		oper1=new OperacionTipoTS(op1);
+		oper2=new OperacionTipoTS(op2);
+		
 	}
 
 	@Override
@@ -28,18 +30,27 @@ public class CondicionEsCompatible extends ElemBinario implements Condicion {
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		Object op1=oper1.getValor(listaAtrib, atribActual, ts);
 		Object op2=oper1.getValor(listaAtrib, atribActual, ts);
-		if (op1 instanceof String ){
-			String opString1=(String) op1;
-			String opString2=(String) op2;
-			Atributo attTabla =ts.busquedaCompleta(opString1).getAtt();
-			if (attTabla instanceof AtributosTablaTypeDef);
-			else if (attTabla instanceof AtributosTablaStruct);
-			else if (attTabla instanceof AtributosTablaPalRes){
-				String lex= ((AtributosTablaPalRes)attTabla).getLexema();
-				if (lex.equals("int")||lex.equals("float")||)
-			}
+		
+		if (op1==null || op2==null) return false;
+		Tipo t1, t2;
+		
+		t1=(Tipo) op1;
+		t2=(Tipo) op2;
+		if (t1.equals(t2)){
+			return true;
+		}else if (t1.getDim()==t2.getDim()){
+			if (t1.getTipo().equals("char")&&t2.getTipo().equals("int")) return true;
+			if (t1.getTipo().equals("int")&&t2.getTipo().equals("char")) return true;
+			if (t1.getTipo().equals("float")&&t2.getTipo().equals("int")) return true;
+			if (t1.getTipo().equals("int")&&t2.getTipo().equals("float")) return true;
+			if (t1.getTipo().equals("double")&&t2.getTipo().equals("int")) return true;
+			if (t1.getTipo().equals("int")&&t2.getTipo().equals("double")) return true;
+			if (t1.getTipo().equals("double")&&t2.getTipo().equals("float")) return true;
+			if (t1.getTipo().equals("float")&&t2.getTipo().equals("float")) return true;
+
 		}
-		return true;
+		return false;
+		
 	}
 
 	

@@ -1,6 +1,10 @@
 package tablaSimbolos;
 
-public abstract class Atributo {
+import java.util.ArrayList;
 
-	public abstract String getTipo();
+public abstract class Atributo {
+	int nCampos;
+	ArrayList<Integer> listaNombres;
+	
+
 }
