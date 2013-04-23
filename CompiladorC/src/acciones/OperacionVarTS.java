@@ -5,15 +5,16 @@ import java.util.HashMap;
 
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaEnum;
+import tablaSimbolos.AtributosTablaFuncion;
 import tablaSimbolos.AtributosTablaPalRes;
 import tablaSimbolos.AtributosTablaStruct;
 import tablaSimbolos.AtributosTablaTypeDef;
 import tablaSimbolos.AtributosTablaVariable;
 import tablaSimbolos.TablaSimbolos;
 
-public class OperacionTipoTS extends ElemUnario implements Operacion {
+public class OperacionVarTS extends ElemUnario implements Operacion {
 
-	public OperacionTipoTS(Operando op1) {
+	public OperacionVarTS(Operando op1) {
 		super(op1);
 		// TODO Auto-generated constructor stub
 	}
@@ -41,30 +42,14 @@ public class OperacionTipoTS extends ElemUnario implements Operacion {
 		
 		Atributo attTabla =ts.busquedaCompleta(lex).getAtt();
 		
-		if (attTabla instanceof AtributosTablaTypeDef){
-			String lex2= ((AtributosTablaTypeDef)attTabla).getTipoRel();
-			Tipo t=calcularTipo(ts,lex2);
-			if (t!=null){
-				return new Tipo(t.getTipo(),t.getDim()+((AtributosTablaTypeDef)attTabla).getDim());
-			}else return null;
-		}
-		else if (attTabla instanceof AtributosTablaStruct){
-			return new Tipo(lex,0);
-		}
-		else if (attTabla instanceof AtributosTablaEnum){
-			
-			return new Tipo(lex,0);
-		}
-		else if (attTabla instanceof AtributosTablaVariable){
-			return null;
+		
+		 if (attTabla instanceof AtributosTablaVariable){
+			return new Tipo (((AtributosTablaVariable)attTabla).getTipo(),((AtributosTablaVariable)attTabla).getDim());
 		}
 		
-		else if (attTabla instanceof AtributosTablaPalRes){
-			String lex2= ((AtributosTablaPalRes)attTabla).getLexema();
-			if (lex2.equals("int")||lex2.equals("float")||lex2.equals("char")||lex2.equals("double")){
-				return new Tipo(lex2,0);
-			}
-			else return null;
+		else if (attTabla instanceof AtributosTablaFuncion){
+			return new Tipo (((AtributosTablaFuncion)attTabla).getTipoRet(),((AtributosTablaFuncion)attTabla).getDimRet());
+
 		}
 		return null;
 	}
