@@ -110,6 +110,7 @@ public class AccionesGramatica {
 	/*18.1. ? */ {new AccionAsignar("tipo","vacio")},
 	/*18.2.  EXP*/ {new AccionAsignar("tipo",0,"tipo")}},
 /*19. DEFINICION_ENUM -> */ {
+		
 	/*19.1. enum iden{iden RENUM} ;*/ {new AccionAsignar("tipo",4,"tipo")}},
 /*20. RENUM -> */ {
 	/*20.1. = OP_ASIG EXP RENUM2 */ {new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo",4,"tipo"))},
@@ -184,9 +185,9 @@ public class AccionesGramatica {
 /*37. TIPO_PRIMITIVO -> */ {
 	/*37.1. void */ {new AccionAsignar("tipo",new OperandoCrearTipo("void",0))},
 	/*37.2. int */ {new AccionAsignar("tipo",new OperandoCrearTipo("int",0))},
-	/*37.3. char */ {new AccionAsignar("tipo","char")},
-	/*37.4.  float */ {new AccionAsignar("tipo","float")},
-	/*37.5. double*/ {new AccionAsignar("tipo","double")}},
+	/*37.3. char */ {new AccionAsignar("tipo",new OperandoCrearTipo("char",0))},
+	/*37.4.  float */ {new AccionAsignar("tipo",new OperandoCrearTipo("float",0))},
+	/*37.5. double*/ {new AccionAsignar("tipo",new OperandoCrearTipo("double",0))}},
 
 
 /* - - Definicion de Sentencias - -*/
@@ -242,19 +243,19 @@ public class AccionesGramatica {
 	/*50.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 	
 /*51. SENTENCIA_BUCLE -> */			{
-	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto","null",new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))},
-	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto","null",new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))},
-	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto","null",new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))}},
+	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto",new OperandoCrearTipo("null",0),new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))},
+	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))},
+	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))}},
 /*52. CAMPO  -> */	{
 	/*52.1. ? */			{new AccionAsignar("tipo","vacio")},
 	/*52.2.   EXP*/		{new AccionAsignar("tipo",0,"tipo")}},
 /*53. SENTENCIA_CASE -> */	{
-	/*53.1. switch (EXP) L_CASES*/	{new AccionCondicionada(2,"tipo","igual","int", new AccionAsignar("tipo",4,"tipo"), new AccionAsignar("tipo","error"))}},
+	/*53.1. switch (EXP) L_CASES*/	{new AccionCondicionada(2,"tipo","igual",new OperandoCrearTipo("int",0), new AccionAsignar("tipo",4,"tipo"), new AccionAsignar("tipo","error"))}},
 /*54. L_CASES  -> */ {
 	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
 	/*54.2.  {CASES}*/	{new AccionAsignar("tipo",1,"tipo")}},
 /*55. CASES  ->  */	{
-	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","igual","int", new AccionCondicionada(1,"esConstante","igual","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
+	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0), new AccionCondicionada(1,"esConstante","igual","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
 	/*55.2.  default: RCASES2 */	{new AccionAsignar("tipo",2,"tipo")},
 	/*55.3.  ?*/		{new AccionAsignar("tipo","vacio")}},
 /*56. RCASES  ->  */{
@@ -265,7 +266,7 @@ public class AccionesGramatica {
 	/*57.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
 	/*57.3. */ //esta regla no existe
 /*58. CASE ->  */{
-	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */	{new AccionCondicionada(1,"tipo","igual","int", new AccionCondicionada(1,"esConstante","igual","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
+	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0), new AccionCondicionada(1,"esConstante","igual","true", new AccionAsignar("tipo",3,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))},
 	/*58.2.  default: BLOQUE_SENTENCIAS*/	{new AccionAsignar("tipo",2,"tipo")}},
 
 
@@ -404,12 +405,12 @@ public class AccionesGramatica {
 	/*94.2.  ->*/						{new AccionAsignar("tipo","vacio")}},
 /*95. EXP3 -> */{
 	/*95.1. IDENTIFICADOR */			{new AccionAsignar("tipo",0,"tipo")},
-	/*95.2.  entero */					{new AccionAsignar("tipo","int")},
-	/*95.3. real */						{new AccionAsignar("tipo","float")},
+	/*95.2.  entero */					{new AccionAsignar("tipo",new OperandoCrearTipo("int",0))},
+	/*95.3. real */						{new AccionAsignar("tipo",new OperandoCrearTipo("float",0))},
 	/*95.4.  ( REXP3 */					{new AccionAsignar("tipo",1,"tipo")},
 	/*95.5.  NULL */					{new AccionAsignar("tipo","vacio")},
 	/*95.6.  { LISTA_EXP} */			{new AccionAsignar("tipo",1,"tipo")},
-	/*95.7.  comillasChar */			{new AccionAsignar("tipo","char")},
+	/*95.7.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0))},
 	/*95.8.  ENTRECOMILLADO*/			{new AccionAsignar("tipo",0,"tipo")}},
 /*96. LISTA_EXP ->  */{
 	/*96.1.  ? */						{new AccionAsignar("tipo","vacio")},
@@ -423,12 +424,12 @@ public class AccionesGramatica {
 /*98. EXP_SIN_IDEN -> */{
 	/*98.1. & INDIRECCION iden RIDEN */	{/*puntero-TS*/},
 	/*98.2.  INDIRECCION2 iden RIDEN */	{/*puntero-TS*/},
-	/*98.3.  entero */					{new AccionAsignar("tipo","int")},
-	/*98.4. real */						{new AccionAsignar("tipo","float")},
+	/*98.3.  entero */					{new AccionAsignar("tipo",new OperandoCrearTipo("int",0))},
+	/*98.4. real */						{new AccionAsignar("tipo",new OperandoCrearTipo("float",0))},
 	/*98.5.  ( REXP3 */					{new AccionAsignar("tipo",1,"tipo")},
 	/*98.6.  NULL */					{new AccionAsignar("tipo","vacio")},
 	/*98.7.  { LISTA_EXP} */			{new AccionAsignar("tipo",1,"tipo")},
-	/*98.8.  comillasChar */			{new AccionAsignar("tipo","char")},
+	/*98.8.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0))},
 	/*98.9.  ENTRECOMILLADO*/			{new AccionAsignar("tipo",0,"tipo")}},
 /*99. REXP3_2 -> */{
 	/*99.1. INDIRECCION2 */				{new AccionAsignar("esCasting","true"),new AccionAsignar("tipo","vacio"),new AccionAsignar("num",0,"num")},
