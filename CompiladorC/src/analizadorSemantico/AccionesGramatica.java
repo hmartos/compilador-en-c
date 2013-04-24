@@ -12,7 +12,7 @@ public class AccionesGramatica {
 /* - - Definicion de Programa - -*/
 
 /*1. PROGRAMA  ->*/					{
-	/*1.1.  L_DEFINICIONES EOF */ 		{new AccionAsignar("tipo",0,"tipo")},
+	/*1.1.  L_DEFINICIONES EOF */ 		{new AccionAsignar("tipo",0,"tipo"),new AccionAsignar(num,0,num)},
 	/*1.2. EOF*/						{new AccionAsignar("tipo","vacio")}
 									},
 
@@ -182,8 +182,8 @@ public class AccionesGramatica {
 	/*36.7.  signed */ {new AccionAsignar("tipo","vacio")},
 	/*36.8.  static*/ {new AccionAsignar("tipo","vacio")}},
 /*37. TIPO_PRIMITIVO -> */ {
-	/*37.1. void */ {new AccionAsignar("tipo","void")},
-	/*37.2. int */ {new AccionAsignar("tipo","int")},
+	/*37.1. void */ {new AccionAsignar("tipo",new OperandoCrearTipo("void",0))},
+	/*37.2. int */ {new AccionAsignar("tipo",new OperandoCrearTipo("int",0))},
 	/*37.3. char */ {new AccionAsignar("tipo","char")},
 	/*37.4.  float */ {new AccionAsignar("tipo","float")},
 	/*37.5. double*/ {new AccionAsignar("tipo","double")}},
