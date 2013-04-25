@@ -3,13 +3,6 @@ package analizadorSemantico;
 import acciones.Accion;
 import acciones.AccionAsignar;
 import acciones.AccionCondicionada;
-import acciones.AccionGenError;
-import acciones.CondicionEsCompatible;
-import acciones.OperacionHeredada;
-import acciones.OperacionSumarDimTipo;
-import acciones.OperandoCrearTipo;
-import acciones.OperandoDirecto;
-import acciones.OperandoGramatica;
 
 public class AccionesGramatica {
 	
@@ -19,7 +12,7 @@ public class AccionesGramatica {
 /* - - Definicion de Programa - -*/
 
 /*1. PROGRAMA  ->*/					{
-	/*1.1.  L_DEFINICIONES EOF */ 		{new AccionAsignar("tipo",0,"tipo")},
+	/*1.1.  L_DEFINICIONES EOF */ 		{new AccionAsignar("tipo",0,"tipo"),new AccionAsignar(num,0,num)},
 	/*1.2. EOF*/						{new AccionAsignar("tipo","vacio")}
 									},
 
@@ -43,11 +36,11 @@ public class AccionesGramatica {
 	
 /*5. RDEFINICION2 -> */					{
 	/*5.1. CORCHETES RDEF_VARIABLE */		{new AccionAsignar("tipo",1,"tipo")},
-	/*5.2. (L_PARAMS) RDEF_FUNCION*/		{new AccionCondicionada(1,"tipo","igual","vacio",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual",1,new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error")))},
+	/*5.2. (L_PARAMS) RDEF_FUNCION*/		{new AccionCondicionada(1,"tipo","igual","vacio",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual",1,"tipo",new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error")))},
 										},
 							
 /*6. RDEF_VARIABLE -> */				{ 
-	/*6.1. OP_ASIG EXP RDEF_VARIABLE2 */	{new AccionCondicionada(1,"tipo","igual",2,"tipo",new AccionAsignar("tipo",2,"tipo"),new AccionCondicionada(2,"tipo","igual","vacio",new AccionAsignar("tipo",1,"tipo"), new AccionAsignar("tipo","error")))},
+	/*6.1. OP_ASIG EXP RDEF_VARIABLE2 */	{new AccionCondicionada(1,"tipo","igual",2,"tipo",new AccionAsignar("tipo",2,"tipo"),new AccionCondicionada(2,"tipo","igual","vacio",new AccionAsignar("tipo",1,"tipo"), new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 6.1: Los tipos no coinciden."))}))},
 	/*6.2. RDEF_VARIABLE2*/					{new AccionAsignar("tipo",1,"tipo")},   
 										},  
 									
@@ -77,7 +70,7 @@ public class AccionesGramatica {
 	/*10.2.  <iden.iden>*/			{new AccionAsignar("tipo","vacio")},
 								},
 /*11. RIFDEF ->  */				{
-	/*11.1. # RIFDEF2 RIFDEF */		{new AccionCondicionada(1,"tipo","igual",2,"tipo",new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))},
+	/*11.1. # RIFDEF2 RIFDEF */		{new AccionCondicionada(1,"tipo","igual",2,"tipo",new AccionAsignar("tipo","tipo"),new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 11.1: Los tipos no coinciden."))})},
 	/*11.2.  L_SENTENCIAS */		{new AccionAsignar("tipo",0,"tipo")},
 	/*11.3.  ? */					{new AccionAsignar("tipo","vacio")},
 								},
@@ -91,12 +84,13 @@ public class AccionesGramatica {
 
 /*13. DEFINICION_UNION -> */							{
 	/*13.1. union  iden  {L_VARIABLES}  LISTA_IDENS*/		{new AccionCondicionada(5,"tipo","igual","listaUnion", 
-			                                                 new AccionCondicionada(3,"tipo","igual","vacio",
-					                                         new AccionAsignar("tipo","vacio"),  
-					                                         new AccionAsignar("tipo","error") ), 
-					                                         new AccionCondicionada(5,"tipo","igual","vacio", new AccionCondicionada(3,"tipo","igual","vacio",
-					                                         new AccionAsignar("tipo","vacio"),  
-					                                         new AccionAsignar("tipo","error")))), 
+			                                                 		new AccionCondicionada(3,"tipo","igual","vacio",
+			                                                 			new AccionAsignar("tipo","vacio"),  
+			                                                 			new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 13.1: Las variables declaradas beden de ser de tipo Union."))} ), 
+			                                                 		new AccionCondicionada(5,"tipo","igual","vacio", 
+			                                                 				new AccionCondicionada(3,"tipo","igual","vacio",
+			                                                 						new AccionAsignar("tipo","vacio"),  
+			                                                 						new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 13.1: Error en la definición de la unión."))}))), 
 },
 														},
 /*14. LISTA_IDENS -> */						{
@@ -104,7 +98,7 @@ public class AccionesGramatica {
 	/*14.2.  ;*/								{new AccionAsignar("tipo","vacio")},
 											},
 /*15. IDENTIFICADOR -> */								{
-	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/	{new OperacionSumarDimTipo(new OperacionVarTS(new OperandoGramatica(2,0)),new OperacionHeredada(new OperandoDirecto(1),new OperandoGramatica(3,"num"),"resta"))}
+	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/	{new OperacionSumarDimTipo(new OperacionVarTS(new OperandoGramatica(2,0)),new OperacionHeredada(new OperandoDirecto(1),new OperandoGramatica(3,"num"),"resta")}
 														},
 /*16. RIDENTIFICADOR ->*/		{					
 	/*16.1.  CORCHETES */			{new Accion[] {AccionAsignar("tipo",0,"tipo"), AccionAsignar("numCorchetes",0,"num")}},
@@ -127,7 +121,7 @@ public class AccionesGramatica {
 	/*21.1. ,iden RENUM */ {new AccionAsignar("tipo",3,"tipo")},
 	/*21.2. ? */ {new AccionAsignar("tipo","vacio")}},
 /*22. DEFINICION_STRUCT -> */								{
-		/*22.1. struct  iden  {L_VARIABLES}  LISTA_IDENS*/ 		{new AccionCondicionada(5,"tipo","igual","listaStruct", new AccionCondicionada(3,"tipo","igual","vacio", new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error") ), new AccionCondicionada(5,"tipo","igual","vacio", new AccionCondicionada(3,"tipo","igual","vacio", new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error"))))}}, 
+		/*22.1. struct  iden  {L_VARIABLES}  LISTA_IDENS*/ 		{new AccionCondicionada(5,"tipo","igual","listaStruct", new AccionCondicionada(3,"tipo","igual","vacio", new Accion[]{new AccionAsignar("tipo","vacio")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 22.1: Las variables declaradas beden de ser de tipo Struct."))}),new AccionCondicionada(5,"tipo","igual","vacio", new AccionCondicionada(3,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo","vacio")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 22.1: Error en la definición del Struct.")) } )))}}, 
 
 /*23. L_VARIABLES -> */ {
 	/*23.1. DEFINICION_STRUCT L_VARIABLES */ {new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo",1,"tipo"))},
@@ -136,7 +130,7 @@ public class AccionesGramatica {
 	/*23.4.  DEFINICION_UNION L_VARIABLES*/ {new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo",1,"tipo"))},
 	/*23.5.  ?*/ {new AccionAsignar("tipo","vacio")}},
 	/*24. DEF_VAR ->*/											{
-		/*24.1.  TIPO LISTA_IDENS*/    							{new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada(0,"tipo","igual",1,"tipo",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual","vacio",new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo","error"))))}},
+		/*24.1.  TIPO LISTA_IDENS*/    							{new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada(0,"tipo","igual",1,"tipo",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo","vacio")},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 24.1: Los tipos no coinciden."))})))}},
 
 /*25. DEFINICION_TYPEDEF -> */ {
 	/*25.1. typedef RDEF_TYPEDEF*/ {new AccionAsignar("tipo",1,"tipo")}},
@@ -173,7 +167,7 @@ public class AccionesGramatica {
 	/*32.1. L_MODIFICADORES RTIPO*/ {new AccionCondicionada(0,"tipo","igual","vacio", new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))}},
 /*33. RTIPO -> */ {
 	/*33.1. TIPO_PRIMITIVO INDIRECCION */	{new AccionAsignar("tipo",0,"tipo"),new AccionAsignar("numDim",1,"num")},
-	/*33.2.  iden INDIRECCION*/ 			{new AccionCondicionada(/*Si 0,"tipo", estaEnLaTabla*/asda, new Accion[] {new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("numDim",1,"num")})}},
+	/*33.2.  iden INDIRECCION*/ 			{new AccionCondicionada(/*Si 0,"tipo", estaEnLaTabla*/, new Accion[] {new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("numDim",1,"num")})}},
 /*34. INDIRECCION -> */ {
 	/*34.1. * INDIRECCION */ {new AccionAsignar("tipo","vacio")},
 	/*34.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
@@ -203,7 +197,7 @@ public class AccionesGramatica {
 	/*38.1. {BLOQUE_SENTENCIAS} */ {new AccionAsignar("tipo",1,"tipo")},
 	/*38.2.  SENTENCIA*/ {new AccionAsignar("tipo",0,"tipo")}},
 /*39. BLOQUE_SENTENCIAS  ->*/ {
-	/*39.1.  SENTENCIA BLOQUE_SENTENCIAS */ {new AccionCondicionada(0,"tipo","igual", 1, "tipo", new AccionAsignar("tipo",0,"tipo"),new AccionAsignar("tipo","error"))},
+	/*39.1.  SENTENCIA BLOQUE_SENTENCIAS */ {new AccionCondicionada(0,"tipo","igual", 1, "tipo",new Accion[]{ new AccionAsignar("tipo",0,"tipo")},new Accion[] {new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla: 39.1: Los tipos no coinciden"))})},
 	/*39.2. {BLOQUE_SENTENCIAS} */ {new AccionAsignar("tipo",1,"tipo")},
 	/* 39.3. ?*/ {new AccionAsignar("tipo","vacio")}},
 /*40. SENTENCIA ->  */ {
@@ -250,26 +244,14 @@ public class AccionesGramatica {
 	/*50.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 	
 /*51. SENTENCIA_BUCLE -> */			{
-	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto",new OperandoCrearTipo("null",0),new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))},
-	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))},
-	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new AccionAsignar("tipo",4,"tipo"),new AccionAsignar("tipo","error"))}},
+	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",1,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 51.1: La condición no puede ser vacía."))})},
+	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 51.2: La condición no puede ser vacía."))})},
+	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[] {new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 51.3: Los campos del for no pueden ser vacíos."))})},
 /*52. CAMPO  -> */	{
 	/*52.1. ? */			{new AccionAsignar("tipo","vacio")},
 	/*52.2.   EXP*/		{new AccionAsignar("tipo",0,"tipo")}},
 /*53. SENTENCIA_CASE -> */	{
-	/*53.1. switch (EXP) L_CASES*/	{new AccionCondicionada(2,"tipo","igual",
-											new OperandoCrearTipo("int",0),
-											new Accion[] {new AccionAsignar("tipo",4,"tipo")}, 
-											new Accion[] {
-												new AccionAsignar("tipo","error"),
-												new AccionGenError(
-														new OperacionHeredada(
-																new OperandoGramatica(2,"tipo"),
-																new OperandoDirecto("no coincide: debe de ser entero"),
-																"sumar"
-														)
-												)
-											})}},
+	/*53.1. switch (EXP) L_CASES*/	{new AccionCondicionada(2,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{ new AccionAsignar("tipo",4,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 53.1: El tipo del switch debe de ser entero."))})},
 /*54. L_CASES  -> */ {
 	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
 	/*54.2.  {CASES}*/	{new AccionAsignar("tipo",1,"tipo")}},
@@ -292,7 +274,7 @@ public class AccionesGramatica {
 /* - - Definicion de Expresiones - -*/
 
 /*59. EXP -> */{
-	/*59.1. EXP_COND REXP*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new AccionAsignar("tipo",0,"tipo"))}},
+	/*59.1. EXP_COND REXP*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",0),new OperandoGramatica("tipo",1)), new AccionAsignar("tipo",0,"tipo"))}},
 /*60. REXP -> */{
 	/*60.1. OP_ASIG EXP */	{new AccionAsignar("tipo",1,"tipo")},
 	/*60.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
@@ -309,12 +291,12 @@ public class AccionesGramatica {
 	/*61.10.  ^= */	{new AccionAsignar("tipo","vacio")},
 	/*61.11.  %=*/	{new AccionAsignar("tipo","vacio")}},
 /*62. EXP_COND  -> */{
-	/*62.1. EXP_ORL REXP_COND*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
+	/*62.1. EXP_ORL REXP_COND*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",0),new OperandoGramatica("tipo",1)), new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
 /*63. REXP_COND ->*/{
 	/*63.1.  ? */	{new AccionAsignar("tipo","vacio")},
-	/*63.2.  ? EXP : EXP REXP_COND*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(1,"tipo"),new OperandoGramatica(3,"tipo")), new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",1),new OperandoGramatica("tipo",4)), new AccionAsignar("tipo",1,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))}},
+	/*63.2.  ? EXP : EXP REXP_COND*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",1),new OperandoGramatica("tipo",3)), new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",1),new OperandoGramatica("tipo",4)), new AccionAsignar("tipo",1,"tipo"), new AccionAsignar("tipo","error")), new AccionAsignar("tipo","error"))}},
 /*64. EXP_ORL  ->  */{
-	/*64.1. EXP_ANDL REXP_ORL*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new AccionAsignar("tipo",0,"tipo"))}},
+	/*64.1. EXP_ANDL REXP_ORL*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",0),new OperandoGramatica("tipo",1)), new AccionAsignar("tipo",0,"tipo"))}},
 /*65. REXP_ORL -> */{
 	/*65.1. |*/		{new AccionAsignar("tipo",1,"tipo")},
 	/*65.2.  EXP_ORL */	//esta sobra, va dentro de la 65.1
@@ -331,14 +313,14 @@ public class AccionesGramatica {
 	/*69.2.  ?*/					{new AccionAsignar("tipo","vacio")} 
 								},
 /*70. EXP_XORB  ->  */			{
-	/*70.1. EXP_ANDB REXP_XORB*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",0),new OperandoGramatica(1,"tipo")), new AccionAsignar("tipo",0,"tipo"))} 
+	/*70.1. EXP_ANDB REXP_XORB*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",0),new OperandoGramatica("tipo",1)), new AccionAsignar("tipo",0,"tipo"))} 
 								},
 /*71. REXP_XORB -> */			{
 	/*71.1. ^ EXP_XORB */			{new AccionAsignar("tipo", 1, "tipo")},
 	/*71.2.  ?*/					{new AccionAsignar("tipo","vacio")} 
 								},
 /*72. EXP_ANDB  ->  */			{
-	/*72.1. EXP_REL REXP_ANDB */	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica("tipo",1)), new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}
+	/*72.1. EXP_REL REXP_ANDB */	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",0),new OperandoGramatica("tipo",1)), new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}
 								},
 /*73. REXP_ANDB -> */			{
 	/*73.1. & EXP_ANDB */			{new AccionAsignar("tipo", 1, "tipo")},
@@ -414,7 +396,7 @@ public class AccionesGramatica {
 	/*91.1. ++ */						{new AccionAsignar("tipo","vacio")},
 	/*91.2.  --*/						{new AccionAsignar("tipo","vacio")}},
 /*92. EXP2 ->  */{
-	/*92.1. EXP3  REXP2*/				{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new Accion[]{new AccionAsignar("tipo",0,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoDirecto("Los tipos no son compatibles."))})}},
+	/*92.1. EXP3  REXP2*/				{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica("tipo",0),new OperandoGramatica("tipo",1)), new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
 /*93. REXP2  -> */{
 	/*93.1. OP_INC */					{new AccionAsignar("tipo",0,"tipo")},
 	/*93.2.  OP_SELECCION EXP3 */		{new AccionAsignar("tipo",0,"tipo")},
@@ -482,7 +464,7 @@ public class AccionesGramatica {
 /*105. REXP4 -> */{
 	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionCondicionada("estaEnTS",2,"lexema",new AccionAsignar("tipo","error"),new AccionAsignar("tipo",0,"tipo"))},
 	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},
-	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar,sdffdw,"tipo")}))}},
+	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar***,,"tipo")}))}},
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*TS*/},
 	/*105.5.  OP_INC IDENTIFICADOR*/															{}},
 
