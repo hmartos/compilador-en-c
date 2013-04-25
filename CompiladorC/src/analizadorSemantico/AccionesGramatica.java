@@ -97,7 +97,7 @@ public class AccionesGramatica {
 	/*14.2.  ;*/								{new AccionAsignar("tipo","vacio")},
 											},
 /*15. IDENTIFICADOR -> */								{
-	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/	{new AccionCondicionada(0,"tieneAmp","igual","true",new Accion[] {new AccionAsignar("tipo",2,tipo()/*Saca del objeto 2 de la regla el tipo de la TS*/},new Accion[] {})},
+	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/	{new OperacionSumarDimTipo(new OperacionVarTS(new OperandoGramatica(2,0)),new OperacionHeredada(new OperandoDirecto(1),new OperandoGramatica(3,"num"),"resta")}
 														},
 /*16. RIDENTIFICADOR ->*/		{					
 	/*16.1.  CORCHETES */			{new Accion[] {AccionAsignar("tipo",0,"tipo"), AccionAsignar("numCorchetes",0,"num")}},
@@ -105,7 +105,7 @@ public class AccionesGramatica {
 								},
 /*17. CORCHETES ->*/ {	
 	/*17.1.  ? */    {new AccionAsignar("tipo","vacio"), new AccionAsignar("num","0")},
-	/*17.2.  [CONTENIDO] CORCHETES*/ {new AccionAsignar("tipo","vacio"),new AccionAsignar("num",3,Integer.toString(Integer.parseInt("num")+1))}},
+	/*17.2.  [CONTENIDO] CORCHETES*/ {new AccionAsignar("tipo","vacio"),new AccionAsignar("num",3,"num","suma",1)}},
 /*18. CONTENIDO -> */ {
 	/*18.1. ? */ {new AccionAsignar("tipo","vacio")},
 	/*18.2.  EXP*/ {new AccionAsignar("tipo",0,"tipo")}},
@@ -119,7 +119,7 @@ public class AccionesGramatica {
 /*21. RENUM2-> */ {
 	/*21.1. ,iden RENUM */ {new AccionAsignar("tipo",3,"tipo")},
 	/*21.2. ? */ {new AccionAsignar("tipo","vacio")}},
-	/*22. DEFINICION_STRUCT -> */								{
+/*22. DEFINICION_STRUCT -> */								{
 		/*22.1. struct  iden  {L_VARIABLES}  LISTA_IDENS*/ 		{new AccionCondicionada(5,"tipo","igual","listaStruct", new AccionCondicionada(3,"tipo","igual","vacio", new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error") ), new AccionCondicionada(5,"tipo","igual","vacio", new AccionCondicionada(3,"tipo","igual","vacio", new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error"))))}}, 
 
 /*23. L_VARIABLES -> */ {
