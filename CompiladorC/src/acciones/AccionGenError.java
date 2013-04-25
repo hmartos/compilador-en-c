@@ -1,6 +1,7 @@
 package acciones;
 
 import gestorErrores.ErrorCompilador;
+import gestorErrores.ErrorSemantico;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +21,10 @@ public class AccionGenError extends Accion {
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		
-		return new ArrayList<ErrorCompilador>(new );
-		op.getValor(listaAtrib, atribActual, ts);
+		ArrayList<ErrorCompilador> l= new ArrayList<ErrorCompilador>( );
+		l.add(new ErrorSemantico(op.getValor(listaAtrib, atribActual, ts).toString()));
+		return l;
+		
 	}
 
 }

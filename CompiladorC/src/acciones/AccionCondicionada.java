@@ -40,7 +40,30 @@ public class AccionCondicionada extends Accion {
 	
 	
 	
+	
+	//Solo con lista de accionesTrue
+		public AccionCondicionada(Condicion cond, Accion[] accionesTrue){
+			this(cond,accionesTrue,null);
+		}
+		//Solo con accion unica True
+		public AccionCondicionada(Condicion cond,Accion accionesTrue){
+			this(cond,accionesTrue,null);
+		}
+	
 	//Comparaciones entre atributos con listas de acciones
+	public AccionCondicionada(Condicion cond,Accion accionesTrue,Accion accionesFalse){
+		this();
+		condicion = cond;
+		if (accionesTrue!=null){
+			this.accionesTrue=new Accion[1];
+			this.accionesTrue[0]=accionesTrue;
+		}
+		if (accionesFalse!=null){
+			this.accionesFalse=new Accion[1];
+			this.accionesFalse[0]=accionesFalse;
+		}
+	}
+	
 	public AccionCondicionada(Condicion cond,Accion[] accionesTrue,Accion[] accionesFalse){
 		this();
 		condicion = cond;

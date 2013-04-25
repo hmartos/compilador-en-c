@@ -46,6 +46,12 @@ public class Tipo{
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Tipo [tipo=" + tipo + ", dim=" + dim + "]";
+	}
+	
+	
 	
 	
 	
