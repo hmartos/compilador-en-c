@@ -11,7 +11,8 @@ public class OperandoGramatica implements Operando {
 	int oper;
 	String atrib;
 	public OperandoGramatica(int i,String s){
-		
+		oper=i;
+		atrib=s;
 	}
 	
 	@Override
