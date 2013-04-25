@@ -20,39 +20,53 @@ public class OperacionClaseEntradaTS extends ElemUnario implements Operacion {
 	}
 
 	@Override
-	public Tipo getValor(ArrayList<Object> listaAtrib,
+	public String getValor(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		
 		Object op=oper.getValor(listaAtrib, atribActual, ts);
 		
 		
 		
-		
+		String lex=null;
 		if (op instanceof String ){
-			return calcularTipo(ts,(String)op);
+			lex=(String)op;
 			
+		}else if (op instanceof Tipo){
+			lex= ((Tipo)op).getTipo();
+		}
+		
+		
+		if (lex!=null){
+			Atributo attTabla =ts.busquedaCompleta(lex).getAtt();
+			
+			
+			 if (attTabla instanceof AtributosTablaVariable){
+				return "variable";
+			}
+			
+			else if (attTabla instanceof AtributosTablaFuncion){
+				return "funcion";	
+			}
+			else if (attTabla instanceof AtributosTablaPalRes){
+				return "palres";	
+			}
+			else if (attTabla instanceof AtributosTablaEnum){
+				return "enum";	
+			}
+			else if (attTabla instanceof AtributosTablaStruct){
+				return "struct";	
+			}
+			else if (attTabla instanceof AtributosTablaStruct){
+				return "union";	
+			}
+			return null;
 		}
 		return null;
 	}
 	
 	
 	
-	private Tipo calcularTipo( TablaSimbolos ts,String lex){
-		
-		
-		Atributo attTabla =ts.busquedaCompleta(lex).getAtt();
-		
-		
-		 if (attTabla instanceof AtributosTablaVariable){
-			return new Tipo (((AtributosTablaVariable)attTabla).getTipo(),((AtributosTablaVariable)attTabla).getDim());
-		}
-		
-		else if (attTabla instanceof AtributosTablaFuncion){
-			return new Tipo (((AtributosTablaFuncion)attTabla).getTipoRet(),((AtributosTablaFuncion)attTabla).getDimRet());
-
-		}
-		return null;
-	}
+	
 		
 	
 	
