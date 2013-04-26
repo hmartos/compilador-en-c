@@ -11,7 +11,7 @@ public class OperacionHeredada extends ElemBinario implements Operacion {
 	
 	String operacion;
 
-	public OperacionHeredada(Operando op1, Operando op2,String operacion) {
+	public OperacionHeredada(Operacion op1, Operacion op2,String operacion) {
 		super(op1, op2);
 		this.operacion=operacion;
 		// TODO Auto-generated constructor stub

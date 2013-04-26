@@ -7,7 +7,7 @@ import tablaSimbolos.TablaSimbolos;
 
 public class CondicionEstaVarTS extends ElemUnario implements Condicion {
 
-	public CondicionEstaVarTS(Operando op1) {
+	public CondicionEstaVarTS(Operacion op1) {
 		super();
 		oper=new OperacionVarTS(op1);
 		// TODO Auto-generated constructor stub

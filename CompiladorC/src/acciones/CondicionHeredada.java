@@ -9,7 +9,7 @@ public class CondicionHeredada extends ElemBinario implements Condicion  {
 
 	String operacion;
 	
-	public CondicionHeredada(Operando op1, Operando op2,String operacion) {
+	public CondicionHeredada(Operacion op1, Operacion op2,String operacion) {
 		super(op1, op2);
 		// TODO Auto-generated constructor stub
 		this.operacion=operacion;
