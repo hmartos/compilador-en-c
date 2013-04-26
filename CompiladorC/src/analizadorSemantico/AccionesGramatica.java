@@ -225,7 +225,7 @@ public class AccionesGramatica {
 /*42. ENTRECOMILLADO -> */ {
 	/*42.1. “(caracter)*” */ {new AccionAsignar("tipo",new OperandoCrearTipo("char",1))}},
 /*43. RPRINTF -> */ {
-	/*43.1. , REFERENCIA   INDIRECCION   RPRINTF2 */ 
+	/*43.1. , REFERENCIA   INDIRECCION   RPRINTF2 */ {new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error"),new ComprobarAsteriscos(********))},
 	/*43.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 /*44. REFERENCIA -> */ {
 	/*44.1. & */ {new AccionAsignar("tipo","vacio"), new AccionAsignar("tieneAmp","true")},
@@ -233,13 +233,13 @@ public class AccionesGramatica {
 /*45. RPRINTF2 -> */ {
 	/*45.1. EXP RPRINTF*/ {new AccionCondicionada(1,"tipo","igual","error", new AccionAsignar("tipo","error"), new AccionAsignar("tipo",0,"tipo"))}},
 /*46. RSCANF -> */ {
-	/*46.1. REFERENCIA   INDIRECCION   RSCANF2 */
+	/*46.1. ,REFERENCIA   INDIRECCION   RSCANF2 */ {new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error"),new ComprobarAsteriscos(********))},
 	/*46.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 /*47. RSCANF2 -> */ {
-	/*47.1. IDENTIFICADOR CORCHETES */
+	/*47.1. IDENTIFICADOR CORCHETES */ {****new AccionCondicionada(new DiferenciaDim(0,1),new AccionAsignar("tipo","error"))},
 	/*47.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 /*48. SENTENCIA_IF -> */ {
-	/*48.1. if (EXP) RSENTENCIA_IF*/  },
+	/*48.1. if (EXP) RSENTENCIA_IF*/ **rellenar },
 /*49. RSENTENCIA_IF -> */ {
 	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/ {new AccionCondicionada(0,"tipo","igual","error", new AccionAsignar("tipo","error"), new AccionAsignar("tipo",1,"tipo"))}},
 /*50. SENTENCIA_ELSE -> */ {
@@ -425,13 +425,13 @@ public class AccionesGramatica {
 	/*96.2.  EXP , LISTA_EXP*/			{new AccionCondicionada(0,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo",0,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoDirecto("Regla 96.2: Los tipos no son compatibles."))})}},
 
 /*97. REXP3 ->  */{
-	/*97.1. TIPO_PRIMITIVO INDIRECCION) EXP */			{/*sePuedeHacerCasting*/},
+	/*97.1. TIPO_PRIMITIVO INDIRECCION) EXP */			{**rellenar/*sePuedeHacerCasting*/},
 	/*97.2.  EXP_SIN_IDEN REXP) */						{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new Accion[]{new AccionAsignar("tipo",0,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoDirecto("Regla 97.2: Los tipos no son compatibles."))})},
-	/*97.3.  MODIFICADOR L_MODIFICADORES RTIPO) EXP */	{/*sePuedeHacerCasting*/},
-	/*97.4.  iden REXP3_2 ) AUX*/						{/*esTipoDefinidoPorUsuario, esCompatible, esMayor*/new AccionCondicionada(/*si*/1,"esCasting","igual","true",/*entonces0*/new AccionCondicionada(/*si1*/4,"tipo","igual","vacio",/*entonces1*/new AccionAsignar("tipo",1,"tipo"),/*si no1*/new AccionCondicionada(/*si2*/4,"tipo","igual","error",/*entonces2*/new AccionAsignar("tipo",1,"tipo"),/*si no2*/new AccionAsignar("tipo","error"))),/*si no0*//*esCompatible*/null)}},
+	/*97.3.  MODIFICADOR L_MODIFICADORES RTIPO) EXP */	{**rellenar/*sePuedeHacerCasting*/},
+	/*97.4.  iden REXP3_2 ) AUX*/						{**rellenar/*esTipoDefinidoPorUsuario, esCompatible, esMayor*/new AccionCondicionada(/*si*/1,"esCasting","igual","true",/*entonces0*/new AccionCondicionada(/*si1*/4,"tipo","igual","vacio",/*entonces1*/new AccionAsignar("tipo",1,"tipo"),/*si no1*/new AccionCondicionada(/*si2*/4,"tipo","igual","error",/*entonces2*/new AccionAsignar("tipo",1,"tipo"),/*si no2*/new AccionAsignar("tipo","error"))),/*si no0*//*esCompatible*/null)}},
 /*98. EXP_SIN_IDEN -> */{
-	/*98.1. & INDIRECCION iden RIDEN */	{/*puntero-TS*/},
-	/*98.2.  INDIRECCION2 iden RIDEN */	{/*puntero-TS*/},
+	/*98.1. & INDIRECCION iden RIDEN */	{**rellenar/*puntero-TS*/},
+	/*98.2.  INDIRECCION2 iden RIDEN */	{**rellenar/*puntero-TS*/},
 	/*98.3.  entero */					{new AccionAsignar("tipo",new OperandoCrearTipo("int",0))},
 	/*98.4. real */						{new AccionAsignar("tipo",new OperandoCrearTipo("float",0))},
 	/*98.5.  ( REXP3 */					{new AccionAsignar("tipo",1,"tipo")},
@@ -460,10 +460,10 @@ public class AccionesGramatica {
 /*101. INDIRECCION2 -> */{
 	/*101.1. * INDIRECCION*/			{new AccionAsignar("num",0,"num","suma",1)}},
 /*102. L_PARAMS_LLAMADA -> */{
-	/*102.1.  EXP  RES_LISTA_PARAMS_LLAMDA */	{/*TS*/},
+	/*102.1.  EXP  RES_LISTA_PARAMS_LLAMDA */	{**rellenar/*TS*/},
 	/*102.2.  ?*/								{new AccionAsignar("tipo","vacío"),new AccionAsignar("posicionArgumento",0)}},
 /*103. RES_LISTA_PARAMS_LLAMADA ->  */{
-	/*103.1. ,EXP  RES_LISTA_PARAMS_LLAMADA */	{/*TS*/new AccionCondicionada(0,"tipo","igual","vacio",new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))},
+	/*103.1. ,EXP  RES_LISTA_PARAMS_LLAMADA */	{**rellenar/*TS*/new AccionCondicionada(1,"tipo","igual","vacio",new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("tipo","error"))},
 	/*103.2.  ?*/								{new AccionAsignar("tipo","vacío"),new AccionAsignar("posicionArgumento",0)}},
 /*104. AUX-> */{
 	/*104.1. EXP */								{new AccionAsignar("tipo",0,"tipo")},
@@ -471,9 +471,9 @@ public class AccionesGramatica {
 /*105. REXP4 -> */{
 	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionCondicionada(0, "estaEnTS",null, 2,"lexema",new AccionAsignar("tipo","error"),new AccionAsignar("tipo",0,"tipo"))},
 	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},
-	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{/*new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar,sdffdw,"tipo")}))}*/},
-	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*TS*/},
-	/*105.5.  OP_INC IDENTIFICADOR*/															{}}
+	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{**rellenar/*new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar,sdffdw,"tipo")}))}*/},
+	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{**rellenar/*TS*/},
+	/*105.5.  OP_INC IDENTIFICADOR*/															{**rellenar}}
 
 	
 	};
