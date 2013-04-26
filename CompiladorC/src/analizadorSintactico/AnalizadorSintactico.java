@@ -83,6 +83,7 @@ public class AnalizadorSintactico {
 				}else{//No se puede aplicar ninguna regla
 					if(primeros.estaPrimeros((NT) termAct, tokenLambda)){
 						nTerm++;
+						listaAtrib.add(new HashMap<String,Object>()); //Semantico: si es lambda añadimos atributos vacios.
 						System.out.println("Tomamos "+termAct.toString()+" como LAMBDA");
 
 					}
