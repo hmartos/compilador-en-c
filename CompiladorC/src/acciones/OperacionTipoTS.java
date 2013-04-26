@@ -20,7 +20,7 @@ public class OperacionTipoTS extends ElemUnario implements Operacion {
 	}
 
 	@Override
-	public Tipo getValor(ArrayList<Object> listaAtrib,
+	public Object getValor(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		
 		Object op=oper.getValor(listaAtrib, atribActual, ts);
@@ -29,8 +29,13 @@ public class OperacionTipoTS extends ElemUnario implements Operacion {
 		
 		
 		if (op instanceof String ){
+			if (op.equals("vacio")||op.equals("error")) return op;
 			return calcularTipo(ts,(String)op);
 			
+		} else if (op instanceof Tipo){
+			Tipo nt= calcularTipo(ts,((Tipo)op).getTipo());
+			nt.setDim(nt.getDim()+((Tipo)op).getDim());
+			return nt;
 		}
 		return null;
 	}
