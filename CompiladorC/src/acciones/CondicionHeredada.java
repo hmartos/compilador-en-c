@@ -34,13 +34,15 @@ public class CondicionHeredada extends ElemBinario implements Condicion  {
 				return opBool1 || opBool2;
 			}
 		}
-		
-		if (operacion.equals("igual")){
-			return op1.equals(op2);
-			
-		}else if (operacion.equals("distinto")){
-			return !op1.equals(op2);
-		}
+		if (op1!=null && op2!=null){
+			if (operacion.equals("igual")){
+				return op1.equals(op2);
+				
+			}else if (operacion.equals("distinto")){
+				return !op1.equals(op2);
+			}
+		} else if (op1==null && op2== null) return true;
+		return false;
 		
 		/*
 		if (op1 instanceof Integer)&& (op2 instanceof Integer)){
@@ -63,7 +65,7 @@ public class CondicionHeredada extends ElemBinario implements Condicion  {
 				return !op1.equals(op2);
 			}
 		}*/
-		return false;
+		
 		
 	}
 
