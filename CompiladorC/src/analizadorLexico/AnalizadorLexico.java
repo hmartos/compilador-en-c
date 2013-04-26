@@ -393,7 +393,7 @@ public class AnalizadorLexico {
 						}
 					}else{															  			// si no meto el ID en su atributo
 						tokenGen=new TokenId(bufferString,nLinea,nChar);
-						TS.insertar(bufferString); 									  			// Lo introducimos en la TS para verlo en la demo.
+						//TS.insertar(bufferString); 									  			// Lo introducimos en la TS para verlo en la demo.
 					}
 					devolverChar();											        // Accion semantica EZ, retrocede una posición el puntero de lectura del fichero fuente
 				}else {
