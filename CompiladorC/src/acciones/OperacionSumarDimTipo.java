@@ -8,7 +8,7 @@ import tablaSimbolos.TablaSimbolos;
 public class OperacionSumarDimTipo extends ElemBinario implements Operacion {
 	
 	
-	public OperacionSumarDimTipo(Operando op1, Operando op2) {
+	public OperacionSumarDimTipo(Operacion op1, Operacion op2) {
 		super(op1, op2);
 	
 		

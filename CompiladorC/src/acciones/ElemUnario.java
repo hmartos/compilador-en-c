@@ -9,7 +9,7 @@ public abstract class  ElemUnario {
 		
 	}
 	
-	public ElemUnario(Operando op1){
+	public ElemUnario(Operacion op1){
 		oper=op1;
 		
 	}

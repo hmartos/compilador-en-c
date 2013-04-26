@@ -14,7 +14,7 @@ import tablaSimbolos.TablaSimbolos;
 
 public class OperacionVarTS extends ElemUnario implements Operacion {
 
-	public OperacionVarTS(Operando op1) {
+	public OperacionVarTS(Operacion op1) {
 		super(op1);
 		// TODO Auto-generated constructor stub
 	}

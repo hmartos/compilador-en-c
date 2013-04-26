@@ -7,7 +7,7 @@ import tablaSimbolos.TablaSimbolos;
 
 public class OperacionAgregarALista extends ElemBinario implements Operacion {
 
-	public OperacionAgregarALista(Operando op1, Operando op2) {
+	public OperacionAgregarALista(Operacion op1, Operacion op2) {
 		super(op1, op2);
 	}
 	

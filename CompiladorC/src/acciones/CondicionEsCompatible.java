@@ -18,7 +18,7 @@ public class CondicionEsCompatible extends ElemBinario implements Condicion {
 	
 	
 	
-	public CondicionEsCompatible(Operando op1, Operando op2) {
+	public CondicionEsCompatible(Operacion op1, Operacion op2) {
 		super();
 		oper1=new OperacionTipoTS(op1);
 		oper2=new OperacionTipoTS(op2);

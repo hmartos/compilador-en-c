@@ -13,7 +13,7 @@ import tablaSimbolos.TablaSimbolos;
 
 public class OperacionTipoTS extends ElemUnario implements Operacion {
 
-	public OperacionTipoTS(Operando op1) {
+	public OperacionTipoTS(Operacion op1) {
 		super(op1);
 		// TODO Auto-generated constructor stub
 	}
