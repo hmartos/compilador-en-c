@@ -40,7 +40,7 @@ public class AccionesGramatica {
 							
 /*6. RDEF_VARIABLE -> */				{ 
 	/*6.1. OP_ASIG EXP RDEF_VARIABLE2 */	{new AccionCondicionada(1,"tipo","igual",2,"tipo",new AccionAsignar("tipo",2,"tipo"),new AccionCondicionada(2,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo",1,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 6.1: Los tipos no coinciden."))}))},
-	/*6.2. RDEF_VARIABLE2*/					{new AccionAsignar("tipo",1,"tipo")},   
+	/*6.2. RDEF_VARIABLE2*/					{new AccionAsignar("tipo",0,"tipo")},   
 										},  
 									
 									

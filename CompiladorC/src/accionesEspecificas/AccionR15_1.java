@@ -9,6 +9,7 @@ import java.util.HashMap;
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaFuncion;
 import tablaSimbolos.AtributosTablaVariable;
+import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import acciones.Accion;
@@ -23,8 +24,14 @@ public class AccionR15_1 extends Accion {
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		String lex = (String)((Token)listaAtrib.get(2)).getAtributo();
-		Atributo at= ts.busquedaCompleta(lex).getAtt();
+		
+		EntradaTabla entTabla =ts.busquedaCompleta(lex);
+		Atributo at;
 		ArrayList<ErrorCompilador> listErr= new ArrayList<ErrorCompilador>();
+		if (entTabla!=null)  at= ts.busquedaCompleta(lex).getAtt();
+		else at=null;
+		
+		 
 
 		
 		if (at instanceof AtributosTablaVariable){
