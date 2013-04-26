@@ -20,7 +20,7 @@ public class OperacionHeredada extends ElemBinario implements Operacion {
 	public Object getValor(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		Object op1=oper1.getValor(listaAtrib, atribActual, ts);
-		Object op2=oper1.getValor(listaAtrib, atribActual, ts);
+		Object op2=oper2.getValor(listaAtrib, atribActual, ts);
 		
 		if ((op1 instanceof Integer)&& (op2 instanceof Integer)){
 			Integer opInt1= (Integer)op1;

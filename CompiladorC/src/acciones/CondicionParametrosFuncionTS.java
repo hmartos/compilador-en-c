@@ -21,7 +21,7 @@ public class CondicionParametrosFuncionTS extends ElemBinario implements Condici
 	public Boolean getValor(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		Object op1=oper1.getValor(listaAtrib, atribActual, ts);
-		Object op2=oper1.getValor(listaAtrib, atribActual, ts);
+		Object op2=oper2.getValor(listaAtrib, atribActual, ts);
 		
 		if (op1 instanceof String && op2 instanceof ArrayList){
 			Atributo t=ts.busquedaCompleta((String)op1).getAtt();

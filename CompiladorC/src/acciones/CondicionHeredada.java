@@ -20,7 +20,7 @@ public class CondicionHeredada extends ElemBinario implements Condicion  {
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		//Metodo para añadir operaciones para los distintos objetos
 		Object op1=oper1.getValor(listaAtrib, atribActual, ts);
-		Object op2=oper1.getValor(listaAtrib, atribActual, ts);
+		Object op2=oper2.getValor(listaAtrib, atribActual, ts);
 		
 		//Operador generico
 		

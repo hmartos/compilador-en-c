@@ -21,7 +21,7 @@ public class OperacionSumarDimTipo extends ElemBinario implements Operacion {
 		// TODO Auto-generated method stub
 		
 		Object op1=oper1.getValor(listaAtrib, atribActual, ts);
-		Object op2=oper1.getValor(listaAtrib, atribActual, ts);
+		Object op2=oper2.getValor(listaAtrib, atribActual, ts);
 		
 		if (op1 instanceof Tipo && op2 instanceof Integer){
 			Tipo t1=(Tipo)op1;
