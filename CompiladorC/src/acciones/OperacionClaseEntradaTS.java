@@ -10,6 +10,7 @@ import tablaSimbolos.AtributosTablaPalRes;
 import tablaSimbolos.AtributosTablaStruct;
 import tablaSimbolos.AtributosTablaTypeDef;
 import tablaSimbolos.AtributosTablaVariable;
+import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaSimbolos;
 
 public class OperacionClaseEntradaTS extends ElemUnario implements Operacion {
@@ -37,7 +38,10 @@ public class OperacionClaseEntradaTS extends ElemUnario implements Operacion {
 		
 		
 		if (lex!=null){
-			Atributo attTabla =ts.busquedaCompleta(lex).getAtt();
+			EntradaTabla entTabla =ts.busquedaCompleta(lex);
+			Atributo attTabla;
+			if (entTabla!=null)  attTabla= entTabla.getAtt();
+			else return null;
 			
 			
 			 if (attTabla instanceof AtributosTablaVariable){

@@ -32,6 +32,13 @@ public class CondicionEsCompatible extends ElemBinario implements Condicion {
 		Object op2=oper1.getValor(listaAtrib, atribActual, ts);
 		
 		if (op1==null || op2==null) return false;
+		
+		if (op1 instanceof String && ((String) op1).equals("vacio")) return true;
+		if (op2 instanceof String && ((String) op2).equals("vacio")) return true;
+
+		if (op1 instanceof String && ((String) op1).equals("error")) return false;
+		if (op2 instanceof String && ((String) op2).equals("error")) return false;
+
 		Tipo t1, t2;
 		
 		t1=(Tipo) op1;

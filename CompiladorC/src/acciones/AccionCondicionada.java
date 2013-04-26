@@ -161,11 +161,7 @@ public class AccionCondicionada extends Accion {
 		
 	}
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual,TablaSimbolos ts) {
-		//Object oper1 = valor1==null ? (listaAtrib.get(emisor1).
-		Object oper1=null;
-		Object oper2=null;
-		
-		
+			
 	
 		Accion[] accionesEjecutar;
 
