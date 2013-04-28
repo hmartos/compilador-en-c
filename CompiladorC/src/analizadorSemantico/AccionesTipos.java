@@ -254,7 +254,7 @@ public class AccionesTipos {
 	/*41.2.  continue */ {},
 	/*41.3.  printf(ENTRECOMILLADO RPRINTF) */ {},
 	/*41.4.  scanf(ENTRECOMILLADO RSCANF) */ {},
-	/*41.5.  return EXP*/ {}},
+	/*41.5.  return EXP*/ {new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(1,""), new OperacionVarTS(new OperandoDirecto("0tipoRet"))),new Accion[]{},new Accion[]{new AccionGenError("Regla 41.5 El tipo de retorno no coincide con el declarado.")})}},
 
 /*42. ENTRECOMILLADO -> */ {
 	/*42.1. “(caracter)*” */ {new AccionAsignar("tipo",new OperandoCrearTipo("char",1))}},
