@@ -154,7 +154,7 @@ public class AccionesTipos {
 
 /*27. RDEF_FUNCION -> */ {
 	/*27.1. ; */ {new AccionAsignar("esPrototipo",true)},
-	/*27.2.  { BLOQUE_SENTENCIAS }*/ {new AccionAsignar("esPrototipo",false)}},
+	/*27.2.  { M_AMBITO_FUNCION BLOQUE_SENTENCIAS }*/ {new AccionAsignar("esPrototipo",false), new AccionCerrarAmbito()}},
 /*28. L_PARAMS -> */ {
 	/*28.1. ? */ {new AccionAsignar("esPrototipo",false),
 					new AccionAsignar("listaTipo",new OperandoCrearArrayList()),
@@ -231,11 +231,11 @@ public class AccionesTipos {
 /* - - Definicion de Sentencias - -*/
 
 /*38. L_SENTENCIAS -> */ {
-	/*38.1. {BLOQUE_SENTENCIAS} */ {},
-	/*38.2.  SENTENCIA*/ {}},
+	/*38.1. { M_AMBITO BLOQUE_SENTENCIAS} */ {new AccionCerrarAmbito()},
+	/*38.2.  M_AMBITO SENTENCIA*/ {new AccionCerrarAmbito()}},
 /*39. BLOQUE_SENTENCIAS  ->*/ {
 	/*39.1.  SENTENCIA BLOQUE_SENTENCIAS */ {},
-	/*39.2. {BLOQUE_SENTENCIAS} */ {},
+	/*39.2. { M_AMBITO BLOQUE_SENTENCIAS} */ {new AccionCerrarAmbito()},
 	/* 39.3. ?*/ {}},
 /*40. SENTENCIA ->  */ {
 	/*40.1.  ; */ {},
@@ -290,7 +290,7 @@ public class AccionesTipos {
 	/*52.1. ? */			{new AccionAsignar("tipo","vacio")},
 	/*52.2.   EXP*/		{new AccionAsignar("tipo",0,"tipo")}},
 /*53. SENTENCIA_CASE -> */	{
-	/*53.1. switch (EXP) L_CASES*/	{new AccionCondicionada(2,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{ new AccionAsignar("tipo",4,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 53.1: El tipo del switch debe de ser entero."))})}
+	/*53.1. switch (EXP) M_AMBITO L_CASES*/	{new AccionCondicionada(2,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{ new AccionAsignar("tipo",4,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 53.1: El tipo del switch debe de ser entero."))}), new AccionCerrarAmbito()}
 							},
 /*54. L_CASES  -> */ {
 	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
@@ -549,8 +549,11 @@ public class AccionesTipos {
 	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},
 	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{/*rellenar*//*new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar,sdffdw,"tipo")}))}*/},
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*rellenar*//*TS*/},
-	/*105.5.  OP_INC IDENTIFICADOR*/															{/*rellenar*/}}
-
+	/*105.5.  OP_INC IDENTIFICADOR*/															{/*rellenar*/}},
+/*106. M_AMBITO->*/{
+	/*106.1. (lambda)*/			{}},
+/*107. M_AMBITO->*/{
+	/*107.1. (lambda)*/			{}}
 	
 	};
 }
