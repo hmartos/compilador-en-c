@@ -12,6 +12,10 @@ public void setAtt(Atributo att) {
 	this.att = att;
 }
 
+public String toString(){
+	return att.toString();
+}
+
 public EntradaTabla(){att=null;}
 	
 

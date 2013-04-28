@@ -16,6 +16,10 @@ public class AccionGenError extends Accion {
 		this.op=op;
 	}
 	
+	public AccionGenError (String s){
+		this.op= new OperandoDirecto(s);
+	}
+	
 	
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
@@ -23,6 +27,9 @@ public class AccionGenError extends Accion {
 		
 		ArrayList<ErrorCompilador> l= new ArrayList<ErrorCompilador>( );
 		l.add(new ErrorSemantico(op.getValor(listaAtrib, atribActual, ts).toString()));
+		
+		
+		atribActual.put("error", true);
 		return l;
 		
 	}
