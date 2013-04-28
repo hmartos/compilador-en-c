@@ -8,6 +8,27 @@ public class AtributosTablaFuncion extends Atributo {
 	int dimRet;
 	int nCampos;
 	ArrayList<String> listaTipos;
+	ArrayList<String> listaIden; //Solo para dentro del cuerpo de la funcion
+	
+	
+	
+	public AtributosTablaFuncion(String tipoRet, int dimRet, int nCampos,
+			ArrayList<String> listaTipos, ArrayList<String> listaIden,
+			ArrayList<Integer> listaDim) {
+		super();
+		this.tipoRet = tipoRet;
+		this.dimRet = dimRet;
+		this.nCampos = nCampos;
+		this.listaTipos = listaTipos;
+		this.listaIden = listaIden;
+		this.listaDim = listaDim;
+	}
+	public ArrayList<String> getListaIden() {
+		return listaIden;
+	}
+	public void setListaIden(ArrayList<String> listaIden) {
+		this.listaIden = listaIden;
+	}
 	ArrayList<Integer> listaDim;
 	
 	public String getTipoRet() {
@@ -42,5 +63,14 @@ public class AtributosTablaFuncion extends Atributo {
 	}
 	
 	
+	
+	
+	@Override
+	public String toString() {
+		return "AtributosTablaFuncion [tipoRet=" + tipoRet + ", dimRet="
+				+ dimRet + ", nCampos=" + nCampos + ", listaTipos="
+				+ listaTipos + ", listaIden=" + listaIden + ", listaDim="
+				+ listaDim + "]";
+	}
 	
 }

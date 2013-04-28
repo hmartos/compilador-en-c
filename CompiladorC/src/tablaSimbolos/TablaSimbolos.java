@@ -7,7 +7,6 @@ public class TablaSimbolos {
 	TablaAmbito reservadas;
 	
 	
-	
 	public TablaSimbolos(){
 		global=new TablaAmbito();
 		actual=global;
@@ -39,7 +38,7 @@ public class TablaSimbolos {
 		if (buscado!=null) return buscado;
 		else{
 			TablaAmbito busquedaAct=actual;
-			while(buscado==null && busquedaAct!=global){
+			while(buscado==null&&busquedaAct!=null){
 				buscado=busquedaAct.tabla.get(lexema);
 				busquedaAct=busquedaAct.contenedor; //Actualizamos por si no la ha encontrado.
 			}

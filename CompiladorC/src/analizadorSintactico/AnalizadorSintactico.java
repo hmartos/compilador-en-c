@@ -82,10 +82,23 @@ public class AnalizadorSintactico {
 				
 				}else{//No se puede aplicar ninguna regla
 					if(primeros.estaPrimeros((NT) termAct, tokenLambda)){
-						nTerm++;
+						
+						//Semantico: para poder ejecutar las acciones de una regla que sea lambda, buscamos su posicion exclusivamente.
+						Object[][] reglaConLambda=Gramatica.reglasGramatica[((NT)termAct).ordinal()];
+						int b=0;
+						boolean encontrada=false;
+						while (b<reglaConLambda.length && !encontrada){
+							if (reglaConLambda[b][0].equals(tokenLambda)) encontrada=true;
+							b++;
+						}
+						b--;
+						
 						HashMap<String,Object> atribLambda= new HashMap<String, Object>();
-						atribLambda.put("tipo", "vacio");
-						listaAtrib.add(atribLambda); //Semantico: si es lambda añadimos atributos vacios.
+						semantico.ejecutar((NT)termAct, b, new ArrayList<Object>(),atribLambda );
+						listaAtrib.add(atribLambda); 
+						//Semantico: si es lambda añadimos atributos vacios.
+						
+						nTerm++;
 						System.out.println("Tomamos "+termAct.toString()+" como LAMBDA");
 
 					}

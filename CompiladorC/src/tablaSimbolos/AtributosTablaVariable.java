@@ -8,6 +8,15 @@ public class AtributosTablaVariable extends Atributo {
 	int dim;
 	ArrayList<Integer> tamaños;
 	
+	
+	
+	public AtributosTablaVariable(String tipo, int dim,
+			ArrayList<Integer> tamaños) {
+		super();
+		this.tipo = tipo;
+		this.dim = dim;
+		this.tamaños = tamaños;
+	}
 	public String getTipo() {
 		return tipo;
 	}

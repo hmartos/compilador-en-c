@@ -28,7 +28,7 @@ public class AccionR15_1 extends Accion {
 		EntradaTabla entTabla =ts.busquedaCompleta(lex);
 		Atributo at;
 		ArrayList<ErrorCompilador> listErr= new ArrayList<ErrorCompilador>();
-		if (entTabla!=null)  at= ts.busquedaCompleta(lex).getAtt();
+		if (entTabla!=null)  at= entTabla.getAtt();
 		else at=null;
 		
 		 
@@ -36,9 +36,13 @@ public class AccionR15_1 extends Accion {
 		
 		if (at instanceof AtributosTablaVariable){
 			AtributosTablaVariable atv= (AtributosTablaVariable)at;
-			int nCor = (Integer)((HashMap)listaAtrib.get(3)).get("num");
+			Object nCorB=((HashMap)listaAtrib.get(3)).get("num"); // esta accion viene para prevenir el asunto de las lambdas que no llegan.
+			int nCor=0;
+			if (nCorB!=null)nCor = (Integer)nCorB;
+			
 			int nAst = (Integer)((HashMap)listaAtrib.get(1)).get("num");
-			int nAmp = ((HashMap)listaAtrib.get(1)).get("tieneAmp").equals("true") ? 1:0;
+			Boolean tieneAmp =(Boolean)((HashMap)listaAtrib.get(0)).get("tieneAmp");
+			int nAmp = tieneAmp ? 1:0;
 			atv.getDim();
 			if (nCor+nAst-nAmp<=atv.getDim()){
 				atribActual.put("tipo", new Tipo(atv.getTipo(),atv.getDim()-(nCor+nAst-nAmp)));
