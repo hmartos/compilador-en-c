@@ -5,6 +5,8 @@ import gestorErrores.ErrorCompilador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tablaSimbolos.AtributosTablaFuncion;
+import tablaSimbolos.AtributosTablaVariable;
 import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaSimbolos;
 
@@ -22,12 +24,15 @@ public class AccionAbrirAmbitoFuncion extends Accion {
 		Object valor =op.getValor(listaAtrib, atribActual, ts);
 		if (valor instanceof String){
 			EntradaTabla tabla= ts.busquedaCompleta((String)valor);
-			ts.nuevoAmbito();
-			ts.insertar((String)valor);
-			ts.añadirAtributos((String)valor, tabla.getAtt());
-			
+			if (tabla!=null && tabla.getAtt() instanceof AtributosTablaFuncion) {
+				AtributosTablaFuncion attF=(AtributosTablaFuncion) tabla.getAtt();
+				ts.nuevoAmbito();
+				ts.insertar("0tipoRet"); //Que feo!!
+				ts.añadirAtributos("0tipoRet", new AtributosTablaVariable(attF.getTipoRet(),attF.getDimRet(),null));
+			}
 		}
 		return new ArrayList<ErrorCompilador>();
 	}
 
 }
+
