@@ -527,7 +527,7 @@ public class AccionesGenCodigo {
  								},
 /*106. M_AMBITO->*/{
 	/*106.1. (lambda)*/			{}},
-/*107. M_AMBITO->*/{
+/*107. M_AMBITO_FUNCION->*/{
 	/*107.1. (lambda)*/			{}}
 	
 	};

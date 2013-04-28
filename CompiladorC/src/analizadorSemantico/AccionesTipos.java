@@ -551,9 +551,9 @@ public class AccionesTipos {
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*rellenar*//*TS*/},
 	/*105.5.  OP_INC IDENTIFICADOR*/															{/*rellenar*/}},
 /*106. M_AMBITO->*/{
-	/*106.1. (lambda)*/			{}},
-/*107. M_AMBITO->*/{
-	/*107.1. (lambda)*/			{}}
+	/*106.1. (lambda)*/			{new AccionAbrirAmbito()}},
+/*107. M_AMBITO_FUNCION->*/{
+	/*107.1. (lambda)*/			{new AccionAbrirAmbitoFuncion(new Opera)}}//Heredado
 	
 	};
 }
