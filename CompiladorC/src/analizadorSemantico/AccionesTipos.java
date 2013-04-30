@@ -154,7 +154,7 @@ public class AccionesTipos {
 
 /*27. RDEF_FUNCION -> */ {
 	/*27.1. ; */ {new AccionAsignar("esPrototipo",true)},
-	/*27.2.  { M_AMBITO_FUNCION BLOQUE_SENTENCIAS }*/ {new AccionAsignar("esPrototipo",false), new AccionCerrarAmbito()}},
+	/*27.2.  { M_AMBITO BLOQUE_SENTENCIAS }*/ {new AccionAsignar("esPrototipo",false), new AccionCerrarAmbito()}},
 /*28. L_PARAMS -> */ {
 	/*28.1. ? */ {new AccionAsignar("esPrototipo",false),
 					new AccionAsignar("listaTipo",new OperandoCrearArrayList()),
@@ -551,9 +551,7 @@ public class AccionesTipos {
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*rellenar*//*TS*/},
 	/*105.5.  OP_INC IDENTIFICADOR*/															{/*rellenar*/}},
 /*106. M_AMBITO->*/{
-	/*106.1. (lambda)*/			{new AccionAbrirAmbito()}},
-/*107. M_AMBITO_FUNCION->*/{
-	/*107.1. (lambda)*/			{new AccionAbrirAmbitoFuncion(new Opera)}}//Heredado
+	/*106.1. (lambda)*/			{new AccionAbrirAmbito()}}
 	
 	};
 }

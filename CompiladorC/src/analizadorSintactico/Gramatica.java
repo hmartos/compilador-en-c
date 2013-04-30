@@ -136,7 +136,7 @@ public class Gramatica {
 /* DEFINICION_TYPEDEF,*/{ {PalRes.PAL_RES_typedef,NT.RDEF_TYPEDEF} },
 /* RDEF_TYPEDEF,*/		{ {PalRes.PAL_RES_struct,new TokenId(null),NT.INDIRECCION,new TokenId(null),new TokenPuntoyComa()}, {NT.TIPO,new TokenId(null),new TokenPuntoyComa()} ,{PalRes.PAL_RES_union,new TokenId(null),NT.INDIRECCION,new TokenId(null),new TokenPuntoyComa()} , {PalRes.PAL_RES_enum,new TokenId(null),NT.INDIRECCION,new TokenId(null),new TokenPuntoyComa()} },
 
-/* RDEF_FUNCION,*/		{ {new TokenPuntoyComa()}, {llaveAbierta,NT.M_AMBITO_FUNCION,NT.BLOQUE_SENTENCIAS,llaveCerrada} },
+/* RDEF_FUNCION,*/		{ {new TokenPuntoyComa()}, {llaveAbierta,NT.M_AMBITO,NT.BLOQUE_SENTENCIAS,llaveCerrada} },
 /* L_PARAMS,*/			{ {new TokenLambda()}, {NT.TIPO,NT.RL_PARAMS} },
 /* RL_PARAMS,*/			{ {new TokenLambda()}, {new TokenComa(),NT.TIPO,NT.RL_PARAMS2}, {new TokenId(null), NT.RL_PARAMS3} },
 /* RL_PARAMS2,*/		{ {new TokenLambda()} , {new TokenComa(),NT.TIPO,NT.RL_PARAMS2} },
@@ -226,8 +226,7 @@ public class Gramatica {
 /*AUX*/					{ {NT.EXP}, {new TokenLambda()} },	
 
 /*REXP4*/				{ {NT.TIPO_PRIMITIVO,NT.INDIRECCION,NT.RDEFINICION},{NT.EXP_SIN_IDEN,NT.REXP, new TokenPuntoyComa()},{NT.MODIFICADOR,NT.L_MODIFICADORES,NT.RTIPO,NT.RDEFINICION},{new TokenId(null),NT.REXP3_2,NT.RDEFINICION},{NT.OP_INC, NT.IDENTIFICADOR}},
-/*M_AMBITO*/			{{new TokenLambda()}},
-/*M_AMBITO_FUNCION*/	{{new TokenLambda()}}
+/*M_AMBITO*/			{{new TokenLambda()}}
 	
 	};
 	
