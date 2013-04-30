@@ -37,7 +37,7 @@ public class AnalizadorSintactico {
 	public boolean analizar(){
 				
 		tokenActual=lexico.Scan();
-		return analizarRec(NT.PROGRAMA,0)==null? true:false;
+		return analizarRec(NT.PROGRAMA,0)==null? false:true;
 	}
 	
 	
