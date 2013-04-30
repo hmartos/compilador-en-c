@@ -1,6 +1,7 @@
 package analizadorSemantico;
 
 import acciones.*;
+import accionesEspecificas.AccionR105_1;
 import accionesEspecificas.AccionR15_1;
 import accionesEspecificas.AccionR3_2;
 
@@ -545,7 +546,7 @@ public class AccionesTipos {
 	/*104.1. EXP */								{new AccionAsignar("tipo",0,"tipo")},
 	/*104.2.  ?*/								{new AccionAsignar("tipo","vacio")}},
 /*105. REXP4 -> */{
-	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionCondicionada(0, "estaEnTS",null, 2,"lexema",new AccionAsignar("tipo","error"),new AccionAsignar("tipo",0,"tipo"))},
+	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionR105_1()},
 	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},
 	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{/*rellenar*//*new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar,sdffdw,"tipo")}))}*/},
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*rellenar*//*TS*/},
