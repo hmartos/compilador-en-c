@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true">  
+  <package id="1" language="java" name="analizadorSemantico" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSemantico" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="50" width="167" x="537" y="37"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <class id="2" language="java" name="analizadorSemantico.AccionesGenCodigo" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSemantico/AccionesGenCodigo.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="166" x="42" y="211"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="analizadorSemantico.AnalizadorSemantico" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSemantico/AnalizadorSemantico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="376" x="121" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="analizadorSemantico.AccionesTipos" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSemantico/AccionesTipos.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="136" x="248" y="211"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="analizadorSemantico.AccionesError" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSemantico/AccionesError.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="136" x="424" y="211"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <dependency id="6">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="7">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="8">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
