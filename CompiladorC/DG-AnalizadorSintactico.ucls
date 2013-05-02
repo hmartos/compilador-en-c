@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <package id="1" language="java" name="analizadorSintactico" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSintactico" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="50" width="164" x="897" y="37"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <enumeration id="2" language="java" name="analizadorSintactico.NT" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSintactico/NT.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1988" width="235" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="3" language="java" name="analizadorSintactico.AnalizadorSintactico" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSintactico/AnalizadorSintactico.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="242" width="541" x="316" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="analizadorSintactico.Gramatica" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSintactico/Gramatica.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="476" width="175" x="1101" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="analizadorSintactico.Primeros" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSintactico/Primeros.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="261" x="316" y="2065"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <association id="6">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="7" name="primeros"/>      
+      <multiplicity id="8" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
