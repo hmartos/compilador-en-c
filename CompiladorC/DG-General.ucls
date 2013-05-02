@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.2" icons="true" automaticImage="JPEG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="false" dependencies="true" nesting-relationships="true">  
+  <package id="1" language="java" name="analizadorLexico" project="CompiladorC" file="/CompiladorC/src/analizadorLexico" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="34" width="141" x="104" y="407"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="2" language="java" name="tablaSimbolos" project="CompiladorC" file="/CompiladorC/src/tablaSimbolos" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="34" width="122" x="266" y="629"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="3" language="java" name="acciones" project="CompiladorC" file="/CompiladorC/src/acciones" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="34" width="86" x="419" y="407"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="4" language="java" name="token" project="CompiladorC" file="/CompiladorC/src/token" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="34" width="63" x="306" y="555"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="5" language="java" name="main" project="CompiladorC" file="/CompiladorC/src/main" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="376" y="70"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="6" language="java" name="analizadorSintactico" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSintactico" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="34" width="164" x="64" y="185"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="7" language="java" name="gestorErrores" project="CompiladorC" file="/CompiladorC/src/gestorErrores" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="34" width="117" x="346" y="481"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="8" language="java" name="analizadorSemantico" project="CompiladorC" 
+    file="/CompiladorC/src/analizadorSemantico" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="34" width="167" x="338" y="259"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="9" language="java" name="interfaz" project="CompiladorC" file="/CompiladorC/src/interfaz" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="34" width="75" x="338" y="111"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <package id="10" language="java" name="accionesEspecificas" project="CompiladorC" 
+    file="/CompiladorC/src/accionesEspecificas" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="34" width="165" x="268" y="333"/>    
+    <display autosize="true" stereotype="false" accessors="true"/>  
+  </package>  
+  <dependency id="11">    
+    <bendpoint x="347" y="185"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="12">    
+    <bendpoint x="514" y="333"/>    
+    <bendpoint x="556" y="407"/>    
+    <bendpoint x="556" y="481"/>    
+    <bendpoint x="556" y="555"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="13">    
+    <bendpoint x="216" y="333"/>    
+    <bendpoint x="258" y="259"/>    
+    <bendpoint x="258" y="185"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="14">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="15">    
+    <bendpoint x="31" y="185"/>    
+    <bendpoint x="31" y="259"/>    
+    <bendpoint x="31" y="333"/>    
+    <bendpoint x="31" y="407"/>    
+    <bendpoint x="31" y="481"/>    
+    <bendpoint x="31" y="555"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="16">    
+    <bendpoint x="493" y="481"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="17">    
+    <bendpoint x="73" y="259"/>    
+    <bendpoint x="73" y="333"/>    
+    <bendpoint x="73" y="407"/>    
+    <bendpoint x="94" y="481"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="18">    
+    <bendpoint x="535" y="185"/>    
+    <bendpoint x="535" y="259"/>    
+    <bendpoint x="535" y="333"/>    
+    <bendpoint x="535" y="407"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="20">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="21">    
+    <bendpoint x="577" y="185"/>    
+    <bendpoint x="577" y="259"/>    
+    <bendpoint x="577" y="333"/>    
+    <bendpoint x="577" y="407"/>    
+    <bendpoint x="535" y="481"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="22">    
+    <bendpoint x="275" y="407"/>    
+    <bendpoint x="275" y="481"/>    
+    <bendpoint x="275" y="555"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="23">    
+    <bendpoint x="73" y="481"/>    
+    <bendpoint x="73" y="555"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="24">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="25">    
+    <bendpoint x="338" y="407"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="26">    
+    <bendpoint x="237" y="259"/>    
+    <bendpoint x="237" y="333"/>    
+    <bendpoint x="296" y="407"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="27">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="28">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="29">    
+    <bendpoint x="484" y="333"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="30">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="31">    
+    <bendpoint x="514" y="481"/>    
+    <bendpoint x="514" y="555"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="32">    
+    <bendpoint x="463" y="333"/>    
+    <bendpoint x="388" y="407"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="33">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="34">    
+    <bendpoint x="52" y="259"/>    
+    <bendpoint x="52" y="333"/>    
+    <bendpoint x="52" y="407"/>    
+    <bendpoint x="52" y="481"/>    
+    <bendpoint x="52" y="555"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="35">    
+    <bendpoint x="317" y="407"/>    
+    <bendpoint x="315" y="481"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="36">    
+    <bendpoint x="94" y="259"/>    
+    <bendpoint x="94" y="333"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <dependency id="37">    
+    <bendpoint x="214" y="481"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="38">    
+    <bendpoint x="399" y="555"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="39">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="false">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
