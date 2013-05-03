@@ -52,7 +52,10 @@ public class AccionR105_1 extends Accion {
 					Object o= itVal.next();
 					if (o!=null && !tipo0.equals(o)){
 						valido=false;
-						listErr.add(new ErrorSemantico("No coinciden los tipos: "+tipo0.toString()+" y "+ o.toString()));
+						int colErr = (Integer)(atribActual.get("filaInicio"));
+						int rowErr = (Integer)(atribActual.get("colInicio"));
+
+						listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos: "+tipo0.toString()+" y "+ o.toString()));
 						atribActual.put("error", true);
 					}
 				}
