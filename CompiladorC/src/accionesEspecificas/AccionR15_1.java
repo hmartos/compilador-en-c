@@ -26,6 +26,9 @@ public class AccionR15_1 extends Accion {
 		
 		Boolean esFun=false;
 		Boolean esFunB=(Boolean)((HashMap)listaAtrib.get(3)).get("esFuncion");
+		int colErr = (Integer)(atribActual.get("filaInicio"));
+		int rowErr = (Integer)(atribActual.get("colInicio"));
+		
 		if (esFunB!=null)esFun=esFunB;
 
 		
@@ -57,11 +60,11 @@ public class AccionR15_1 extends Accion {
 				}
 				else {
 					atribActual.put("error", true);
-					listErr.add(new ErrorSemantico("El número de indirecciones ("+(atv.getDim()-(nCor+nAst-nAmp))+ ") es incorrecto"));
+					listErr.add(new ErrorSemantico(rowErr,colErr,"El número de indirecciones ("+(atv.getDim()-(nCor+nAst-nAmp))+ ") es incorrecto"));
 				}
 			}else {
 				atribActual.put("error", true);
-				listErr.add(new ErrorSemantico("La función "+lex+" no está definida."));
+				listErr.add(new ErrorSemantico(rowErr,colErr,"La función "+lex+" no está definida."));
 			}
 		} else if (at instanceof AtributosTablaFuncion){// Es una funcion
 			if (esFun){	
@@ -84,20 +87,20 @@ public class AccionR15_1 extends Accion {
 
 					} else {
 						atribActual.put("error", true);
-						listErr.add(new ErrorSemantico("El número de indirecciones ("+(atf.getDimRet()-(nAst-nAmp))+ ") es incorrecto"));
+						listErr.add(new ErrorSemantico(rowErr,colErr,"El número de indirecciones ("+(atf.getDimRet()-(nAst-nAmp))+ ") es incorrecto"));
 					}
 	
 				} else {
 					atribActual.put("error", true);
-					listErr.add(new ErrorSemantico("Los tipos no concuerdan en los parametros de la funcion "+ lex));
+					listErr.add(new ErrorSemantico(rowErr,colErr,"Los tipos no concuerdan en los parametros de la funcion "+ lex));
 				}
 			}else{
 				atribActual.put("error", true);
-				listErr.add(new ErrorSemantico("La variable "+lex+" no está definida."));
+				listErr.add(new ErrorSemantico(rowErr,colErr,"La variable "+lex+" no está definida."));
 			}
 		} else {
 			atribActual.put("error", true);
-			listErr.add(new ErrorSemantico("El identificador "+lex+" no está definido."));
+			listErr.add(new ErrorSemantico(rowErr,colErr,"El identificador "+lex+" no está definido."));
 		}
 		return listErr;
 	}
