@@ -9,6 +9,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import tablaSimbolos.TablaSimbolos;
+import token.Token;
 
 
 public class AccionGenericaFilaColumna extends Accion{
@@ -21,31 +22,36 @@ public class AccionGenericaFilaColumna extends Accion{
 		boolean recorridoDerIzq= false;
 		
 		Iterator<Object> itAtr=listaAtrib.iterator();
-		Object atr=itAtr.next();
-		Object filaInicio = ((HashMap<String, Object>)atr).get("filaInicio");
-		Object filaFin    = ((HashMap<String, Object>)atr).get("filaFin");
+		
+		
 		
 		while(itAtr.hasNext() && busquedaIzqDer)
 		{
-			atr=itAtr;
+			Object atr=itAtr.next();
 			// No Terminal
 			if (atr instanceof HashMap)
 			{
+				Object filaInicio = ((HashMap<String, Object>)atr).get("filaInicio");
+				Object colInicio = ((HashMap<String, Object>)atr).get("colInicio");
+
 				if (filaInicio!=null)
 				{	
 					// Me kedo con ellas se la paso al padre
 					busquedaIzqDer = false;
-					atribActual.put("filaInicio", atr);
+					atribActual.put("filaInicio", filaInicio);
+					atribActual.put("colInicio", colInicio);
 					recorridoDerIzq = true;
 				}
 			}
 			// Terminal
 			else
 			{
-				atr=itAtr;
+				Token tok= (Token) atr;
+				
 				busquedaIzqDer = false;
 				// no tengo que hacer recorrido derecha izquierda, asigno directamente.
-				atribActual.put("filaInicio", atr);
+				atribActual.put("filaInicio", tok.getLinea());
+				atribActual.put("fcolInicio", tok.getCol());
 				//atribActual.put("filaFin", hay);
 				recorridoDerIzq = true;
 			}
