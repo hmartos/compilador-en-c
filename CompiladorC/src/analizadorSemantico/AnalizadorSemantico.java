@@ -10,6 +10,7 @@ import tablaSimbolos.TablaSimbolos;
 
 import acciones.Accion;
 import acciones.AccionGenericaError;
+import acciones.AccionGenericaFilaColumna;
 import acciones.AccionGenericaSubida;
 import analizadorSintactico.Gramatica;
 import analizadorSintactico.NT;
@@ -34,6 +35,10 @@ public class AnalizadorSemantico {
 		
 		//Ejecutamos la accion predeterminada para los errores.
 		new AccionGenericaError().ejecutar(listaAtrib, atribActual, ts);
+		
+		//Ejecutamos la accion predeterminada para las filas y columnas.
+		new AccionGenericaFilaColumna().ejecutar(listaAtrib, atribActual, ts);
+		
 		//Ejecutamos las acciones especificas sobre la tabla de errores.
 		Accion[] listAcciones=AccionesError.acciones[nT.ordinal()][nRegla];
 		for (int i=0;i<listAcciones.length;i++){
