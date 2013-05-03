@@ -17,7 +17,6 @@ public class AccionGenericaFilaColumna extends Accion{
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) 
 	{
-		boolean hay = false;
 		boolean busquedaIzqDer = true;
 		boolean recorridoDerIzq= false;
 		
@@ -28,27 +27,27 @@ public class AccionGenericaFilaColumna extends Accion{
 		
 		while(itAtr.hasNext() && busquedaIzqDer)
 		{
-			
+			atr=itAtr;
 			// No Terminal
 			if (atr instanceof HashMap)
 			{
 				if (filaInicio!=null)
 				{	
 					// Me kedo con ellas se la paso al padre
-					hay = true;
 					busquedaIzqDer = false;
-					atribActual.put("filaInicio", hay);
+					atribActual.put("filaInicio", atr);
 					recorridoDerIzq = true;
 				}
 			}
 			// Terminal
 			else
 			{
-				hay = true;
+				atr=itAtr;
 				busquedaIzqDer = false;
 				// no tengo que hacer recorrido derecha izquierda, asigno directamente.
-				atribActual.put("filaInicio", hay);
+				atribActual.put("filaInicio", atr);
 				//atribActual.put("filaFin", hay);
+				recorridoDerIzq = true;
 			}
 		}
 		
@@ -61,17 +60,17 @@ public class AccionGenericaFilaColumna extends Accion{
 			{
 				if (filaFin!=null)
 				{	
+					atr=itDerIzq;
 					// Me kedo con ellas se la paso al padre
-					hay = true;
-					atribActual.put("filaFin", hay);
+					atribActual.put("filaFin", atr);
 					recorridoDerIzq = false;
 				}
 			}
 			// Terminal
 			else
-			{
-				hay = true;
-				atribActual.put("filaFin", hay);
+			{	
+				atr=itDerIzq;
+				atribActual.put("filaFin", atr);
 			}
 		}
 		return new ArrayList<ErrorCompilador>();
