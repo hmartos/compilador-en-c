@@ -30,7 +30,7 @@ public class AccionGenError extends Accion {
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
 		
 		ArrayList<ErrorCompilador> l= new ArrayList<ErrorCompilador>( );
-		l.add(new ErrorSemantico((Integer)opRow.getValor(listaAtrib, atribActual, ts),(Integer)opCol.getValor(listaAtrib, atribActual, ts),op.getValor(listaAtrib, atribActual, ts).toString()));
+		l.add(new ErrorSemantico((Integer)opRow.getValor(listaAtrib, atribActual, ts),((Integer)opCol.getValor(listaAtrib, atribActual, ts)),op.getValor(listaAtrib, atribActual, ts).toString()));
 		
 		
 		atribActual.put("error", true);
