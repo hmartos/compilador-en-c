@@ -26,8 +26,8 @@ public class AccionR15_1 extends Accion {
 		
 		Boolean esFun=false;
 		Boolean esFunB=(Boolean)((HashMap)listaAtrib.get(3)).get("esFuncion");
-		int colErr = (Integer)(atribActual.get("filaInicio"));
-		int rowErr = (Integer)(atribActual.get("colInicio"));
+		int rowErr = (Integer)(atribActual.get("filaInicio"));
+		int colErr = (Integer)(atribActual.get("colInicio"));
 		
 		if (esFunB!=null)esFun=esFunB;
 

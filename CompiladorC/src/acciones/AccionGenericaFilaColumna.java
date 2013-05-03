@@ -51,7 +51,7 @@ public class AccionGenericaFilaColumna extends Accion{
 				busquedaIzqDer = false;
 				// no tengo que hacer recorrido derecha izquierda, asigno directamente.
 				atribActual.put("filaInicio", tok.getLinea());
-				atribActual.put("fcolInicio", tok.getCol());
+				atribActual.put("colInicio", tok.getCol());
 				//atribActual.put("filaFin", hay);
 				recorridoDerIzq = true;
 			}
@@ -80,7 +80,7 @@ public class AccionGenericaFilaColumna extends Accion{
 			{	
 				Token tok= (Token) atr;
 				atribActual.put("filaFin", tok.getLinea());
-				atribActual.put("fcolFin", tok.getCol());
+				atribActual.put("colFin", tok.getCol());
 			}
 		}
 		return new ArrayList<ErrorCompilador>();

@@ -31,8 +31,8 @@ public class AccionR105_1 extends Accion {
 		Object t0 = ((HashMap)listaAtrib.get(0)).get("tipo");
 		int n1 = (Integer)((HashMap)listaAtrib.get(1)).get("num");
 		Boolean esFun = (Boolean)((HashMap)listaAtrib.get(2)).get("esFuncion");
-		int colErr = (Integer)(atribActual.get("filaInicio"));
-		int rowErr = (Integer)(atribActual.get("colInicio"));
+		int rowErr = (Integer)(atribActual.get("filaInicio"));
+		int colErr = (Integer)(atribActual.get("colInicio"));
 		
 		if (t0 instanceof Tipo ){
 			Tipo tipo0=(Tipo) t0;
