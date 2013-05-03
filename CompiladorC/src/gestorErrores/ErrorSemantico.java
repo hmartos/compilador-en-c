@@ -2,8 +2,8 @@ package gestorErrores;
 
 public class ErrorSemantico extends ErrorCompilador {
 	
-	public ErrorSemantico(String s){
-		super(0,0,s);
+	public ErrorSemantico(int row,int col,String s){
+		super(row,col,s);
 		super.tipo=ErrorCompilador.TipoError.SEMANTICO;
 	}
 }
