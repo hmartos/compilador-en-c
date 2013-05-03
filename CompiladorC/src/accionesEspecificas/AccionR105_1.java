@@ -31,6 +31,8 @@ public class AccionR105_1 extends Accion {
 		Object t0 = ((HashMap)listaAtrib.get(0)).get("tipo");
 		int n1 = (Integer)((HashMap)listaAtrib.get(1)).get("num");
 		Boolean esFun = (Boolean)((HashMap)listaAtrib.get(2)).get("esFuncion");
+		int colErr = (Integer)(atribActual.get("filaInicio"));
+		int rowErr = (Integer)(atribActual.get("colInicio"));
 		
 		if (t0 instanceof Tipo ){
 			Tipo tipo0=(Tipo) t0;
@@ -41,7 +43,8 @@ public class AccionR105_1 extends Accion {
 			if (!esFun){	// Es una declaracion de variable.
 				
 				int numCorchetes = (Integer)((HashMap)listaAtrib.get(1)).get("num");
-	
+				
+				
 				tipo0.setDim(tipo0.getDim()+numCorchetes);
 				//Aqui habría un error en la gramatica por el que solo se puede poner corchetes en la primera variable.
 				
@@ -52,8 +55,7 @@ public class AccionR105_1 extends Accion {
 					Object o= itVal.next();
 					if (o!=null && !tipo0.equals(o)){
 						valido=false;
-						int colErr = (Integer)(atribActual.get("filaInicio"));
-						int rowErr = (Integer)(atribActual.get("colInicio"));
+						
 
 						listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos: "+tipo0.toString()+" y "+ o.toString()));
 						atribActual.put("error", true);
@@ -67,7 +69,7 @@ public class AccionR105_1 extends Accion {
 							ts.añadirAtributos((String)lex, new AtributosTablaVariable(tipo0.getTipo(),tipo0.getDim(),null));
 						}else {
 							atribActual.put("error", true);
-							listErr.add(new ErrorSemantico("Ya existe la variable: "+lex.toString()+" en este contexto."));
+							listErr.add(new ErrorSemantico(rowErr,colErr,"Ya existe la variable: "+lex.toString()+" en este contexto."));
 						}
 
 					}
@@ -78,7 +80,7 @@ public class AccionR105_1 extends Accion {
 				
 			}else{ // Es una declaracion de funcion.
 				atribActual.put("error", true);
-				listErr.add(new ErrorSemantico("No se puede definir una función en este contexto."));
+				listErr.add(new ErrorSemantico(rowErr,colErr,"No se puede definir una función en este contexto."));
 			}
 		}else{atribActual.put("tipo", "error");
 			
