@@ -106,8 +106,19 @@ public class AccionR3_2 extends Accion {
 									listErr.add(new ErrorSemantico("No coinciden los tipos en el prototipo y el cuerpo de la funcion")); 
 								}
 							}else {
-								atribActual.put("error", true);
-								listErr.add(new ErrorSemantico("Se esperaba el tipo de retorno: "+attF.getTipoRet()+"- Dim"+attF.getDimRet())); 
+								ts.insertar(nombre);
+								ArrayList<Integer> listaDim =new ArrayList<Integer>();
+								ArrayList<String> listaStringTipo =new ArrayList<String>();
+								for (Iterator<Tipo> itT=listaTipo.iterator();itT.hasNext();){
+									Tipo t=itT.next();
+									if (!t.getTipo().equals("void")){ //Evita que se creen tipos si es void.
+										listaDim.add(t.getDim());
+										listaStringTipo.add(t.getTipo());
+									}
+								}
+								ts.añadirAtributos(nombre, new AtributosTablaFuncion(tipo0.getTipo(), tipo0.getDim(), listaStringTipo.size(), listaStringTipo, listaIden, listaDim));
+							
+								
 							}
 						}
 					} else{

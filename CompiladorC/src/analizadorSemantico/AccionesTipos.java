@@ -80,14 +80,14 @@ public class AccionesTipos {
 	/*10.2.  <iden.iden>*/			{},
 								},
 /*11. RIFDEF ->  */				{
-	/*11.1. # RIFDEF2 RIFDEF */		{new AccionCondicionada(1,"tipo","igual",2,"tipo",new Accion[]{new AccionAsignar("tipo","tipo")},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 11.1: Los tipos no coinciden."))})},
-	/*11.2.  L_SENTENCIAS */		{new AccionAsignar("tipo",0,"tipo")},
+	/*11.1. # RIFDEF2 RIFDEF */		{},
+	/*11.2.  L_SENTENCIAS */		{},
 	/*11.3.  ? */					{},
 								},
 /*12. RIFDEF2 -> */				{
-	/*12.1. elif iden RIFDEF*/		{new AccionAsignar("tipo",2,"tipo")},
-	/*12.2. else L_SENTENCIAS */	{new AccionAsignar("tipo",1,"tipo")},
-	/*12.3.  RMACRO*/				{new AccionAsignar("tipo",0,"tipo")},
+	/*12.1. elif iden RIFDEF*/		{},
+	/*12.2. else L_SENTENCIAS */	{},
+	/*12.3.  RMACRO*/				{},
 								},
 
 /* - - Definicion de Variables - -*/
@@ -111,8 +111,8 @@ public class AccionesTipos {
 	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/	{ new AccionR15_1()}
 														},
 /*16. RIDENTIFICADOR ->*/		{					
-	/*16.1.  CORCHETES */			{},
-	/*16.2.  (L_PARAMS_LLAMADA) */	{},
+	/*16.1.  CORCHETES */			{new AccionAsignar ("esFuncion",false)},
+	/*16.2.  (L_PARAMS_LLAMADA) */	{new AccionAsignar ("esFuncion",true)},
 								},
 /*17. CORCHETES ->*/ {	
 	/*17.1.  ? */    { new AccionAsignar("num",0),new AccionAsignar("listaCorchete",new OperandoCrearArrayList())},
@@ -161,6 +161,7 @@ public class AccionesTipos {
 					new AccionAsignar("listaTipo",new OperandoCrearArrayList()),
 					new AccionAsignar("listaIden",new OperandoCrearArrayList())},
 	/*28.2.  TIPO RL_PARAMS*/ {new AccionAsignar("listaTipo",new OperacionAgregarALista(new OperandoGramatica(1,"listaTipo"),new OperandoGramatica(0,"tipo")))}},
+
 /*29. RL_PARAMS -> */ {
 	/*29.1. ? */ {new AccionAsignar("esPrototipo",true),new AccionAsignar("listaTipo",new OperandoCrearArrayList())},
 	/*29.2.   ,TIPO RL_PARAMS2 */ {new AccionAsignar("esPrototipo",true),
@@ -517,8 +518,8 @@ public class AccionesTipos {
 	/*98.8.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0))},
 	/*98.9.  ENTRECOMILLADO*/			{new AccionAsignar("tipo",0,"tipo")}},
 /*99. REXP3_2 -> */{
-	/*99.1. INDIRECCION2 */				{new AccionAsignar("esCasting","true"),new AccionAsignar("tipo","vacio"),new AccionAsignar("num",0,"num")},
-	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar("tipo",1,"tipo"),new AccionAsignar("esCasting","false")}},
+	/*99.1. INDIRECCION2 */				{new AccionAsignar("esCasting","true")},
+	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar("esCasting","false")}},
 /*100. REXPRESIONES -> */{
 	/*100.1. REXP */					{new AccionAsignar("tipo",0,"tipo")},
 	/*100.2.  REXP_COND */				{new AccionAsignar("tipo",0,"tipo")},
@@ -550,7 +551,15 @@ public class AccionesTipos {
 	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},
 	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{/*rellenar*//*new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar,sdffdw,"tipo")}))}*/},
 	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*rellenar*//*TS*/},
-	/*105.5.  OP_INC IDENTIFICADOR*/															{/*rellenar*/}},
+	/*105.5.  OP_INC IDENTIFICADOR*/	{new AccionCondicionada(
+											new CondicionHeredada(
+													new CondicionEsCompatible(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("int",0)),
+													new CondicionHeredada(new OperandoGramatica(1,"esFuncion"),new OperandoDirecto(false),"igual"),
+													"and"),
+											new Accion[]{},
+											new Accion[]{new AccionGenError("No se puede aplicar el opeando a este identificador.")})
+										}
+					},
 /*106. M_AMBITO->*/{
 	/*106.1. (lambda)*/			{new AccionAbrirAmbito()}}
 	

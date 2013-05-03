@@ -91,12 +91,14 @@ public class AnalizadorSintactico {
 							if (reglaConLambda[b][0].equals(tokenLambda)) encontrada=true;
 							b++;
 						}
-						b--;
 						
 						HashMap<String,Object> atribLambda= new HashMap<String, Object>();
-						semantico.ejecutar((NT)termAct, b, new ArrayList<Object>(),atribLambda );
+						if (encontrada){
+							b--;
+							semantico.ejecutar((NT)termAct, b, new ArrayList<Object>(),atribLambda );
+							//Semantico: si es lambda añadimos atributos vacios.
+						}
 						listaAtrib.add(atribLambda); 
-						//Semantico: si es lambda añadimos atributos vacios.
 						
 						nTerm++;
 						System.out.println("Tomamos "+termAct.toString()+" como LAMBDA");
