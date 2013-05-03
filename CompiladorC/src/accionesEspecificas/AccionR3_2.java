@@ -31,6 +31,8 @@ public class AccionR3_2 extends Accion {
 		Object t0 = ((HashMap)listaAtrib.get(0)).get("tipo");
 		//String t1 = (String)((HashMap)listaAtrib.get(1)).get("tipo");
 		Boolean esFun = (Boolean)((HashMap)listaAtrib.get(1)).get("esFuncion");
+		int colErr = (Integer)(atribActual.get("filaInicio"));
+		int rowErr = (Integer)(atribActual.get("colInicio"));
 		
 		if (t0 instanceof Tipo ){
 			Tipo tipo0=(Tipo) t0;
@@ -48,7 +50,7 @@ public class AccionR3_2 extends Accion {
 					Object o= itVal.next();
 					if (o!=null && !tipo0.equals(o)){
 						valido=false;
-						listErr.add(new ErrorSemantico("No coinciden los tipos: "+tipo0.toString()+" y "+ o.toString()));
+						listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos: "+tipo0.toString()+" y "+ o.toString()));
 						atribActual.put("error", true);
 					}
 				}
@@ -60,7 +62,7 @@ public class AccionR3_2 extends Accion {
 							ts.añadirAtributos((String)lex, new AtributosTablaVariable(tipo0.getTipo(),tipo0.getDim(),null));
 						}else {
 							atribActual.put("error", true);
-							listErr.add(new ErrorSemantico("Ya existe la variable: "+lex.toString()+" en este contexto."));
+							listErr.add(new ErrorSemantico(rowErr,colErr,"Ya existe la variable: "+lex.toString()+" en este contexto."));
 						}
 
 					}
@@ -103,7 +105,7 @@ public class AccionR3_2 extends Accion {
 									ts.añadirAtributos(nombre, new AtributosTablaFuncion(tipo0.getTipo(), tipo0.getDim(), attF.getnCampos(), attF.getListaTipos(), listaIden, attF.getListaDim()));
 								} else{
 									atribActual.put("error", true);
-									listErr.add(new ErrorSemantico("No coinciden los tipos en el prototipo y el cuerpo de la funcion")); 
+									listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos en el prototipo y el cuerpo de la funcion")); 
 								}
 							}else {
 								ts.insertar(nombre);
@@ -123,7 +125,7 @@ public class AccionR3_2 extends Accion {
 						}
 					} else{
 						atribActual.put("error", true);
-						listErr.add(new ErrorSemantico("Debe de declararse un prototipo antes del cuerpo de la función.")); 
+						listErr.add(new ErrorSemantico(rowErr,colErr,"Debe de declararse un prototipo antes del cuerpo de la función.")); 
 					}
 					
 				}else { //es prototipo
@@ -144,7 +146,7 @@ public class AccionR3_2 extends Accion {
 					
 					}else {
 						atribActual.put("error", true);
-						listErr.add(new ErrorSemantico("Ya se ha declarado un identificador "+nombre.toString())); 	
+						listErr.add(new ErrorSemantico(rowErr,colErr,"Ya se ha declarado un identificador "+nombre.toString())); 	
 					}
 				}
 
