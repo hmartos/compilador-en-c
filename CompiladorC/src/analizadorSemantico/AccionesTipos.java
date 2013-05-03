@@ -96,11 +96,11 @@ public class AccionesTipos {
 	/*13.1. union  iden  {L_VARIABLES}  LISTA_IDENS*/		{new AccionCondicionada(5,"tipo","igual","listaUnion", 
 			                                                 		new AccionCondicionada(3,"tipo","igual","vacio",
 			                                                 				new Accion[]{new AccionAsignar("tipo","vacio")},  
-			                                                 			new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 13.1: Las variables declaradas beden de ser de tipo Union."))} ), 
+			                                                 			new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 13.1: Las variables declaradas beden de ser de tipo Union."))} ), 
 			                                                 		new AccionCondicionada(5,"tipo","igual","vacio", 
 			                                                 				new AccionCondicionada(3,"tipo","igual","vacio",
 			                                                 						new Accion[]{new AccionAsignar("tipo","vacio")},  
-			                                                 						new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 13.1: Error en la definición de la unión."))}))), 
+			                                                 						new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 13.1: Error en la definición de la unión."))}))), 
 },
 														},
 /*14. LISTA_IDENS -> */						{
@@ -119,7 +119,7 @@ public class AccionesTipos {
 	/*17.2.  [CONTENIDO] CORCHETES*/ {new AccionAsignar("num",3,"num","suma",1)}},
 /*18. CONTENIDO -> */ {
 	/*18.1. ? */ {},
-	/*18.2.  EXP*/ {new AccionCondicionada (0,"tipo","igual",new Tipo("int",0),new Accion[]{},new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 18:2 La expresion entre [] debe de ser de tipo entero")})}},
+	/*18.2.  EXP*/ {new AccionCondicionada (0,"tipo","igual",new Tipo("int",0),new Accion[]{},new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 18:2 La expresion entre [] debe de ser de tipo entero")})}},
 /*19. DEFINICION_ENUM -> */ {
 		
 	/*19.1. enum iden{iden RENUM} ;*/ {new AccionAsignar("tipo",4,"tipo")}},
@@ -131,7 +131,7 @@ public class AccionesTipos {
 	/*21.1. ,iden RENUM */ {new AccionAsignar("tipo",3,"tipo")},
 	/*21.2. ? */ {new AccionAsignar("tipo","vacio")}},
 /*22. DEFINICION_STRUCT -> */								{
-		/*22.1. struct  iden  {L_VARIABLES}  LISTA_IDENS*/ 		{new AccionCondicionada(5,"tipo","igual","listaStruct", new AccionCondicionada(3,"tipo","igual","vacio", new Accion[]{new AccionAsignar("tipo","vacio")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 22.1: Las variables declaradas beden de ser de tipo Struct."))}),new AccionCondicionada(5,"tipo","igual","vacio", new AccionCondicionada(3,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo","vacio")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 22.1: Error en la definición del Struct.")) } )))}}, 
+		/*22.1. struct  iden  {L_VARIABLES}  LISTA_IDENS*/ 		{new AccionCondicionada(5,"tipo","igual","listaStruct", new AccionCondicionada(3,"tipo","igual","vacio", new Accion[]{new AccionAsignar("tipo","vacio")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 22.1: Las variables declaradas beden de ser de tipo Struct."))}),new AccionCondicionada(5,"tipo","igual","vacio", new AccionCondicionada(3,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo","vacio")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 22.1: Error en la definición del Struct.")) } )))}}, 
 
 /*23. L_VARIABLES -> */ {
 	/*23.1. DEFINICION_STRUCT L_VARIABLES */ {new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo",1,"tipo"))},
@@ -140,7 +140,7 @@ public class AccionesTipos {
 	/*23.4.  DEFINICION_UNION L_VARIABLES*/ {new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo",1,"tipo"))},
 	/*23.5.  ?*/ {new AccionAsignar("tipo","vacio")}},
 	/*24. DEF_VAR ->*/											{
-		/*24.1.  TIPO LISTA_IDENS*/    							{new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada(0,"tipo","igual",1,"tipo",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo","vacio")},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 24.1: Los tipos no coinciden."))})))}},
+		/*24.1.  TIPO LISTA_IDENS*/    							{new AccionCondicionada(0,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada(0,"tipo","igual",1,"tipo",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual","vacio",new Accion[]{new AccionAsignar("tipo","vacio")},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 24.1: Los tipos no coinciden."))})))}},
 
 /*25. DEFINICION_TYPEDEF -> */ {
 	/*25.1. typedef RDEF_TYPEDEF*/ {new AccionAsignar("tipo",1,"tipo")}},
@@ -204,7 +204,7 @@ public class AccionesTipos {
 	/*33.2.  iden INDIRECCION*/ 			{new AccionCondicionada
 												(new CondicionHeredada(new OperacionClaseEntradaTS(new OperandoGramatica(0,"")),new OperandoDirecto("typedef"),"igual"),
 												new Accion[]{new AccionAsignar("tipo",new OperacionSumarDimTipo(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"num")))},
-												new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoDirecto("Regla 33.2: El tipo no existe en la TS."))})}
+												new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 33.2: El tipo no existe en la TS."))})}
 					},
 /*34. INDIRECCION -> */ {
 	/*34.1. * INDIRECCION */ {new AccionAsignar("tipo","vacio"),new AccionAsignar("num",new OperacionHeredada(new OperandoGramatica(1,"num"),new OperandoDirecto(1),"sumar"))},
@@ -256,7 +256,7 @@ public class AccionesTipos {
 	/*41.2.  continue */ {},
 	/*41.3.  printf(ENTRECOMILLADO RPRINTF) */ {},
 	/*41.4.  scanf(ENTRECOMILLADO RSCANF) */ {},
-	/*41.5.  return EXP*/ {new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(1,""), new OperacionVarTS(new OperandoDirecto("0tipoRet"))),new Accion[]{},new Accion[]{new AccionGenError("Regla 41.5 El tipo de retorno no coincide con el declarado.")})}},
+	/*41.5.  return EXP*/ {new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(1,""), new OperacionVarTS(new OperandoDirecto("0tipoRet"))),new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"Regla 41.5 El tipo de retorno no coincide con el declarado.")})}},
 
 /*42. ENTRECOMILLADO -> */ {
 	/*42.1. “(caracter)*” */ {new AccionAsignar("tipo",new OperandoCrearTipo("char",1))}},
@@ -284,21 +284,21 @@ public class AccionesTipos {
 	/*50.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 	
 /*51. SENTENCIA_BUCLE -> */			{
-	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",1,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 51.1: La condición no puede ser vacía."))})},
-	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 51.2: La condición no puede ser vacía."))})},
-	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[] {new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 51.3: Los campos del for no pueden ser vacíos."))})}
+	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",1,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 51.1: La condición no puede ser vacía."))})},
+	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 51.2: La condición no puede ser vacía."))})},
+	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[] {new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 51.3: Los campos del for no pueden ser vacíos."))})}
 	},
 /*52. CAMPO  -> */	{
 	/*52.1. ? */			{new AccionAsignar("tipo","vacio")},
 	/*52.2.   EXP*/		{new AccionAsignar("tipo",0,"tipo")}},
 /*53. SENTENCIA_CASE -> */	{
-	/*53.1. switch (EXP) M_AMBITO L_CASES*/	{new AccionCondicionada(2,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{ new AccionAsignar("tipo",4,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoDirecto("Regla 53.1: El tipo del switch debe de ser entero."))}), new AccionCerrarAmbito()}
+	/*53.1. switch (EXP) M_AMBITO L_CASES*/	{new AccionCondicionada(2,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{ new AccionAsignar("tipo",4,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 53.1: El tipo del switch debe de ser entero."))}), new AccionCerrarAmbito()}
 							},
 /*54. L_CASES  -> */ {
 	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
 	/*54.2.  {CASES}*/	{new AccionAsignar("tipo",1,"tipo")}},
 /*55. CASES  ->  */	{
-	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0), new Accion[]{new AccionCondicionada(1,"esConstante","igual","true", new Accion[]{new AccionAsignar("tipo",3,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},
+	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0), new Accion[]{new AccionCondicionada(1,"esConstante","igual","true", new Accion[]{new AccionAsignar("tipo",3,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},
 	/*55.2.  default: RCASES2 */	{new AccionAsignar("tipo",2,"tipo")},
 	/*55.3.  ?*/		{new AccionAsignar("tipo","vacio")}},
 /*56. RCASES  ->  */{
@@ -309,7 +309,7 @@ public class AccionesTipos {
 	/*57.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
 	/*57.3. */ //esta regla no existe
 /*58. CASE ->  */{
-	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{new AccionCondicionada(1,"esConstante","igual","true", new Accion[]{new AccionAsignar("tipo",3,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},
+	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{new AccionCondicionada(1,"esConstante","igual","true", new Accion[]{new AccionAsignar("tipo",3,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},
 	/*58.2.  default: BLOQUE_SENTENCIAS*/	{new AccionAsignar("tipo",2,"tipo")}},
 
 
@@ -319,7 +319,7 @@ public class AccionesTipos {
 	/*59.1. EXP_COND REXP*/	{new AccionCondicionada(
 								new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 								new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-								new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 59.1 Los tipos no son compatibles. ")}
+								new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 59.1 Los tipos no son compatibles. ")}
 								)}},
 /*60. REXP -> */{
 	/*60.1. OP_ASIG EXP */	{new AccionAsignar("tipo",1,"tipo")},
@@ -346,7 +346,7 @@ public class AccionesTipos {
 	/*64.1. EXP_ANDL REXP_ORL*/	{new AccionCondicionada(
 									new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 									new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-									new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 64.1 Los tipos no son compatibles. ")}
+									new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 64.1 Los tipos no son compatibles. ")}
 									)}},
 /*65. REXP_ORL -> */{
 	/*65.1. |EXP_ORL*/		{new AccionAsignar("tipo",1,"tipo")},
@@ -355,7 +355,7 @@ public class AccionesTipos {
 	/*66.1. EXP_ORB REXP_ANDL*/		{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 66.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 66.1 Los tipos no son compatibles. ")}
 										)}},
 /*67. REXP_ANDL -> */		{
 	/*67.1. && EXP_ANDL */		{new AccionAsignar("tipo", 1, "tipo")},
@@ -364,7 +364,7 @@ public class AccionesTipos {
 	/*68.1. EXP_XORB REXP_ORB*/		{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 68.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 68.1 Los tipos no son compatibles. ")}
 										)}},
 /*69. REXP_ORB ->  */			{
 	/*69.1. | EXP_ORB */ 			{new AccionAsignar("tipo", 1, "tipo")},
@@ -374,7 +374,7 @@ public class AccionesTipos {
 	/*70.1. EXP_ANDB REXP_XORB*/	{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 70.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 70.1 Los tipos no son compatibles. ")}
 										)}},
 /*71. REXP_XORB -> */			{
 	/*71.1. ^ EXP_XORB */			{new AccionAsignar("tipo", 1, "tipo")},
@@ -384,7 +384,7 @@ public class AccionesTipos {
 	/*72.1. EXP_REL REXP_ANDB */	{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 72.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 72.1 Los tipos no son compatibles. ")}
 										)}},
 /*73. REXP_ANDB -> */			{
 	/*73.1. & EXP_ANDB */			{new AccionAsignar("tipo", 1, "tipo")},
@@ -394,7 +394,7 @@ public class AccionesTipos {
 	/*74.1. EXP_COMP REXP_REL*/		{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 74.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 74.1 Los tipos no son compatibles. ")}
 										)}},
 /*75. REXP_REL -> */			{
 	/*75.1. OP_REL EXP_REL */		{new AccionAsignar("tipo", 1, "tipo")},
@@ -408,7 +408,7 @@ public class AccionesTipos {
 	/*77.1. EXP_DESPL  REXP_COMP */	{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 77.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 77.1 Los tipos no son compatibles. ")}
 										)}},
 /*78. REXP_COMP -> */			{
 	/*78.1. OP_COMP   EXP_COMP  */	{new AccionAsignar("tipo", 1, "tipo")},
@@ -424,7 +424,7 @@ public class AccionesTipos {
 	/*80.1. EXP_AD REXP_DESPL*/		{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 80.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 80.1 Los tipos no son compatibles. ")}
 										)}},
 /*81. REXP_DESPL -> */			{
 	/*81.1. OP_DESPL  EXP_DESPL */	{new AccionAsignar("tipo", 1, "tipo")},
@@ -438,7 +438,7 @@ public class AccionesTipos {
 	/*83.1. EXP_MULT REXP_AD*/		{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 83.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 83.1 Los tipos no son compatibles. ")}
 										)}},
 /*84. REXP_AD  ->  */			{
 	/*84.1. OP_AD EXP_AD */			{new AccionAsignar("tipo", 1, "tipo")},
@@ -452,7 +452,7 @@ public class AccionesTipos {
 	/*86.1. EXP1 REXP_MULT*/	{new AccionCondicionada(
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-										new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 86.1 Los tipos no son compatibles. ")}
+										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 86.1 Los tipos no son compatibles. ")}
 										)}},
 	/*87. REXP_MULT -> */{
 	/*87.1. OP_MULT EXP_MULT */			{new AccionAsignar("tipo",1,"tipo")},
@@ -479,7 +479,7 @@ public class AccionesTipos {
 	/*92.1. EXP3  REXP2*/				{/*rellenar- aqui no es esCompatible*/ new AccionCondicionada(
 											new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 											new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-											new Accion[]{new AccionAsignar("error",true),new AccionGenError("regla 92.1 Los tipos no son compatibles. ")}
+											new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 92.1 Los tipos no son compatibles. ")}
 											)}},
 /*93. REXP2  -> */{
 	/*93.1. OP_INC */					{new AccionAsignar("esInc",true)},
@@ -504,7 +504,7 @@ public class AccionesTipos {
 
 /*97. REXP3 ->  */{
 	/*97.1. TIPO_PRIMITIVO INDIRECCION) EXP */			{/*rellenar*//*sePuedeHacerCasting*/},
-	/*97.2.  EXP_SIN_IDEN REXP) */						{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new Accion[]{new AccionAsignar("tipo",0,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoDirecto("Regla 97.2: Los tipos no son compatibles."))})},
+	/*97.2.  EXP_SIN_IDEN REXP) */						{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new Accion[]{new AccionAsignar("tipo",0,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 97.2: Los tipos no son compatibles."))})},
 	/*97.3.  MODIFICADOR L_MODIFICADORES RTIPO) EXP */	{/*rellenar*//*sePuedeHacerCasting*/},
 	/*97.4.  iden REXP3_2 ) AUX*/						{/*rellenar*//*esTipoDefinidoPorUsuario, esCompatible, esMayor*/new AccionCondicionada(/*si*/1,"esCasting","igual","true",/*entonces0*/new AccionCondicionada(/*si1*/4,"tipo","igual","vacio",/*entonces1*/new AccionAsignar("tipo",1,"tipo"),/*si no1*/new AccionCondicionada(/*si2*/4,"tipo","igual","error",/*entonces2*/new AccionAsignar("tipo",1,"tipo"),/*si no2*/new AccionAsignar("tipo","error"))),/*si no0*//*esCompatible*/null)}},
 /*98. EXP_SIN_IDEN -> */{
@@ -557,7 +557,7 @@ public class AccionesTipos {
 													new CondicionHeredada(new OperandoGramatica(1,"esFuncion"),new OperandoDirecto(false),"igual"),
 													"and"),
 											new Accion[]{},
-											new Accion[]{new AccionGenError("No se puede aplicar el opeando a este identificador.")})
+											new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"No se puede aplicar el opeando a este identificador.")})
 										}
 					},
 /*106. M_AMBITO->*/{
