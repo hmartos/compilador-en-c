@@ -44,7 +44,7 @@ public class AccionesTipos {
 /*5. RDEFINICION2 -> */					{
 	/*5.1. CORCHETES RDEF_VARIABLE */		{new AccionAsignar ("esFuncion",false)},
 	/*5.2. (L_PARAMS) RDEF_FUNCION*/		{new AccionAsignar ("esFuncion",true),
-											 new AccionCondicionada(1,"esPrototipo","distinto",3,"esPrototipo",new AccionGenError("regla 5:2 no coincide, definición de prototipo con los parametros de la funcion."))
+											 new AccionCondicionada(1,"esPrototipo","distinto",3,"esPrototipo",new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 5:2 no coincide, definición de prototipo con los parametros de la funcion."))
 											}
 											//new AccionCondicionada(1,"tipo","igual","vacio",new AccionAsignar("tipo","vacio"),new AccionCondicionada(1,"tipo","igual",1,"tipo",new AccionAsignar("tipo","vacio"), new AccionAsignar("tipo","error")))},
 										},
