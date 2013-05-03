@@ -62,7 +62,7 @@ public class AccionGenericaFilaColumna extends Accion{
 		
 		while(recorridoDerIzq && itDerIzq.hasPrevious() )
 		{
-			Object atr = itDerIzq.hasPrevious();
+			Object atr = itDerIzq.previous();
 			if (atr instanceof HashMap)
 			{
 				Object filaFin = ((HashMap<String, Object>)atr).get("filaFin");
