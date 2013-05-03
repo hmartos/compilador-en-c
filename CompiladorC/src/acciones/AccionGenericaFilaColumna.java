@@ -62,21 +62,25 @@ public class AccionGenericaFilaColumna extends Accion{
 		
 		while(recorridoDerIzq && itDerIzq.hasPrevious() )
 		{
+			Object atr = itDerIzq.hasPrevious();
 			if (atr instanceof HashMap)
 			{
+				Object filaFin = ((HashMap<String, Object>)atr).get("filaFin");
+				Object colFin = ((HashMap<String, Object>)atr).get("colFin");
 				if (filaFin!=null)
 				{	
-					atr=itDerIzq;
 					// Me kedo con ellas se la paso al padre
-					atribActual.put("filaFin", atr);
+					atribActual.put("filaFin", filaFin);
+					atribActual.put("colFin", colFin);
 					recorridoDerIzq = false;
 				}
 			}
 			// Terminal
 			else
 			{	
-				atr=itDerIzq;
-				atribActual.put("filaFin", atr);
+				Token tok= (Token) atr;
+				atribActual.put("filaFin", tok.getLinea());
+				atribActual.put("fcolFin", tok.getCol());
 			}
 		}
 		return new ArrayList<ErrorCompilador>();
