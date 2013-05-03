@@ -37,9 +37,9 @@ public class OperacionCompatibilizarTipos extends ElemBinario implements Operaci
 			String[][] tablaCompatibles=
 			         //int  //char  //float  //double
 			/*int*/{{ "int","char"  , "float", "double"},
-			/*char*/{ "char", "char",  null,    null},
-			/*float*/{"float", null,  "float","double"},
-			/*double*/{"double",null,"double","double"}};
+			/*char*/{ "char", "char",  "float",    "double"},
+			/*float*/{"float", "float",  "float","double"},
+			/*double*/{"double","double","double","double"}};
 			int i1=-1,i2=-1;
 			if (t1.getTipo().equals("int")) i1=0;
 			else if (t1.getTipo().equals("char")) i1=1;
