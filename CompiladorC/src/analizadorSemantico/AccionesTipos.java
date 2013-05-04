@@ -2,6 +2,7 @@ package analizadorSemantico;
 
 import acciones.*;
 import accionesEspecificas.AccionR105_1;
+import accionesEspecificas.AccionR105_4;
 import accionesEspecificas.AccionR15_1;
 import accionesEspecificas.AccionR3_2;
 
@@ -33,8 +34,8 @@ public class AccionesTipos {
 										},
 	
 /*4. RDEFINICION -> */				{
-	/*4.1. ;  */                    	{}, 
-	/*4.2. iden RDEFINICION2*/      	{new AccionCondicionada(1,"esFuncion","igual",true,
+	/*4.1. ;  */                    	{new AccionAsignar("esDeclaracion",false)}, 
+	/*4.2. iden RDEFINICION2*/      	{new AccionAsignar("esDeclaracion",true),new AccionCondicionada(1,"esFuncion","igual",true,
 											new AccionAsignar ("nombreFun",0,""),
 											new AccionAsignar("listaVar",new OperacionAgregarALista(new OperandoGramatica(1,"listaVar"),new OperandoGramatica(0,"")))
 										)
@@ -207,8 +208,8 @@ public class AccionesTipos {
 												new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 33.2: El tipo no existe en la TS."))})}
 					},
 /*34. INDIRECCION -> */ {
-	/*34.1. * INDIRECCION */ {new AccionAsignar("tipo","vacio"),new AccionAsignar("num",new OperacionHeredada(new OperandoGramatica(1,"num"),new OperandoDirecto(1),"sumar"))},
-	/*34.2.  ?*/ {new AccionAsignar("tipo","vacio"),new AccionAsignar("num",0)}},
+	/*34.1. * INDIRECCION */ {new AccionBreakpoint(),new AccionAsignar("num",new OperacionHeredada(new OperandoGramatica(1,"num"),new OperandoDirecto(1),"suma"))},
+	/*34.2.  ?*/ {new AccionAsignar("num",0)}},
 /*35. L_MODIFICADORES -> */ {
 	/*35.1. MODIFICADOR L_MODIFICADORES */ {},
 	/*35.2.  ?*/ {new AccionAsignar("tipo","vacio")}
@@ -518,23 +519,23 @@ public class AccionesTipos {
 	/*98.8.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0))},
 	/*98.9.  ENTRECOMILLADO*/			{new AccionAsignar("tipo",0,"tipo")}},
 /*99. REXP3_2 -> */{
-	/*99.1. INDIRECCION2 */				{new AccionAsignar("esCasting","true")},
-	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar("esCasting","false")}},
+	/*99.1. INDIRECCION2 */				{new AccionAsignar("esOperacion",false)},
+	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar("esFuncion",0,"esFuncion")}}, //Forzamos a esFuncion del 0 porque también existe un esFuncion en el 1.
 /*100. REXPRESIONES -> */{
-	/*100.1. REXP */					{new AccionAsignar("tipo",0,"tipo")},
-	/*100.2.  REXP_COND */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.3.  REXP_ORL */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.4.  REXP_ANDL */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.5.  REXP_ORB */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.6.  REXP_XORB */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.7.  REXP_ANDB */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.8.  REXP_REL */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.9.  REXP_COMP */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.10.  REXP_DESPL */			{new AccionAsignar("tipo",0,"tipo")},
-	/*100.11.  REXP_AD */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.12.  REXP_MULT */				{new AccionAsignar("tipo",0,"tipo")},
-	/*100.13.  OP_SELECCION EXP3 */		{new AccionAsignar("tipo",1,"tipo")},
-	/*100.14.  OP_INC*/					{new AccionAsignar("op",0,"op")}},
+	/*100.1. REXP */					{new AccionAsignar("esOperacion",true)}, //Para la decision en la regla 105.4. (cuando esOperación deba ser false simplemente no lo asignamos al hashmap).
+	/*100.2.  REXP_COND */				{new AccionAsignar("esOperacion",true)},
+	/*100.3.  REXP_ORL */				{new AccionAsignar("esOperacion",true)},
+	/*100.4.  REXP_ANDL */				{new AccionAsignar("esOperacion",true)},
+	/*100.5.  REXP_ORB */				{new AccionAsignar("esOperacion",true)},
+	/*100.6.  REXP_XORB */				{new AccionAsignar("esOperacion",true)},
+	/*100.7.  REXP_ANDB */				{new AccionAsignar("esOperacion",true)},
+	/*100.8.  REXP_REL */				{new AccionAsignar("esOperacion",true)},
+	/*100.9.  REXP_COMP */				{new AccionAsignar("esOperacion",true)},
+	/*100.10.  REXP_DESPL */			{new AccionAsignar("esOperacion",true)},
+	/*100.11.  REXP_AD */				{new AccionAsignar("esOperacion",true)},
+	/*100.12.  REXP_MULT */				{new AccionAsignar("esOperacion",true)},
+	/*100.13.  OP_SELECCION EXP3 */		{new AccionAsignar("esOperacion",true)},
+	/*100.14.  OP_INC*/					{new AccionAsignar("esOperacion",true)}},
 /*101. INDIRECCION2 -> */{
 	/*101.1. * INDIRECCION*/			{new AccionAsignar("num",0,"num","suma",1)}},
 /*102. L_PARAMS_LLAMADA -> */{
@@ -550,7 +551,7 @@ public class AccionesTipos {
 	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionR105_1()},
 	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},
 	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */									{/*rellenar*//*new AccionCondicionada(2,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada("estaEnTS",3,"lexema",new AccionAsignar("tipo","error"), new Action[] {new AccionAsignar("tipo","vacio"),new AccionAsignar("tipo",terminar,sdffdw,"tipo")}))}*/},
-	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{/*rellenar*//*TS*/},
+	/*105.4.  iden REXP3_2 RDEFINICION  // Definir variable con tipo definido por el usuario*/	{new AccionR105_4()},
 	/*105.5.  OP_INC IDENTIFICADOR*/	{new AccionCondicionada(
 											new CondicionHeredada(
 													new CondicionEsCompatible(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("int",0)),

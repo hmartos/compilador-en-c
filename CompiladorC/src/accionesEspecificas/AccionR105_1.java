@@ -18,9 +18,9 @@ import acciones.Tipo;
 
 public class AccionR105_1 extends Accion {
 
-/*3. DEFINICION_GLOBAL -> */
-	/*3.2. TIPO RDEFINICION*/
-	
+
+	/*105. REXP4 -> */
+		/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts) {
@@ -29,7 +29,9 @@ public class AccionR105_1 extends Accion {
 
 		
 		Object t0 = ((HashMap)listaAtrib.get(0)).get("tipo");
+		
 		int n1 = (Integer)((HashMap)listaAtrib.get(1)).get("num");
+		
 		Boolean esFun = (Boolean)((HashMap)listaAtrib.get(2)).get("esFuncion");
 		int rowErr = (Integer)(atribActual.get("filaInicio"));
 		int colErr = (Integer)(atribActual.get("colInicio"));
@@ -42,7 +44,7 @@ public class AccionR105_1 extends Accion {
 			
 			if (!esFun){	// Es una declaracion de variable.
 				
-				int numCorchetes = (Integer)((HashMap)listaAtrib.get(1)).get("num");
+				int numCorchetes = (Integer)((HashMap)listaAtrib.get(2)).get("num");
 				
 				
 				tipo0.setDim(tipo0.getDim()+numCorchetes);

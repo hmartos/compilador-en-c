@@ -248,6 +248,7 @@ public class ClasePrincipal extends JFrame {
 					actualizarTextoToken();
 					actualizarTextoError();
 					cuadroTS.actualizar(cuadroTS.representada);
+					
 				}
 				
 			}else if (botonIniciar==e.getSource()){
