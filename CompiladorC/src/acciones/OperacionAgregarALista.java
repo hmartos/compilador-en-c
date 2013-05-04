@@ -7,8 +7,8 @@ import tablaSimbolos.TablaSimbolos;
 
 public class OperacionAgregarALista extends ElemBinario implements Operacion {
 
-	public OperacionAgregarALista(Operacion op1, Operacion op2) {
-		super(op1, op2);
+	public OperacionAgregarALista(Operacion lista, Operacion elemento) {
+		super(lista, elemento);
 	}
 	
 	@Override
@@ -20,7 +20,7 @@ public class OperacionAgregarALista extends ElemBinario implements Operacion {
 			((ArrayList<Object>) op1).add(0, op2);
 			return op1;
 		}
-		return null; //o error?
+		return null; 
 	}
 
 }

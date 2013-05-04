@@ -5,9 +5,11 @@ import gestorErrores.ErrorSemantico;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaFuncion;
+import tablaSimbolos.AtributosTablaTypeDef;
 import tablaSimbolos.AtributosTablaVariable;
 import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaSimbolos;
@@ -33,11 +35,9 @@ public class AccionR105_4 extends Accion {
 		int rowErr = (Integer)(atribActual.get("filaInicio"));
 		int colErr = (Integer)(atribActual.get("colInicio"));
 		
-		int rowErrDeclaracion = (Integer)((HashMap)listaAtrib.get(2)).get("filaInicio");
-		int colErrDeclaracion = (Integer)((HashMap)listaAtrib.get(2)).get("colInicio");
 		
-		int rowErrOperacion = (Integer)((HashMap)listaAtrib.get(1)).get("filaInicio");
-		int colErrOperacion = (Integer)((HashMap)listaAtrib.get(1)).get("colInicio");
+		
+		String lex = (String)((Token)listaAtrib.get(0)).getAtributo();
 		
 		Boolean esOperacion=false;
 		Boolean esOperacionB=(Boolean)((HashMap)listaAtrib.get(1)).get("esOperacion");
@@ -52,6 +52,9 @@ public class AccionR105_4 extends Accion {
 			//Error, no puede declararse y operarse a la vez.
 			atribActual.put("error", true);
 	
+			
+			int rowErrDeclaracion = (Integer)((HashMap)listaAtrib.get(2)).get("filaInicio");
+			int colErrDeclaracion = (Integer)((HashMap)listaAtrib.get(2)).get("colInicio");
 			listErr.add(new ErrorSemantico(rowErrDeclaracion,colErrDeclaracion,"No se esperaba una declaración."));
 		}
 		else if (esOperacion){ //tiene que hacer lo mismo que en la 15.1
@@ -61,7 +64,7 @@ public class AccionR105_4 extends Accion {
 			Boolean esFunB=(Boolean)((HashMap)listaAtrib.get(1)).get("esFuncion");
 			if (esFunB!=null)esFun=esFunB;
 			
-			String lex = (String)((Token)listaAtrib.get(0)).getAtributo();
+			
 			
 			EntradaTabla entTabla =ts.busquedaCompleta(lex);
 			Atributo at;
@@ -128,6 +131,76 @@ public class AccionR105_4 extends Accion {
 			return listErr;
 			
 		} else if (esDeclaracion){
+			
+			
+			
+			int nAst=0;
+			Object nAstB=((HashMap)listaAtrib.get(1)).get("num");
+			if (nAstB!=null)nAst=(Integer)nAstB;
+			
+			
+			
+			Boolean esFun = (Boolean)((HashMap)listaAtrib.get(2)).get("esFuncion");
+			
+			EntradaTabla et=ts.busquedaCompleta(lex);
+			Atributo at=null;
+			if (et!=null){
+				at=et.getAtt();
+			}
+			
+			if (at instanceof AtributosTablaTypeDef){
+			Tipo tipo0 = new Tipo(lex,nAst);
+				
+				
+				if (!esFun){	// Es una declaracion de variable.
+					
+					int numCorchetes = (Integer)((HashMap)listaAtrib.get(2)).get("num");
+					
+					
+					tipo0.setDim(tipo0.getDim()+numCorchetes);
+					//Aqui habría un error en la gramatica por el que solo se puede poner corchetes en la primera variable.
+					
+					ArrayList<Object> listaVar = (ArrayList<Object>)((HashMap)listaAtrib.get(2)).get("listaVar");
+					ArrayList<Object> listaValor = (ArrayList<Object>)((HashMap)listaAtrib.get(2)).get("listaValor");
+					boolean valido =true;
+					for (Iterator<Object> itVal=listaValor.iterator();itVal.hasNext();){
+						Object o= itVal.next();
+						if (o!=null && !tipo0.equals(o)){
+							valido=false;
+							
+	
+							listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos: "+tipo0.toString()+" y "+ o.toString()));
+							atribActual.put("error", true);
+						}
+					}
+					if (valido){
+						for (Iterator<Object> itVar=listaVar.iterator();itVar.hasNext();){
+							Object lex2= itVar.next();
+							if(ts.busquedaAmbito((String)lex2)==null){
+								ts.insertar((String)lex2);
+								ts.añadirAtributos((String)lex2, new AtributosTablaVariable(tipo0.getTipo(),tipo0.getDim(),null));
+							}else {
+								atribActual.put("error", true);
+								listErr.add(new ErrorSemantico(rowErr,colErr,"Ya existe la variable: "+lex2.toString()+" en este contexto."));
+							}
+	
+						}
+					
+					}
+					
+					
+					
+				}else{ // Es una declaracion de funcion.
+					atribActual.put("error", true);
+					listErr.add(new ErrorSemantico(rowErr,colErr,"No se puede definir una función en este contexto."));
+				}
+			}else{ // No es un typedef.
+				atribActual.put("error", true);
+				listErr.add(new ErrorSemantico(rowErr,colErr,"No está definido el tipo "+lex));
+			}
+			
+			
+			
 			
 			
 			

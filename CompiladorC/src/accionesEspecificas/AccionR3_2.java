@@ -105,23 +105,15 @@ public class AccionR3_2 extends Accion {
 									ts.añadirAtributos(nombre, new AtributosTablaFuncion(tipo0.getTipo(), tipo0.getDim(), attF.getnCampos(), attF.getListaTipos(), listaIden, attF.getListaDim()));
 								} else{
 									atribActual.put("error", true);
-									listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos en el prototipo y el cuerpo de la funcion")); 
+									listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos de los parametros en el prototipo y el cuerpo de la funcion")); 
 								}
 							}else {
-								ts.insertar(nombre);
-								ArrayList<Integer> listaDim =new ArrayList<Integer>();
-								ArrayList<String> listaStringTipo =new ArrayList<String>();
-								for (Iterator<Tipo> itT=listaTipo.iterator();itT.hasNext();){
-									Tipo t=itT.next();
-									if (!t.getTipo().equals("void")){ //Evita que se creen tipos si es void.
-										listaDim.add(t.getDim());
-										listaStringTipo.add(t.getTipo());
-									}
-								}
-								ts.añadirAtributos(nombre, new AtributosTablaFuncion(tipo0.getTipo(), tipo0.getDim(), listaStringTipo.size(), listaStringTipo, listaIden, listaDim));
-							
-								
+								atribActual.put("error", true);
+								listErr.add(new ErrorSemantico(rowErr,colErr,"No coinciden los tipos de retorno en el prototipo y el cuerpo de la funcion")); 
 							}
+						}else{
+							atribActual.put("error", true);
+							listErr.add(new ErrorSemantico(rowErr,colErr,"El identificador "+nombre+" no está declarado como función.")); 
 						}
 					} else{
 						atribActual.put("error", true);

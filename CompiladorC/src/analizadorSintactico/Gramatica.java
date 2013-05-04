@@ -106,7 +106,7 @@ public class Gramatica {
 /* L_DEFINICIONES,*/	{{NT.DEFINICION_GLOBAL, NT.L_DEFINICIONES} ,{new TokenLambda()}},
 /* DEFINICION_GLOBAL,*/	{{NT.MACROS},{NT.TIPO, NT.RDEFINICION},{NT.DEFINICION_STRUCT}, {NT.DEFINICION_ENUM},{NT.DEFINICION_UNION}, {NT.DEFINICION_TYPEDEF},},
 /* RDEFINICION,*/		{{new TokenPuntoyComa()},	{new TokenId(null),NT.RDEFINICION2}},
-/* RDEFINICION2,*/		{{NT.CORCHETES, NT.RDEF_VARIABLE},	{parentesisAbierto,NT.L_PARAMS,parentesisCerrado,NT.RDEF_FUNCION}},
+/* RDEFINICION2,*/		{{NT.CORCHETES, NT.RDEF_VARIABLE},	{NT.M_AMBITO,parentesisAbierto,NT.L_PARAMS,parentesisCerrado,NT.RDEF_FUNCION}},
 /* RDEF_VARIABLE,*/		{{NT.OP_ASIG,NT.EXP,NT.RDEF_VARIABLE2},	{NT.RDEF_VARIABLE2}},	
 /* RDEF_VARIABLE2,*/	{{new TokenComa(),new TokenId(null),NT.RDEF_VARIABLE},	{new TokenPuntoyComa()}},
 
@@ -136,7 +136,7 @@ public class Gramatica {
 /* DEFINICION_TYPEDEF,*/{ {PalRes.PAL_RES_typedef,NT.RDEF_TYPEDEF} },
 /* RDEF_TYPEDEF,*/		{ {PalRes.PAL_RES_struct,new TokenId(null),NT.INDIRECCION,new TokenId(null),new TokenPuntoyComa()}, {NT.TIPO,new TokenId(null),new TokenPuntoyComa()} ,{PalRes.PAL_RES_union,new TokenId(null),NT.INDIRECCION,new TokenId(null),new TokenPuntoyComa()} , {PalRes.PAL_RES_enum,new TokenId(null),NT.INDIRECCION,new TokenId(null),new TokenPuntoyComa()} },
 
-/* RDEF_FUNCION,*/		{ {new TokenPuntoyComa()}, {llaveAbierta,NT.M_AMBITO,NT.BLOQUE_SENTENCIAS,llaveCerrada} },
+/* RDEF_FUNCION,*/		{ {new TokenPuntoyComa()}, {llaveAbierta,NT.BLOQUE_SENTENCIAS,llaveCerrada} },
 /* L_PARAMS,*/			{ {new TokenLambda()}, {NT.TIPO,NT.RL_PARAMS} },
 /* RL_PARAMS,*/			{ {new TokenLambda()}, {new TokenComa(),NT.TIPO,NT.RL_PARAMS2}, {new TokenId(null), NT.RL_PARAMS3} },
 /* RL_PARAMS2,*/		{ {new TokenLambda()} , {new TokenComa(),NT.TIPO,NT.RL_PARAMS2} },

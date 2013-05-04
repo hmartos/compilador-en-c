@@ -59,7 +59,7 @@ public class ContenedorTS extends JPanel {
 			this.add(panelNorte, BorderLayout.NORTH);
 			
 			JPanel panelBotGen= new JPanel(new GridLayout(1,4));
-			panelLinks=new  JPanel( new BorderLayout());
+			panelLinks=new  JPanel( );
 			panelNorte.add(panelBotGen);
 			panelNorte.add(panelLinks);
 			
@@ -87,7 +87,7 @@ public class ContenedorTS extends JPanel {
 				for (int i=0;i<representada.contenido.size();i++){
 					botonesLink.add(new JButton("link "+i));
 					botonesLink.get(i).addActionListener(o);
-					panelLinks.add(botonesLink.get(i),BorderLayout.NORTH);
+					panelLinks.add(botonesLink.get(i));
 				}
 				
 				//tabla= new JTable(representada.tabla.size(), 2);

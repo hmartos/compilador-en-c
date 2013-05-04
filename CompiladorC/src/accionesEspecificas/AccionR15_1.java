@@ -13,6 +13,8 @@ import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import acciones.Accion;
+import acciones.CondicionEsCompatible;
+import acciones.OperandoDirecto;
 import acciones.Tipo;
 
 public class AccionR15_1 extends Accion {
@@ -75,9 +77,17 @@ public class AccionR15_1 extends Accion {
 				
 				boolean correcto=true;
 				int i=0;
-				while (correcto && i<atf.getnCampos()){
-					correcto=atf.getListaTipos().get(i).equals(listParam.get(i).getTipo()) 
-							&& atf.getListaDim().get(i).equals(listParam.get(i).getDim());
+				if (listParam==null) correcto=false;
+				while (correcto && i<Math.max(atf.getnCampos(),listParam.size())){
+					Tipo tPasado=null;
+					if (i<listParam.size())tPasado= listParam.get(i);
+					
+					Tipo tReciv=null;
+					if (i<atf.getnCampos()){
+						tReciv=new Tipo(atf.getListaTipos().get(i),atf.getListaDim().get(i));
+						
+					}
+					correcto= (tPasado!=null)&&(tReciv!=null)&& new CondicionEsCompatible(new OperandoDirecto(tPasado), new OperandoDirecto(tReciv)).getValor(listaAtrib, atribActual, ts);
 					i++;
 				}
 				if (correcto){
