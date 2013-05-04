@@ -26,10 +26,12 @@ public class AccionR15_1 extends Accion {
 		
 		Boolean esFun=false;
 		Boolean esFunB=(Boolean)((HashMap)listaAtrib.get(3)).get("esFuncion");
+		if (esFunB!=null)esFun=esFunB;
+		
 		int rowErr = (Integer)(atribActual.get("filaInicio"));
 		int colErr = (Integer)(atribActual.get("colInicio"));
 		
-		if (esFunB!=null)esFun=esFunB;
+		
 
 		
 		String lex = (String)((Token)listaAtrib.get(2)).getAtributo();
@@ -53,7 +55,7 @@ public class AccionR15_1 extends Accion {
 				int nAst = (Integer)((HashMap)listaAtrib.get(1)).get("num");
 				Boolean tieneAmp =(Boolean)((HashMap)listaAtrib.get(0)).get("tieneAmp");
 				int nAmp = tieneAmp ? 1:0;
-				atv.getDim();
+
 				if (nCor+nAst-nAmp<=atv.getDim()){
 					atribActual.put("tipo", new Tipo(atv.getTipo(),atv.getDim()-(nCor+nAst-nAmp)));
 					atribActual.put("esFuncion", false);
@@ -80,7 +82,7 @@ public class AccionR15_1 extends Accion {
 				}
 				if (correcto){
 					int nAst = (Integer)((HashMap)listaAtrib.get(1)).get("num");
-					int nAmp = ((HashMap)listaAtrib.get(1)).get("tieneAmp").equals("true") ? 1:0;
+					int nAmp = ((HashMap)listaAtrib.get(0)).get("tieneAmp").equals("true") ? 1:0;
 					if (nAst-nAmp<=atf.getDimRet()){
 						atribActual.put("tipo", new Tipo(atf.getTipoRet(),atf.getDimRet()-(nAst-nAmp)));
 						atribActual.put("esFuncion", true);

@@ -110,6 +110,8 @@ public class ContenedorTS extends JPanel {
 				panelTabla.setViewportView(contIntermedio);
 				panelTabla.setLayout(new ScrollPaneLayout());
 				panelTabla.repaint();
+				
+				updateUI();
 				 //CON TABLAS POR HACER
 				/*
 				
