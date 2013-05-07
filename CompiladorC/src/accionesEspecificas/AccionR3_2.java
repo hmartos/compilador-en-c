@@ -36,6 +36,7 @@ public class AccionR3_2 extends Accion {
 		
 		if (t0 instanceof Tipo ){
 			Tipo tipo0=(Tipo) t0;
+			
 			if (!esFun){	
 				
 				int numCorchetes = (Integer)((HashMap)listaAtrib.get(1)).get("num");
@@ -79,7 +80,7 @@ public class AccionR3_2 extends Accion {
 				if (!esProt){
 					ArrayList<Tipo> listaTipo = (ArrayList<Tipo>)((HashMap)listaAtrib.get(1)).get("listaTipo");
 					ArrayList<String> listaIden = (ArrayList<String>)((HashMap)listaAtrib.get(1)).get("listaIden");
-					EntradaTabla et=ts.busquedaCompleta(nombre);
+					EntradaTabla et=ts.busquedaAmbito(nombre); //Ambito o global?
 					if (et!=null){
 						Atributo at =et.getAtt();
 						if (at instanceof AtributosTablaFuncion) {

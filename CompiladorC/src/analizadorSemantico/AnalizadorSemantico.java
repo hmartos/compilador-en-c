@@ -48,7 +48,7 @@ public class AnalizadorSemantico {
 		ge.addLista(listaErrores);
 		listaErrores=new ArrayList<ErrorCompilador>();
 		//Comprobamos que el valor error, no se ha puesto a true, y continuamos ejecutando:
-		if (!(Boolean)atribActual.get("error")){
+		//if (!(Boolean)atribActual.get("error")){
 			//Ejecutamos la accion predefinida de subida de atributos.
 			new AccionGenericaSubida().ejecutar(listaAtrib, atribActual, ts);
 			atribActual.put("error", false); //Si al subir los argumentos se modifica el error, este debe de ser false. (Ya esta comprobado antes)
@@ -61,7 +61,7 @@ public class AnalizadorSemantico {
 				}
 			ge.addLista(listaErrores);
 			listaErrores=new ArrayList<ErrorCompilador>();
-		}
+		//}
 		//Si el comprobador de tipos no ha dado errores ejecutamos el generador de codigo.
 		if (!(Boolean)atribActual.get("error")){
 			listAcciones=AccionesGenCodigo.acciones[nT.ordinal()][nRegla];

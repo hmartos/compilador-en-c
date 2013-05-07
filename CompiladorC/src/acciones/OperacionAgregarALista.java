@@ -17,7 +17,11 @@ public class OperacionAgregarALista extends ElemBinario implements Operacion {
 		Object op1=oper1.getValor(listaAtrib, atribActual, ts);
 		Object op2=oper2.getValor(listaAtrib, atribActual, ts);
 		if (op1 instanceof ArrayList){
-			((ArrayList<Object>) op1).add(0, op2);
+			if (op2 instanceof ArrayList){
+				((ArrayList<Object>) op1).addAll(0, (ArrayList<Object>)op2);
+			}else {
+				((ArrayList<Object>) op1).add(0, op2);
+			}
 			return op1;
 		}
 		return null; 

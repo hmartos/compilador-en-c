@@ -216,7 +216,7 @@ public class AccionesTipos {
 	/*33.1. TIPO_PRIMITIVO INDIRECCION */	{new AccionAsignar("tipo",new OperacionSumarDimTipo(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"num")))},
 	/*33.2.  iden INDIRECCION*/ 			{new AccionCondicionada
 												(new CondicionHeredada(new OperacionClaseEntradaTS(new OperandoGramatica(0,"")),new OperandoDirecto("typedef"),"igual"),
-												new Accion[]{new AccionAsignar("tipo",new OperacionSumarDimTipo(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"num")))},
+												new Accion[]{new AccionAsignar("tipo",new OperandoCrearTipo(new OperandoGramatica(0,""),new OperandoGramatica(1,"num")))},
 												new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 33.2: El tipo no existe en la TS."))})}
 					},
 /*34. INDIRECCION -> */ {
@@ -249,9 +249,14 @@ public class AccionesTipos {
 	/*38.1. { M_AMBITO BLOQUE_SENTENCIAS} */ {new AccionCerrarAmbito()},
 	/*38.2.  M_AMBITO SENTENCIA*/ {new AccionCerrarAmbito()}},
 /*39. BLOQUE_SENTENCIAS  ->*/ {
-	/*39.1.  SENTENCIA BLOQUE_SENTENCIAS */ {},
+	/*39.1.  SENTENCIA BLOQUE_SENTENCIAS */ {new AccionCondicionada(0,"listaTipoRet","distinto",null, 
+												new AccionAsignar("listaTipoRet",new OperacionAgregarALista(new OperandoGramatica(1,"listaTipoRet"),new OperandoGramatica(0,"listaTipoRet"))),
+												new AccionCondicionada(0,"tipo","distinto",null, 
+																new AccionAsignar("listaTipoRet",new OperacionAgregarALista(new OperandoGramatica(1,"listaTipoRet"),new OperandoGramatica(0,"tipo")))
+												)
+											)},
 	/*39.2. { M_AMBITO BLOQUE_SENTENCIAS} */ {new AccionCerrarAmbito()},
-	/* 39.3. ?*/ {}},
+	/* 39.3. ?*/ {new AccionAsignar("listaTipoRet",new OperandoCrearArrayList())}},
 /*40. SENTENCIA ->  */ {
 	/*40.1.  ; */ {},
 	/*40.2.  SENTENCIA_IF */ {},
@@ -291,10 +296,10 @@ public class AccionesTipos {
 	/*48.1. if (EXP) RSENTENCIA_IF*/ /*rellenar*/ {} 
 						},
 /*49. RSENTENCIA_IF -> */ {
-	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/ {new AccionCondicionada(0,"tipo","igual","error", new AccionAsignar("tipo","error"), new AccionAsignar("tipo",1,"tipo"))}},
+	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/ {}},
 /*50. SENTENCIA_ELSE -> */ {
-	/*50.1. else L_SENTENCIAS */ {new AccionAsignar("tipo",1,"tipo")},
-	/*50.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
+	/*50.1. else L_SENTENCIAS */ {},
+	/*50.2.  ?*/ {}},
 	
 /*51. SENTENCIA_BUCLE -> */			{
 	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",1,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 51.1: La condición no puede ser vacía."))})},

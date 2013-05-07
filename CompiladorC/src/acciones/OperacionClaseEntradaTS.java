@@ -60,8 +60,8 @@ public class OperacionClaseEntradaTS extends ElemUnario implements Operacion {
 			else if (attTabla instanceof AtributosTablaStruct){
 				return "struct";	
 			}
-			else if (attTabla instanceof AtributosTablaStruct){
-				return "union";	
+			else if (attTabla instanceof AtributosTablaTypeDef){
+				return "typedef";	
 			}
 			return null;
 		}
