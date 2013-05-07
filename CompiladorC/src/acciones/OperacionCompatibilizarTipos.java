@@ -51,7 +51,7 @@ public class OperacionCompatibilizarTipos extends ElemBinario implements Operaci
 			else if (t2.getTipo().equals("float")) i2=2;
 			else if (t2.getTipo().equals("double")) i2=3;
 			
-			if (i1>-1 && i1<tablaCompatibles.length && 21>-1 && 21<tablaCompatibles.length){
+			if (i1>-1 && i1<tablaCompatibles.length && i2>-1 && i2<tablaCompatibles.length){
 				String s=tablaCompatibles[i1][i2];
 				if (s!=null) return new Tipo(s,0);
 				else return null;
