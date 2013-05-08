@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Map;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
@@ -16,7 +18,7 @@ public class AccionGenericaFilaColumna extends Accion{
 
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) 
+			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) 
 	{
 		boolean busquedaIzqDer = true;
 		boolean recorridoDerIzq= false;

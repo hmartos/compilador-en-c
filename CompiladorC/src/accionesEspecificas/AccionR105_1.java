@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaFuncion;
 import tablaSimbolos.AtributosTablaVariable;
@@ -23,7 +25,7 @@ public class AccionR105_1 extends Accion {
 		/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
 		
 		ArrayList<ErrorCompilador> listErr= new ArrayList<ErrorCompilador>();
 

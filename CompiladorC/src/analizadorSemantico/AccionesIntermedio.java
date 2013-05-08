@@ -1,10 +1,11 @@
 package analizadorSemantico;
 
+import codigoIntermadio.InsCuarteto;
 import acciones.*;
 import accionesEspecificas.AccionR15_1;
 import accionesEspecificas.AccionR3_2;
 
-public class AccionesGenCodigo {
+public class AccionesIntermedio {
 	
 	
 
@@ -375,14 +376,17 @@ public class AccionesGenCodigo {
 	/*76.2.  == */			{}
  								},
 /*77. EXP_COMP -> */{
-	/*77.1. EXP_DESPL  REXP_COMP */			{},
+	/*77.1. EXP_DESPL  REXP_COMP */			{new AccionCondicionada(1,"lugar","distinto",null,
+												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operando"), new OperandoGramatica(1,"lugar"))})
+											//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
+											},
  								},
 /*78. REXP_COMP -> */{
 	/*78.1. OP_COMP   EXP_COMP  */			{},
 	/*78.2.   λ*/			{}
  								},
 /*79. OP_COMP ->   */{
-	/*79.1. < */			{},
+	/*79.1. < */			{new AccionAsignar("operacion","<")},
 	/*79.2. <= */			{},
 	/*79.3.  > */			{},
 	/*79.4.  >= */			{}

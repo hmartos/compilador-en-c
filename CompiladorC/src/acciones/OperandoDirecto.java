@@ -3,6 +3,8 @@ package acciones;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 
 public class OperandoDirecto implements Operando {
@@ -13,7 +15,7 @@ public class OperandoDirecto implements Operando {
 	}
 	@Override
 	public Object getValor(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts, CodigoIntermedio ci) {
 		// TODO Auto-generated method stub
 		return oper;
 	}

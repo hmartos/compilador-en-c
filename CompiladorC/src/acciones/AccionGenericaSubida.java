@@ -7,13 +7,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 
 public class AccionGenericaSubida extends Accion {
 
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
 		
 		for (Iterator<Object> itAtr=listaAtrib.iterator();itAtr.hasNext();){
 			Object atr=itAtr.next();
