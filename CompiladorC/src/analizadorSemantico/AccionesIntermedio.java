@@ -174,7 +174,7 @@ public class AccionesIntermedio {
 	/*33.2.  iden INDIRECCION*/			{}
  								},
 /*34. INDIRECCION -> */{
-	/*34.1. * INDIRECCION */			{},
+	/*34.1. * INDIRECCION */			{new AccionAsignar("operacion","ind")},
 	/*34.2.  λ*/			{}
  								},
 /*35. L_MODIFICADORES -> */{
@@ -240,7 +240,7 @@ public class AccionesIntermedio {
 	/*43.2.  λ*/			{}
  								},
 /*44. REFERENCIA -> */{
-	/*44.1. & */			{},
+	/*44.1. & */			{new AccionAsignar("operacion","ref")},
 	/*44.2.   λ*/			{}
  								},
 /*45. RPRINTF2 -> */{ 
@@ -302,8 +302,11 @@ public class AccionesIntermedio {
 
  								},
 /*59. EXP -> */{
-	/*59.1. EXP_COND REXP*/			{}
- 								},
+	/*59.1. EXP_COND REXP*/			{new AccionCondicionada(1,"lugar","distinto",null,
+											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operando"), new OperandoGramatica(1,"lugar"))})
+										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
+									}
+									},
 /*60. REXP -> */{
 	/*60.1. OP_ASIG EXP */			{},
 	/*60.2.  λ*/			{}
@@ -322,28 +325,40 @@ public class AccionesIntermedio {
 	/*61.11.  %=*/			{new AccionAsignar("operacion","%=")}
  								},
 /*62. EXP_COND  -> */{
-	/*62.1. EXP_ORL REXP_COND*/			{}
+	/*62.1. EXP_ORL REXP_COND*/			{new AccionCondicionada(1,"lugar","distinto",null,
+												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operando"), new OperandoGramatica(1,"lugar"))})
+											//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
+										}
  								},
 /*63. REXP_COND ->*/{
 	/*63.1.  ? EXP : EXP REXP_COND*/			{},
 	/*63.2.  λ */			{}
  								},
 /*64. EXP_ORL  ->  */{
-	/*64.1. EXP_ANDL REXP_ORL*/			{}
+	/*64.1. EXP_ANDL REXP_ORL*/			{new AccionCondicionada(1,"lugar","distinto",null,
+											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operando"), new OperandoGramatica(1,"lugar"))})
+										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
+										}
  								},
 /*65. REXP_ORL -> */{
 	/*65.1. |EXP_ORL */			{},
 	/*65.2.  λ*/			{}
  								},
 /*66. EXP_ANDL -> */{
-	/*66.1. EXP_ORB REXP_ANDL*/			{}
+	/*66.1. EXP_ORB REXP_ANDL*/			{new AccionCondicionada(1,"lugar","distinto",null,
+											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operando"), new OperandoGramatica(1,"lugar"))})
+										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
+										}
  								},
 /*67. REXP_ANDL -> */{
 	/*67.1. && EXP_ANDL */			{},
 	/*67.2.  λ*/			{}
  								},
 /*68. EXP_ORB  -> */{
-	/*68.1. EXP_XORB REXP_ORB*/			{}
+	/*68.1. EXP_XORB REXP_ORB*/			{new AccionCondicionada(1,"lugar","distinto",null,
+			new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operando"), new OperandoGramatica(1,"lugar"))})
+		//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
+										}
  								},
 /*69. REXP_ORB ->  */{
 	/*69.1. | EXP_ORB */			{},
