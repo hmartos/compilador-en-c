@@ -219,7 +219,7 @@ public class AccionesTipos {
 												new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError (new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 33.2: El tipo no existe en la TS."))})}
 					},
 /*34. INDIRECCION -> */ {
-	/*34.1. * INDIRECCION */ {new AccionBreakpoint(),new AccionAsignar("num",new OperacionHeredada(new OperandoGramatica(1,"num"),new OperandoDirecto(1),"suma"))},
+	/*34.1. * INDIRECCION */ {new AccionAsignar("num",new OperacionHeredada(new OperandoGramatica(1,"num"),new OperandoDirecto(1),"suma"))},
 	/*34.2.  ?*/ {new AccionAsignar("num",0)}},
 /*35. L_MODIFICADORES -> */ {
 	/*35.1. MODIFICADOR L_MODIFICADORES */ {},
@@ -319,7 +319,7 @@ public class AccionesTipos {
 	/*54.1. CASE */	{},
 	/*54.2.  {CASES}*/	{}},
 /*55. CASES  ->  */	{
-	/*55.1. case EXP_COND: RCASES */	{new AccionBreakpoint(),new AccionCondicionada(1,"esConstante","igual",true,
+	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"esConstante","igual",true,
 											new AccionCondicionada(new CondicionHeredada(
 													new CondicionHeredada(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("int",0),"igual"),
 													new CondicionHeredada(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("char",0),"igual"),"or"),
@@ -379,7 +379,7 @@ public class AccionesTipos {
 			new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 			new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 			new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 64.1 Los tipos no son compatibles. ")}
-),new AccionBreakpoint(),
+),
 new AccionCondicionada(
 new CondicionHeredada(
 new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
@@ -588,7 +588,7 @@ new AccionAsignar("esConstante",false))}},
 											new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 											new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 											new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 92.1 Los tipos no son compatibles. ")}
-			),new AccionBreakpoint(),
+			),
 			new AccionCondicionada(
 				new CondicionHeredada(
 						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
