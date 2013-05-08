@@ -4,6 +4,7 @@ import codigoIntermadio.InsCuarteto;
 import acciones.*;
 import accionesEspecificas.AccionR15_1;
 import accionesEspecificas.AccionR3_2;
+import accionesEspecificas.CodigoR15_1;
 
 public class AccionesIntermedio {
 	
@@ -89,7 +90,7 @@ public class AccionesIntermedio {
 	/*14.2.  ;*/			{}
  								},
 /*15. IDENTIFICADOR -> */{
-	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/			{CodigoR15_1()}
+	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/			{new CodigoR15_1()}
  								},
 /*16. RIDENTIFICADOR ->*/{
 	/*16.1.  CORCHETES */			{},
