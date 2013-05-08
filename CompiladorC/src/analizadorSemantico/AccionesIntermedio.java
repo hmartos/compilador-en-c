@@ -491,8 +491,9 @@ public class AccionesIntermedio {
 	/*94.2.  ->*/			{new AccionAsignar("operacion","->")}
  								},
 /*95. EXP3 -> */{
-	/*95.1. IDENTIFICADOR */			{},
-	/*95.2.  entero */			{},
+	/*95.1. IDENTIFICADOR */			{/*Cogemos el lugar del identificador*/},
+	/*95.2.  entero */			{{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
+									new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
 	/*95.3. real */			{},
 	/*95.4.  ( REXP3 */			{},
 	/*95.5.  NULL */			{},
