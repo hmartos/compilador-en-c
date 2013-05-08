@@ -292,7 +292,7 @@ public class AccionesTipos {
 	/*47.1. IDENTIFICADOR CORCHETES */ {/*rellenar new AccionCondicionada(new DiferenciaDim(0,1),new AccionAsignar("tipo","error"))*/},
 	/*47.2.  ?*/ {}},
 /*48. SENTENCIA_IF -> */ {
-	/*48.1. if (EXP) RSENTENCIA_IF*/  {new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("int",0)),new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 48.1 Tipo en la condición inválido. ")})} 
+	/*48.1. if (EXP) RSENTENCIA_IF*/  {new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(2,"tipo"),new OperandoCrearTipo("int",0)),new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 48.1 Tipo en la condición inválido. ")})} 
 						},
 /*49. RSENTENCIA_IF -> */ {
 	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/ {}},
