@@ -32,8 +32,7 @@ public class CodigoR15_1 extends Accion {
 		Boolean esFunB=(Boolean)((HashMap)listaAtrib.get(3)).get("esFuncion");
 		if (esFunB!=null)esFun=esFunB;
 		
-		int rowErr = (Integer)(atribActual.get("filaInicio"));
-		int colErr = (Integer)(atribActual.get("colInicio"));
+		
 		
 		
 
