@@ -291,8 +291,7 @@ public class AccionesIntermedio {
  								},
 /*57. RCASES2  -> */{
 	/*57.1.  BLOQUE_SENTENCIAS */			{},
-	/*57.2.  Λ*/			{},
-	/*57.3. */			{}
+	/*57.2.  Λ*/			{}
  								},
 /*58. CASE ->  */{
 	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */			{},
@@ -310,17 +309,17 @@ public class AccionesIntermedio {
 	/*60.2.  λ*/			{}
  								},
 /*61. OP_ASIG  -> */{
-	/*61.1. =  */			{},
-	/*61.2.  += */			{},
-	/*61.3.  -= */			{},
-	/*61.4.  *= */			{},
-	/*61.5.  /= */			{},
-	/*61.6.  <<= */			{},
-	/*61.7.  >>= */			{},
-	/*61.8.  &= */			{},
-	/*61.9.  |= */			{},
-	/*61.10.  ^= */			{},
-	/*61.11.  %=*/			{}
+	/*61.1. =  */			{new AccionAsignar("operacion","=")},
+	/*61.2.  += */			{new AccionAsignar("operacion","+=")},
+	/*61.3.  -= */			{new AccionAsignar("operacion","-=")},
+	/*61.4.  *= */			{new AccionAsignar("operacion","*=")},
+	/*61.5.  /= */			{new AccionAsignar("operacion","/=")},
+	/*61.6.  <<= */			{new AccionAsignar("operacion","<<=")},
+	/*61.7.  >>= */			{new AccionAsignar("operacion",">>=")},
+	/*61.8.  &= */			{new AccionAsignar("operacion","&=")},
+	/*61.9.  |= */			{new AccionAsignar("operacion","|=")},
+	/*61.10.  ^= */			{new AccionAsignar("operacion","^=")},
+	/*61.11.  %=*/			{new AccionAsignar("operacion","%=")}
  								},
 /*62. EXP_COND  -> */{
 	/*62.1. EXP_ORL REXP_COND*/			{}
@@ -387,9 +386,9 @@ public class AccionesIntermedio {
  								},
 /*79. OP_COMP ->   */{
 	/*79.1. < */			{new AccionAsignar("operacion","<")},
-	/*79.2. <= */			{},
-	/*79.3.  > */			{},
-	/*79.4.  >= */			{}
+	/*79.2. <= */			{new AccionAsignar("operacion","<=")},
+	/*79.3.  > */			{new AccionAsignar("operacion",">")},
+	/*79.4.  >= */			{new AccionAsignar("operacion",">=")}
  								},
 /*80. EXP_DESPL -> */{
 	/*80.1. EXP_AD REXP_DESPL*/			{}
@@ -399,8 +398,8 @@ public class AccionesIntermedio {
 	/*81.2.  λ*/			{}
  								},
 /*82. OP_DESPL ->  */{
-	/*82.1.  >> */			{},
-	/*82.2.  << */			{}
+	/*82.1.  >> */			{new AccionAsignar("operacion",">>")},
+	/*82.2.  << */			{new AccionAsignar("operacion","<<")}
  								},
 /*83. EXP_AD  ->  */{
 	/*83.1. EXP_MULT REXP_AD*/			{}
@@ -410,8 +409,8 @@ public class AccionesIntermedio {
 	/*84.2.  λ*/			{}
  								},
 /*85. OP_AD  ->   */{
-	/*85.1. + */			{},
-	/*85.2.  -*/			{}
+	/*85.1. + */			{new AccionAsignar("operacion","+")},
+	/*85.2.  -*/			{new AccionAsignar("operacion","-")}
  								},
 /*86. EXP_MULT -> */{
 	/*86.1. EXP1 REXP_MULT*/			{},
@@ -421,9 +420,9 @@ public class AccionesIntermedio {
 	/*87.2.  λ*/			{}
  								},
 /*88. OP_MULT ->  */{
-	/*88.1. * */			{},
-	/*88.2.  / */			{},
-	/*88.3.  %*/			{}
+	/*88.1. * */			{new AccionAsignar("operacion","*")},
+	/*88.2.  / */			{new AccionAsignar("operacion","/")},
+	/*88.3.  %*/			{new AccionAsignar("operacion","%")}
  								},
 /*89. EXP1 ->   */{
 	/*89.1. EXP2 */			{},
@@ -431,16 +430,16 @@ public class AccionesIntermedio {
 	/*89.3.  sizeof(EXP1)*/			{}
  								},
 /*90. OP_UNARIOS  ->  */{
-	/*90.1. ! */			{},
-	/*90.2.  ~ */			{},
-	/*90.3.  * */			{},
-	/*90.4.  & */			{},
+	/*90.1. ! */			{new AccionAsignar("operacion","!")},
+	/*90.2.  ~ */			{new AccionAsignar("operacion","~")},
+	/*90.3.  * */			{new AccionAsignar("operacion","*")},
+	/*90.4.  & */			{new AccionAsignar("operacion","&")},
 	/*90.5. OP_AD*/			{},
 	/*90.6.  OP_INC*/			{}
  								},
 /*91. OP_INC ->   */{
-	/*91.1. ++ */			{},
-	/*91.2.  --*/			{}
+	/*91.1. ++ */			{new AccionAsignar("operacion","++")},
+	/*91.2.  --*/			{new AccionAsignar("operacion","--")}
  								},
 /*92. EXP2 ->  */{
 	/*92.1. EXP3  REXP2*/			{},
@@ -451,8 +450,8 @@ public class AccionesIntermedio {
 	/*93.3.  λ*/			{}
  								},
 /*94. OP_SELECCION  ->    */{
-	/*94.1. . */			{},
-	/*94.2.  ->*/			{}
+	/*94.1. . */			{new AccionAsignar("operacion",".")},
+	/*94.2.  ->*/			{new AccionAsignar("operacion","->")}
  								},
 /*95. EXP3 -> */{
 	/*95.1. IDENTIFICADOR */			{},
