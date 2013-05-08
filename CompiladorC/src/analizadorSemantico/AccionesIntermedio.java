@@ -16,7 +16,7 @@ public class AccionesIntermedio {
 
  								
 /*1. PROGRAMA  ->*/{					
-	/*1.1.  L_DEFINICIONES EOF */			{}, 	
+	/*1.1.  L_DEFINICIONES EOF */			{new AccionBreakpoint()}, 	
 	/*1.2. EOF*/			{}				
  								},
 /*2. L_DEFINICIONES ->  */{			
@@ -430,7 +430,7 @@ public class AccionesIntermedio {
 	/*82.2.  << */			{new AccionAsignar("operacion","<<")}
  								},
 /*83. EXP_AD  ->  */{
-	/*83.1. EXP_MULT REXP_AD*/			{new AccionCondicionada(1,"lugar","distinto",null,
+	/*83.1. EXP_MULT REXP_AD*/			{new AccionBreakpoint(), new AccionCondicionada(1,"lugar","distinto",null,
 											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operando"), new OperandoGramatica(1,"lugar"))})
 										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 									}
@@ -492,7 +492,7 @@ public class AccionesIntermedio {
  								},
 /*95. EXP3 -> */{
 	/*95.1. IDENTIFICADOR */			{/*Cogemos el lugar del identificador*/},
-	/*95.2.  entero */			{{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
+	/*95.2.  entero */			{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
 									new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
 	/*95.3. real */			{},
 	/*95.4.  ( REXP3 */			{},
