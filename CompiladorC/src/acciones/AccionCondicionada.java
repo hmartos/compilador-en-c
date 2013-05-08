@@ -5,6 +5,8 @@ import gestorErrores.ErrorCompilador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
@@ -160,19 +162,19 @@ public class AccionCondicionada extends Accion {
 		
 		
 	}
-	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual,TablaSimbolos ts) {
+	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual,TablaSimbolos ts,CodigoIntermedio ci) {
 			
 	
 		Accion[] accionesEjecutar;
 
-		if (condicion.getValor(listaAtrib, atribActual, ts)) accionesEjecutar=accionesTrue;
+		if (condicion.getValor(listaAtrib, atribActual, ts, ci)) accionesEjecutar=accionesTrue;
 		else accionesEjecutar=accionesFalse;
 		
 		ArrayList<ErrorCompilador> listaErrores = new ArrayList<ErrorCompilador>(); 
 		
 		if(accionesEjecutar!=null){
 			for(int i=0;i<accionesEjecutar.length;i++){
-				listaErrores.addAll(accionesEjecutar[i].ejecutar(listaAtrib, atribActual,ts));
+				listaErrores.addAll(accionesEjecutar[i].ejecutar(listaAtrib, atribActual,ts,ci));
 			}
 		}
 		return listaErrores;

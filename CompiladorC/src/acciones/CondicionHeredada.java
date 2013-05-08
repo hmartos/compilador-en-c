@@ -3,6 +3,8 @@ package acciones;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 
 public class CondicionHeredada extends ElemBinario implements Condicion  {
@@ -17,10 +19,10 @@ public class CondicionHeredada extends ElemBinario implements Condicion  {
 
 	@Override
 	public Boolean getValor(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts, CodigoIntermedio ci) {
 		//Metodo para añadir operaciones para los distintos objetos
-		Object op1=oper1.getValor(listaAtrib, atribActual, ts);
-		Object op2=oper2.getValor(listaAtrib, atribActual, ts);
+		Object op1=oper1.getValor(listaAtrib, atribActual, ts, ci);
+		Object op2=oper2.getValor(listaAtrib, atribActual, ts, ci);
 		
 		//Operador generico
 		
@@ -34,14 +36,25 @@ public class CondicionHeredada extends ElemBinario implements Condicion  {
 				return opBool1 || opBool2;
 			}
 		}
-		if (op1!=null && op2!=null){
+		if (op1!=null){
 			if (operacion.equals("igual")){
 				return op1.equals(op2);
 				
 			}else if (operacion.equals("distinto")){
 				return !op1.equals(op2);
 			}
-		} else if (op1==null && op2== null) return true;
+		} else if (op2!=null){ //o
+			if (operacion.equals("igual")){
+				return op2.equals(op1);
+				
+			}else if (operacion.equals("distinto")){
+				return !op2.equals(op1);
+			}
+		}else { //op1 y op2 == null
+			if (operacion.equals("igual")) return true;
+			else if (operacion.equals("distinto")) return false;
+			
+		}
 		return false;
 		
 		/*

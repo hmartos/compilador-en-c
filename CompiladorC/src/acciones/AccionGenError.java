@@ -6,6 +6,8 @@ import gestorErrores.ErrorSemantico;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 
 public class AccionGenError extends Accion {
@@ -27,10 +29,10 @@ public class AccionGenError extends Accion {
 	
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
 		
 		ArrayList<ErrorCompilador> l= new ArrayList<ErrorCompilador>( );
-		l.add(new ErrorSemantico((Integer)opRow.getValor(listaAtrib, atribActual, ts),((Integer)opCol.getValor(listaAtrib, atribActual, ts)),op.getValor(listaAtrib, atribActual, ts).toString()));
+		l.add(new ErrorSemantico((Integer)opRow.getValor(listaAtrib, atribActual, ts, ci),((Integer)opCol.getValor(listaAtrib, atribActual, ts, ci)),op.getValor(listaAtrib, atribActual, ts, ci).toString()));
 		
 		
 		atribActual.put("error", true);

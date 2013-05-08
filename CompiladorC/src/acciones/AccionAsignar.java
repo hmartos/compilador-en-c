@@ -5,6 +5,8 @@ import gestorErrores.ErrorCompilador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
@@ -86,12 +88,12 @@ public class AccionAsignar extends Accion {
 		
 		
 	}
-	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual,TablaSimbolos ts) {
+	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,HashMap<String, Object> atribActual,TablaSimbolos ts,CodigoIntermedio ci) {
 		//Object oper1 = valor1==null ? (listaAtrib.get(emisor1).
 		
 		
 		
-		atribActual.put(atrReceptor, operacion.getValor(listaAtrib, atribActual, ts));
+		atribActual.put(atrReceptor, operacion.getValor(listaAtrib, atribActual, ts, ci));
 		return new ArrayList<ErrorCompilador>();
 
 	}

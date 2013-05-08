@@ -6,6 +6,8 @@ import gestorErrores.ErrorSemantico;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaFuncion;
 import tablaSimbolos.AtributosTablaVariable;
@@ -24,7 +26,7 @@ public class AccionR15_1 extends Accion {
 	
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
 		
 		Boolean esFun=false;
 		Boolean esFunB=(Boolean)((HashMap)listaAtrib.get(3)).get("esFuncion");
@@ -64,7 +66,7 @@ public class AccionR15_1 extends Accion {
 				}
 				else {
 					atribActual.put("error", true);
-					listErr.add(new ErrorSemantico(rowErr,colErr,"El número de indirecciones ("+(atv.getDim()-(nCor+nAst-nAmp))+ ") es incorrecto"));
+					listErr.add(new ErrorSemantico(rowErr,colErr,"El número de indirecciones ("+(atv.getDim()-(nCor+nAst-nAmp))+ ") para el identificador "+lex+" es incorrecto"));
 				}
 			}else {
 				atribActual.put("error", true);
@@ -87,7 +89,7 @@ public class AccionR15_1 extends Accion {
 						tReciv=new Tipo(atf.getListaTipos().get(i),atf.getListaDim().get(i));
 						
 					}
-					correcto= (tPasado!=null)&&(tReciv!=null)&& new CondicionEsCompatible(new OperandoDirecto(tPasado), new OperandoDirecto(tReciv)).getValor(listaAtrib, atribActual, ts);
+					correcto= (tPasado!=null)&&(tReciv!=null)&& new CondicionEsCompatible(new OperandoDirecto(tPasado), new OperandoDirecto(tReciv)).getValor(listaAtrib, atribActual, ts, ci);
 					i++;
 				}
 				if (correcto){

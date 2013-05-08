@@ -5,6 +5,8 @@ import gestorErrores.ErrorCompilador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaPalRes;
 import tablaSimbolos.AtributosTablaStruct;
@@ -14,12 +16,15 @@ import token.Token;
 
 public class CondicionEsCompatible extends ElemUnario implements Condicion {
 
-	
+	Operacion op1;
+	Operacion op2;
 	
 	
 	
 	public CondicionEsCompatible(Operacion op1, Operacion op2) {
 		super();
+		this.op1=op1;
+		this.op2=op2;
 		oper=new OperacionCompatibilizarTipos(op1,op2);
 		
 		
@@ -27,11 +32,14 @@ public class CondicionEsCompatible extends ElemUnario implements Condicion {
 
 	@Override
 	public Boolean getValor(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
-		Object op1=oper.getValor(listaAtrib, atribActual, ts);
+			HashMap<String, Object> atribActual, TablaSimbolos ts, CodigoIntermedio ci) {
+		Object compat=oper.getValor(listaAtrib, atribActual, ts, ci);
+		Object t1 =op1.getValor(listaAtrib, atribActual, ts, ci);
+		Object t2 =op2.getValor(listaAtrib, atribActual, ts, ci);
 		
+		if (t1==null && t2==null) return true;
 		
-		if (op1==null ) return false;
+		if (compat==null ) return false;
 		else return true;
 		
 		

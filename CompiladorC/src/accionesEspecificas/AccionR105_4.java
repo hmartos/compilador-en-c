@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaFuncion;
 import tablaSimbolos.AtributosTablaTypeDef;
@@ -28,7 +30,7 @@ public class AccionR105_4 extends Accion {
 	
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
 		
 		ArrayList<ErrorCompilador> listErr= new ArrayList<ErrorCompilador>();
 		
@@ -79,8 +81,8 @@ public class AccionR105_4 extends Accion {
 					if (nCorB!=null)nCor = (Integer)nCorB;
 					
 					if (nCor<=atv.getDim()){
-						if (new CondicionEsCompatible(new OperandoDirecto(new Tipo(atv.getTipo(),atv.getDim()-(nCor))),new OperandoGramatica(1,"tipo")).getValor(listaAtrib, atribActual, ts)){
-							atribActual.put("tipo", new OperacionCompatibilizarTipos(new OperandoDirecto(new Tipo(atv.getTipo(),atv.getDim()-(nCor))),new OperandoGramatica(1,"tipo")).getValor(listaAtrib, atribActual, ts));
+						if (new CondicionEsCompatible(new OperandoDirecto(new Tipo(atv.getTipo(),atv.getDim()-(nCor))),new OperandoGramatica(1,"tipo")).getValor(listaAtrib, atribActual, ts, ci)){
+							atribActual.put("tipo", new OperacionCompatibilizarTipos(new OperandoDirecto(new Tipo(atv.getTipo(),atv.getDim()-(nCor))),new OperandoGramatica(1,"tipo")).getValor(listaAtrib, atribActual, ts, ci));
 							atribActual.put("esFuncion", false);
 						}else{
 							atribActual.put("error", true);

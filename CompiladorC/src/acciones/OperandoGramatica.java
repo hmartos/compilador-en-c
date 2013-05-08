@@ -3,6 +3,8 @@ package acciones;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 import token.Token;
 
@@ -17,7 +19,7 @@ public class OperandoGramatica implements Operando {
 	
 	@Override
 	public Object getValor(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts, CodigoIntermedio ci) {
 		// TODO Auto-generated method stub
 		Object emi;
 		if (oper<=-1) emi=atribActual; //es atribActual

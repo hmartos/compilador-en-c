@@ -206,7 +206,6 @@ public class AccionesTipos {
 
 										}
 						},
-						//new AccionCondicionada(1,"tipo","igual","error",new AccionAsignar("tipo","error"),new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error"), new AccionAsignar("tipo","vacio")))}
 
 /* - - Definicion de Tipos - -*/
 
@@ -288,12 +287,12 @@ public class AccionesTipos {
 	/*45.1. EXP RPRINTF*/ {new AccionCondicionada(1,"tipo","igual","error", new AccionAsignar("tipo","error"), new AccionAsignar("tipo",0,"tipo"))}},
 /*46. RSCANF -> */ {
 	/*46.1. ,REFERENCIA   INDIRECCION   RSCANF2 */ {new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error")/*,rellenar new ComprobarAsteriscos(********)*/)},
-	/*46.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
+	/*46.2.  ?*/ {}},
 /*47. RSCANF2 -> */ {
 	/*47.1. IDENTIFICADOR CORCHETES */ {/*rellenar new AccionCondicionada(new DiferenciaDim(0,1),new AccionAsignar("tipo","error"))*/},
-	/*47.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
+	/*47.2.  ?*/ {}},
 /*48. SENTENCIA_IF -> */ {
-	/*48.1. if (EXP) RSENTENCIA_IF*/ /*rellenar*/ {} 
+	/*48.1. if (EXP) RSENTENCIA_IF*/  {new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("int",0)),new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 48.1 Tipo en la condición inválido. ")})} 
 						},
 /*49. RSENTENCIA_IF -> */ {
 	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/ {}},
@@ -302,33 +301,48 @@ public class AccionesTipos {
 	/*50.2.  ?*/ {}},
 	
 /*51. SENTENCIA_BUCLE -> */			{
-	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(4,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",1,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 51.1: La condición no puede ser vacía."))})},
-	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[]{new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 51.2: La condición no puede ser vacía."))})},
-	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{new AccionCondicionada(2,"tipo","distinto",new OperandoCrearTipo("null",0),new Accion[] {new AccionAsignar("tipo",4,"tipo")},new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 51.3: Los campos del for no pueden ser vacíos."))})}
-	},
+	/*51.1. do L_SENTENCIAS while(EXP) */	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(4,"tipo"),new OperandoCrearTipo("int",0)),new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 51.1 Tipo en la condición inválido. ")})},
+	/*51.2.  while(EXP) L_SENTENCIAS */		{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(2,"tipo"),new OperandoCrearTipo("int",0)),new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 51.2 Tipo en la condición inválido. ")})},
+	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/	{/*Los campos del for sí pueden ser vacíos*/}
+									},
 /*52. CAMPO  -> */	{
-	/*52.1. ? */			{new AccionAsignar("tipo","vacio")},
-	/*52.2.   EXP*/		{new AccionAsignar("tipo",0,"tipo")}},
+	/*52.1. ? */			{},
+	/*52.2.   EXP*/		{}},
 /*53. SENTENCIA_CASE -> */	{
-	/*53.1. switch (EXP) M_AMBITO L_CASES*/	{new AccionCondicionada(2,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{ new AccionAsignar("tipo",4,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 53.1: El tipo del switch debe de ser entero."))}), new AccionCerrarAmbito()}
+	/*53.1. switch (EXP) M_AMBITO L_CASES*/	{new AccionCondicionada(new CondicionHeredada(
+													new CondicionHeredada(new OperandoGramatica(2,"tipo"),new OperandoCrearTipo("int",0),"igual"),
+													new CondicionHeredada(new OperandoGramatica(2,"tipo"),new OperandoCrearTipo("char",0),"igual"),"or"),
+														new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 53.1 Tipo en el switch inválido. ")}), 
+														new AccionCerrarAmbito()}
 							},
 /*54. L_CASES  -> */ {
-	/*54.1. CASE */	{new AccionAsignar("tipo",0,"tipo")},
-	/*54.2.  {CASES}*/	{new AccionAsignar("tipo",1,"tipo")}},
+	/*54.1. CASE */	{},
+	/*54.2.  {CASES}*/	{}},
 /*55. CASES  ->  */	{
-	/*55.1. case EXP_COND: RCASES */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0), new Accion[]{new AccionCondicionada(1,"esConstante","igual","true", new Accion[]{new AccionAsignar("tipo",3,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},
-	/*55.2.  default: RCASES2 */	{new AccionAsignar("tipo",2,"tipo")},
-	/*55.3.  ?*/		{new AccionAsignar("tipo","vacio")}},
+	/*55.1. case EXP_COND: RCASES */	{new AccionBreakpoint(),new AccionCondicionada(1,"esConstante","igual",true,
+											new AccionCondicionada(new CondicionHeredada(
+													new CondicionHeredada(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("int",0),"igual"),
+													new CondicionHeredada(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("char",0),"igual"),"or"),
+														new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 55.1 Tipo en el case inválido. ")}),
+														new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 55.1 Se esperaba una constante. "))},
+										
+	/*55.2.  default: RCASES2 */	{},
+	/*55.3.  ?*/		{}},
 /*56. RCASES  ->  */{
-	/*56.1. BLOQUE_SENTENCIAS CASES */	{new AccionCondicionada(0,"tipo","igual","vacio", new AccionAsignar("tipo",1,"tipo"), new AccionAsignar("tipo","error"))},
-	/*56.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
+	/*56.1. BLOQUE_SENTENCIAS CASES */	{},
+	/*56.2.  ?*/	{}},
 /*57. RCASES2  -> */{
-	/*57.1.  BLOQUE_SENTENCIAS */	{new AccionAsignar("tipo",0,"tipo")},
-	/*57.2.  ?*/	{new AccionAsignar("tipo","vacio")}},
+	/*57.1.  BLOQUE_SENTENCIAS */	{},
+	/*57.2.  ?*/	{}},
 	/*57.3. */ //esta regla no existe
 /*58. CASE ->  */{
-	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */	{new AccionCondicionada(1,"tipo","igual",new OperandoCrearTipo("int",0),new Accion[]{new AccionCondicionada(1,"esConstante","igual","true", new Accion[]{new AccionAsignar("tipo",3,"tipo")}, new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},new Accion[]{new AccionAsignar("tipo","error"), new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),new OperandoDirecto("Regla 58.1: Después del case debe venir una constante"))})},
-	/*58.2.  default: BLOQUE_SENTENCIAS*/	{new AccionAsignar("tipo",2,"tipo")}},
+	/*58.1. case EXP_COND: BLOQUE_SENTENCIAS */	{new AccionCondicionada(1,"esConstante","igual",true,
+													new AccionCondicionada(new CondicionHeredada(
+															new CondicionHeredada(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("int",0),"igual"),
+															new CondicionHeredada(new OperandoGramatica(1,"tipo"),new OperandoCrearTipo("char",0),"igual"),"or"),
+																new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 58.1 Tipo en el case inválido. ")}),
+															new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 58.1 Se esperaba una constante. "))},
+	/*58.2.  default: BLOQUE_SENTENCIAS*/	{}},
 
 
 /* - - Definicion de Expresiones - -*/
@@ -338,7 +352,13 @@ public class AccionesTipos {
 								new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 								new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 								new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 59.1 Los tipos no son compatibles. ")}
-								)}},
+								),
+							new AccionCondicionada(
+								new CondicionHeredada(
+										new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+										,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+								new AccionAsignar("esConstante",0,"esConstante"),
+								new AccionAsignar("esConstante",false))}},
 /*60. REXP -> */{
 	/*60.1. OP_ASIG EXP */	{new AccionAsignar("tipo",1,"tipo")},
 	/*60.2.  ?*/	{}},
@@ -355,7 +375,17 @@ public class AccionesTipos {
 	/*61.10.  ^= */	{},
 	/*61.11.  %=*/	{}},
 /*62. EXP_COND  -> */{
-	/*62.1. EXP_ORL REXP_COND*/	{new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")), new AccionAsignar("tipo",0,"tipo"), new AccionAsignar("tipo","error"))}},
+	/*62.1. EXP_ORL REXP_COND*/	{new AccionCondicionada(
+			new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
+			new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
+			new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 64.1 Los tipos no son compatibles. ")}
+),new AccionBreakpoint(),
+new AccionCondicionada(
+new CondicionHeredada(
+new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+new AccionAsignar("esConstante",0,"esConstante"),
+new AccionAsignar("esConstante",false))}},
 /*63. REXP_COND ->*/{
 	/*63.1.  ? EXP : EXP REXP_COND*/	{/*rellenar*/},
 	/*63.2.  ? */	{}
@@ -365,7 +395,13 @@ public class AccionesTipos {
 									new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 									new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 									new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 64.1 Los tipos no son compatibles. ")}
-									)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*65. REXP_ORL -> */{
 	/*65.1. |EXP_ORL*/		{new AccionAsignar("tipo",1,"tipo")},
 	/*65.2.  ?*/	{}},	
@@ -374,7 +410,13 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 66.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*67. REXP_ANDL -> */		{
 	/*67.1. && EXP_ANDL */		{new AccionAsignar("tipo", 1, "tipo")},
 	/*67.2.  ?*/			    { }},
@@ -383,7 +425,13 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 68.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*69. REXP_ORB ->  */			{
 	/*69.1. | EXP_ORB */ 			{new AccionAsignar("tipo", 1, "tipo")},
 	/*69.2.  ?*/					{} 
@@ -393,7 +441,13 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 70.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*71. REXP_XORB -> */			{
 	/*71.1. ^ EXP_XORB */			{new AccionAsignar("tipo", 1, "tipo")},
 	/*71.2.  ?*/					{} 
@@ -403,7 +457,13 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 72.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*73. REXP_ANDB -> */			{
 	/*73.1. & EXP_ANDB */			{new AccionAsignar("tipo", 1, "tipo")},
 	/*73.2.  ?*/					{} 
@@ -413,11 +473,17 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 74.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*75. REXP_REL -> */			{
 	/*75.1. OP_REL EXP_REL */		{new AccionAsignar("tipo", 1, "tipo")},
 	/*75.2.  ?*/					{}
-								},
+								}, 
 /*76. OP_REL -> */				{
 	/*76.1. != */					{},
 	/*76.2.  == */					{}
@@ -427,7 +493,13 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 77.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*78. REXP_COMP -> */			{
 	/*78.1. OP_COMP   EXP_COMP  */	{new AccionAsignar("tipo", 1, "tipo")},
 	/*78.2.   ?*/					{}
@@ -443,7 +515,13 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 80.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*81. REXP_DESPL -> */			{
 	/*81.1. OP_DESPL  EXP_DESPL */	{new AccionAsignar("tipo", 1, "tipo")},
 	/*81.2.  ?*/					{}
@@ -457,7 +535,13 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 83.1 Los tipos no son compatibles. ")}
-										)}},
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*84. REXP_AD  ->  */			{
 	/*84.1. OP_AD EXP_AD */			{new AccionAsignar("tipo", 1, "tipo")},
 	/*84.2.  ?*/					{}
@@ -471,8 +555,14 @@ public class AccionesTipos {
 										new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 										new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 										new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 86.1 Los tipos no son compatibles. ")}
-										)}},
-	/*87. REXP_MULT -> */{
+			),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},	
+/*87. REXP_MULT -> */{
 	/*87.1. OP_MULT EXP_MULT */			{new AccionAsignar("tipo",1,"tipo")},
 	/*87.2.  ?*/						{}},
 /*88. OP_MULT ->  */{
@@ -498,23 +588,29 @@ public class AccionesTipos {
 											new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
 											new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
 											new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 92.1 Los tipos no son compatibles. ")}
-											)}},
+			),new AccionBreakpoint(),
+			new AccionCondicionada(
+				new CondicionHeredada(
+						new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")
+						,new CondicionHeredada(new OperandoGramatica(1,"esConstante"),new OperandoDirecto(false),"distinto"),"and"),
+				new AccionAsignar("esConstante",0,"esConstante"),
+				new AccionAsignar("esConstante",false))}},
 /*93. REXP2  -> */{
 	/*93.1. OP_INC */					{new AccionAsignar("esInc",true)},
-	/*93.2.  OP_SELECCION EXP3 */		{new AccionAsignar("tipo",0,"tipo"),new AccionAsignar("esInc",false)},
+	/*93.2.  OP_SELECCION EXP3 */		{new AccionAsignar("esInc",false)},
 	/*93.3.  ?*/						{}},
 /*94. OP_SELECCION  ->    */{
 	/*94.1. . */						{new AccionAsignar("esPunto",true)},
 	/*94.2.  ->*/						{new AccionAsignar("esPunto",false)}},
 /*95. EXP3 -> */{
-	/*95.1. IDENTIFICADOR */			{new AccionAsignar("tipo",0,"tipo")},
-	/*95.2.  entero */					{new AccionAsignar("tipo",new OperandoCrearTipo("int",0))},
-	/*95.3. real */						{new AccionAsignar("tipo",new OperandoCrearTipo("float",0))},
-	/*95.4.  ( REXP3 */					{new AccionAsignar("tipo",1,"tipo")},
-	/*95.5.  NULL */					{new AccionAsignar("tipo","null")},
-	/*95.6.  { LISTA_EXP} */			{new AccionAsignar("tipo",1,"tipo")},
-	/*95.7.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0))},
-	/*95.8.  entrecomillado*/			{new AccionAsignar("tipo",new OperandoCrearTipo("char",1))}},
+	/*95.1. IDENTIFICADOR */			{new AccionAsignar("tipo",0,"tipo"),new AccionAsignar("esConstante",false)},
+	/*95.2.  entero */					{new AccionAsignar("tipo",new OperandoCrearTipo("int",0)),new AccionAsignar("esConstante",true)},
+	/*95.3. real */						{new AccionAsignar("tipo",new OperandoCrearTipo("float",0)),new AccionAsignar("esConstante",true)},
+	/*95.4.  ( REXP3 */					{new AccionAsignar("esConstante",false)},
+	/*95.5.  NULL */					{new AccionAsignar("tipo","null"),new AccionAsignar("esConstante",true)},
+	/*95.6.  { LISTA_EXP} */			{new AccionAsignar("esConstante",false)},
+	/*95.7.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0)),new AccionAsignar("esConstante",true)},
+	/*95.8.  entrecomillado*/			{new AccionAsignar("tipo",new OperandoCrearTipo("char",1)),new AccionAsignar("esConstante",false)}},
 /*96. LISTA_EXP ->  */{
 	/*96.1.  ? */						{},
 	/*96.2.  EXP , LISTA_EXP*/			{}
@@ -526,18 +622,18 @@ public class AccionesTipos {
 	/*97.3.  MODIFICADOR L_MODIFICADORES RTIPO) EXP */	{/*rellenar*//*sePuedeHacerCasting*/},
 	/*97.4.  iden REXP3_2 ) AUX*/						{/*rellenar*//*esTipoDefinidoPorUsuario, esCompatible, esMayor*/new AccionCondicionada(/*si*/1,"esCasting","igual","true",/*entonces0*/new AccionCondicionada(/*si1*/4,"tipo","igual","vacio",/*entonces1*/new AccionAsignar("tipo",1,"tipo"),/*si no1*/new AccionCondicionada(/*si2*/4,"tipo","igual","error",/*entonces2*/new AccionAsignar("tipo",1,"tipo"),/*si no2*/new AccionAsignar("tipo","error"))),/*si no0*//*esCompatible*/null)}},
 /*98. EXP_SIN_IDEN -> */{
-	/*98.1. & INDIRECCION iden RIDENTIFICADOR */	{/*rellenar*//*puntero-TS*/},
-	/*98.2.  INDIRECCION2 iden RIDENTIFICADOR */	{/*rellenar*//*puntero-TS*/},
-	/*98.3.  entero */					{new AccionAsignar("tipo",new OperandoCrearTipo("int",0))},
-	/*98.4. real */						{new AccionAsignar("tipo",new OperandoCrearTipo("float",0))},
-	/*98.5.  ( REXP3 */					{new AccionAsignar("tipo",1,"tipo")},
-	/*98.6.  NULL */					{new AccionAsignar("tipo","vacio")},
-	/*98.7.  { LISTA_EXP} */			{new AccionAsignar("tipo",1,"tipo")},
-	/*98.8.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0))},
-	/*98.9.  ENTRECOMILLADO*/			{new AccionAsignar("tipo",0,"tipo")}},
+	/*98.1. & INDIRECCION iden RIDENTIFICADOR */	{/*rellenar*//*puntero-TS*/new AccionAsignar("esConstante",false)},
+	/*98.2.  INDIRECCION2 iden RIDENTIFICADOR */	{/*rellenar*//*puntero-TS*/new AccionAsignar("esConstante",false)},
+	/*98.3.  entero */					{new AccionAsignar("tipo",new OperandoCrearTipo("int",0)),new AccionAsignar("esConstante",true)},
+	/*98.4. real */						{new AccionAsignar("tipo",new OperandoCrearTipo("float",0)),new AccionAsignar("esConstante",true)},
+	/*98.5.  ( REXP3 */					{new AccionAsignar("esConstante",false)},
+	/*98.6.  NULL */					{new AccionAsignar("tipo","null"),new AccionAsignar("esConstante",true)},
+	/*98.7.  { LISTA_EXP} */			{new AccionAsignar("esConstante",false)},
+	/*98.8.  comillasChar */			{new AccionAsignar("tipo",new OperandoCrearTipo("char",0)),new AccionAsignar("esConstante",true)},
+	/*98.9.  ENTRECOMILLADO*/			{new AccionAsignar("esConstante",false)}},
 /*99. REXP3_2 -> */{
 	/*99.1. INDIRECCION2 */				{new AccionAsignar("esOperacion",false)},
-	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar("esFuncion",0,"esFuncion")}}, //Forzamos a esFuncion del 0 porque también existe un esFuncion en el 1.
+	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar ("num",0,"num"),new AccionAsignar("esFuncion",0,"esFuncion")}}, //Forzamos a esFuncion y numCorchetes del 0 porque también existe un esFuncion y numCorchetes en el 1.
 /*100. REXPRESIONES -> */{
 	/*100.1. REXP */					{new AccionAsignar("esOperacion",true)}, //Para la decision en la regla 105.4. (cuando esOperación deba ser false simplemente no lo asignamos al hashmap).
 	/*100.2.  REXP_COND */				{new AccionAsignar("esOperacion",true)},
@@ -562,8 +658,8 @@ public class AccionesTipos {
 	/*103.1. ,EXP  RES_LISTA_PARAMS_LLAMADA */	{new AccionAsignar("lista",new OperacionAgregarALista(new OperandoGramatica(2,"lista"), new OperandoGramatica(1,"tipo")))},
 	/*103.2.  ?*/								{new AccionAsignar("lista",new OperandoCrearArrayList())}},
 /*104. AUX-> */{
-	/*104.1. EXP */								{new AccionAsignar("tipo",0,"tipo")},
-	/*104.2.  ?*/								{new AccionAsignar("tipo","vacio")}},
+	/*104.1. EXP */								{},
+	/*104.2.  ?*/								{}},
 /*105. REXP4 -> */{
 	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */											{new AccionR105_1()},
 	/*105.2.  EXP_SIN_IDEN REXP; */																{new AccionCondicionada(0,"esConstante","false",new AccionCondicionada(1,"esAsignacion","true",new AccionAsignar("tipo","error"),new AccionAsignar("tipo","vacio")),new AccionAsignar("tipo","error"))},

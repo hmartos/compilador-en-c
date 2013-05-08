@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.TablaSimbolos;
 
 public class AccionGenericaError extends Accion {
 
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
 		boolean error = false;
 		for (Iterator<Object> itAtr=listaAtrib.iterator();itAtr.hasNext();){
 			Object atr=itAtr.next();

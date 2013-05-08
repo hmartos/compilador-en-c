@@ -3,6 +3,8 @@ package acciones;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import codigoIntermadio.CodigoIntermedio;
+
 import tablaSimbolos.Atributo;
 import tablaSimbolos.AtributosTablaEnum;
 import tablaSimbolos.AtributosTablaPalRes;
@@ -21,9 +23,9 @@ public class OperacionTipoTS extends ElemUnario implements Operacion {
 
 	@Override
 	public Object getValor(ArrayList<Object> listaAtrib,
-			HashMap<String, Object> atribActual, TablaSimbolos ts) {
+			HashMap<String, Object> atribActual, TablaSimbolos ts, CodigoIntermedio ci) {
 		
-		Object op=oper.getValor(listaAtrib, atribActual, ts);
+		Object op=oper.getValor(listaAtrib, atribActual, ts, ci);
 		
 		
 		
