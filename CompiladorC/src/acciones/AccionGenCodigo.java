@@ -63,6 +63,8 @@ public class AccionGenCodigo extends Accion{
 			CodigoIntermedio ci) {
 		
 		
+		ArrayList<InstruccionIntermedio> listaCod = (ArrayList<InstruccionIntermedio>)(atribActual.get("codigo"));
+		
 		ins=ins.nuevo();
 		Object ob1=null;
 		Object ob2=null;
@@ -82,7 +84,7 @@ public class AccionGenCodigo extends Accion{
 			((InsCall)ins).setEtiqueta((String)ob1);
 			((InsCall)ins).setDir((String)ob2);
 			((InsCall)ins).setNum((Integer)ob3);
-			ci.addInstruccion(ins);
+			listaCod.add(ins);
 			
 		}else if (ins instanceof InsCuarteto){
 			((InsCuarteto)ins).setEtiqueta((String)ob1);
@@ -90,12 +92,12 @@ public class AccionGenCodigo extends Accion{
 			((InsCuarteto)ins).setOp1((String)ob3);
 			((InsCuarteto)ins).setOpRel((String)ob4);
 			((InsCuarteto)ins).setOp2((String)ob5);
-			ci.addInstruccion(ins);
+			listaCod.add(ins);
 			
 		}else if (ins instanceof InsGoto){
 			((InsGoto)ins).setEtiqueta((String)ob1);
 			((InsGoto)ins).setDir((String)ob2);
-			ci.addInstruccion(ins);
+			listaCod.add(ins);
 			
 		}else if (ins instanceof InsIfGoto){
 			((InsIfGoto)ins).setEtiqueta((String)ob1);
@@ -103,15 +105,15 @@ public class AccionGenCodigo extends Accion{
 			((InsIfGoto)ins).setOpRel((String)ob3);
 			((InsIfGoto)ins).setOp2((String)ob3);
 			((InsIfGoto)ins).setDir((String)ob4);
-			ci.addInstruccion(ins);
+			listaCod.add(ins);
 		
 		}else if (ins instanceof InsParam){
 			((InsParam)ins).setEtiqueta((String)ob1);
 			((InsParam)ins).setParam((String)ob2);
-			ci.addInstruccion(ins);
+			listaCod.add(ins);
 		
 		}else if (ins instanceof InsReturn){
-			ci.addInstruccion(ins);
+			listaCod.add(ins);
 		}
 		
 		

@@ -11,6 +11,7 @@ import codigoIntermadio.CodigoIntermedio;
 import tablaSimbolos.TablaSimbolos;
 
 import acciones.Accion;
+import acciones.AccionGenericaCodigo;
 import acciones.AccionGenericaError;
 import acciones.AccionGenericaFilaColumna;
 import acciones.AccionGenericaSubida;
@@ -69,6 +70,7 @@ public class AnalizadorSemantico {
 		//}
 		//Si el comprobador de tipos no ha dado errores ejecutamos el generador de codigo.
 		if (!(Boolean)atribActual.get("error")){
+			new AccionGenericaCodigo().ejecutar(listaAtrib, atribActual, ts,ci);
 			listAcciones=AccionesIntermedio.acciones[nT.ordinal()][nRegla];
 			System.out.println("Generando codigo... de:"+(nT.ordinal()+1)+":"+(nRegla+1));
 

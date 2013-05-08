@@ -89,7 +89,7 @@ public class AccionesIntermedio {
 	/*14.2.  ;*/			{}
  								},
 /*15. IDENTIFICADOR -> */{
-	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/			{}
+	/*15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR*/			{CodigoR15_1()}
  								},
 /*16. RIDENTIFICADOR ->*/{
 	/*16.1.  CORCHETES */			{},
