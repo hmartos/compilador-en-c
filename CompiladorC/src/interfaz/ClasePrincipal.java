@@ -32,6 +32,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import codigoIntermadio.InstruccionIntermedio;
+
 import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaAmbito;
 import tablaSimbolos.TablaSimbolos;
@@ -45,12 +47,12 @@ public class ClasePrincipal extends JFrame {
 
 	
 	JPanel panelPrincipal;
-	JButton botonScan,botonCargar,botonCompleto,botonIniciar;
+	JButton botonCargar,botonCompleto,botonIniciar;
 	
 	JLabel infoCodigo;
 	
 	JTextArea  textoCodigo;
-	JTextPane textoToken,textoError;
+	JTextPane texto3Dir,textoError;
 	
 	ContenedorTS cuadroTS;
 	
@@ -85,7 +87,7 @@ public class ClasePrincipal extends JFrame {
 		
 		this.setContentPane(panelPrincipal);
 		
-		botonScan=new JButton("Scan -Nuevo Token-");
+		
 		botonCargar = new JButton("Cargar nuevo codigo");
 		botonCompleto = new JButton("Analisis completo");
 		botonIniciar = new JButton("Iniciar analisis");
@@ -94,18 +96,18 @@ public class ClasePrincipal extends JFrame {
 		iniciado=false;
 		modoTextoEscrito=true; //Empieza en modo texto para evitar errores.
 		botonCompleto.setEnabled(false);
-		botonScan.setEnabled(false);
+		
 		botonCargar.setEnabled(true);
 		
 		
 		
 		textoError =new JTextPane();
-		textoToken =new JTextPane();
+		texto3Dir =new JTextPane();
 		//textoTS =new JTextArea();
 		cuadroTS = new ContenedorTS();
 		
 		textoError.setEditable(false);
-		textoToken.setEditable(false);
+		texto3Dir.setEditable(false);
 		//textoTS.setEditable(false);
 		
 		//Panel de texto: 1 label de info + 1 JScroll con el textoCodigo.
@@ -117,17 +119,17 @@ public class ClasePrincipal extends JFrame {
 		panelCodigo.add(new JScrollPane(textoCodigo),BorderLayout.CENTER);
 		
 		
-		panelBotones.add(botonScan);
+		
 		panelBotones.add(botonCargar);
 		panelBotones.add(botonCompleto);
 		panelBotones.add(botonIniciar);
 			
 		panelTexto.add(panelCodigo);
 		panelTexto.add(new JScrollPane(textoError));
-		panelTexto.add(new JScrollPane(textoToken));
+		panelTexto.add(new JScrollPane(texto3Dir));
 		panelTexto.add(cuadroTS);
 		
-		botonScan.addActionListener(new Oyente());
+		
 		botonCargar.addActionListener(new Oyente());
 		botonCompleto.addActionListener(new Oyente());
 		botonIniciar.addActionListener(new Oyente());
@@ -157,25 +159,25 @@ public class ClasePrincipal extends JFrame {
 		}
 	}
 	
-	void actualizarTextoToken(){
-		//ACTUALIZACION TEXTO TOKEN
-		textoToken.setText("");
-		SimpleAttributeSet attrs = new SimpleAttributeSet();
-		//for(Iterator<Token> it=listaToken.iterator();it.hasNext();){
-		for(int i=0; i<listaToken.size();i++){
+	
+	void actualizarTexto3Dir(){
+		//ACTUALIZACION TEXTO ERROR
+		texto3Dir.setText("");
+		SimpleAttributeSet attrs2 = new SimpleAttributeSet();
+		ArrayList<InstruccionIntermedio> lista3Dir=semantico.getCi().getLista();
+		for(int i=0; i<lista3Dir.size();i++){
 	
 			
-			if (i==(listaToken.size()-1)){
-				StyleConstants.setBold(attrs, true);
-			}
+			
 		
 			try {
-				textoToken.getStyledDocument().insertString(textoToken.getStyledDocument().getLength(), listaToken.get(i).toString()+"\n", attrs);
+				texto3Dir.getStyledDocument().insertString(texto3Dir.getStyledDocument().getLength(), lista3Dir.get(i).toString()+"\n", attrs2);
 			} catch (BadLocationException e1) {
 				e1.printStackTrace();
 			} 
 		}
 	}
+
 	
 	
 	/*
@@ -191,20 +193,7 @@ public class ClasePrincipal extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (botonScan==e.getSource()){
-				if (analizador!=null){
-					try{
-					Token nuevoToken =analizador.Scan();
-					listaToken.add(nuevoToken);
-					
-					}catch (Exception excepcion){ excepcion.printStackTrace();}
-					actualizarTextoToken();
-					actualizarTextoError();
-					cuadroTS.actualizar(cuadroTS.representada);
-				}
-				
-			}
-			else if (botonCargar==e.getSource()){
+			 if (botonCargar==e.getSource()){
 				seleFile.showOpenDialog(null);
 				File archivoLectura= seleFile.getSelectedFile();
 				if (archivoLectura!=null){ //Para el boton cancelar
@@ -212,7 +201,7 @@ public class ClasePrincipal extends JFrame {
 					
 					Scanner lector;
 					textoCodigo.setText("");
-					textoToken.setText("");
+					texto3Dir.setText("");
 					textoError.setText("");
 					modoTextoEscrito=false; //Se cargara desde un archivo.
 					infoCodigo.setText("Archivo cargado desde: "+ruta);
@@ -245,8 +234,9 @@ public class ClasePrincipal extends JFrame {
 					}else{
 						System.out.println("Nada");
 					}
-					actualizarTextoToken();
+	
 					actualizarTextoError();
+					actualizarTexto3Dir();
 					cuadroTS.actualizar(cuadroTS.representada);
 					
 				}
@@ -256,7 +246,7 @@ public class ClasePrincipal extends JFrame {
 					botonIniciar.setText("Iniciar analisis");
 					iniciado=false;
 					botonCompleto.setEnabled(false);
-					botonScan.setEnabled(false);
+	
 					botonCargar.setEnabled(true);
 					textoCodigo.setEditable(true);
 					
@@ -265,7 +255,7 @@ public class ClasePrincipal extends JFrame {
 					botonIniciar.setText("Terminar analisis");
 					iniciado=true;
 					botonCompleto.setEnabled(true);
-					botonScan.setEnabled(true);
+
 					botonCargar.setEnabled(false);
 					textoCodigo.setEditable(false);
 					

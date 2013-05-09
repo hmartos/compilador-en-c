@@ -8,6 +8,18 @@ public class CodigoIntermedio {
 	ArrayList<InstruccionIntermedio> lista;
 	int numTempVar;
 	
+	
+	
+	public ArrayList<InstruccionIntermedio> getLista() {
+		return lista;
+	}
+
+
+	public void setLista(ArrayList<InstruccionIntermedio> lista) {
+		this.lista = lista;
+	}
+
+
 	public CodigoIntermedio(){
 		numTempVar=0;
 		lista= new ArrayList<InstruccionIntermedio>();

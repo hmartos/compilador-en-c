@@ -78,6 +78,12 @@ public class AccionGenCodigo extends Accion{
 		if (op4!=null)ob4=op4.getValor(listaAtrib, atribActual, ts,ci);
 		if (op5!=null)ob5=op5.getValor(listaAtrib, atribActual, ts,ci);
 		
+		if(ob1!=null)ob1=ob1.toString();
+		if(ob2!=null)ob2=ob2.toString();
+		if(ob3!=null)ob3=ob3.toString();
+		if(ob4!=null)ob4=ob4.toString();
+		if(ob5!=null)ob5=ob5.toString();
+		
 		
 		
 		if (ins instanceof InsCall){

@@ -23,5 +23,7 @@ public class InsParam extends InstruccionIntermedio {
 		return new InsParam();
 	}
 	
-	
+	public String toString(){
+		return super.toString()+"param "+param.toString();
+	}
 }

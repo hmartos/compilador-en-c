@@ -18,46 +18,47 @@ import tablaSimbolos.TablaSimbolos;
 import token.Token;
 import acciones.Accion;
 import acciones.AccionAsignar;
+import acciones.AccionGenCodigo;
 import acciones.CondicionEsCompatible;
 import acciones.OperandoCrearArrayList;
 import acciones.OperandoDirecto;
+import acciones.OperandoGramatica;
 import acciones.Tipo;
 
-public class CodigoR15_1 extends Accion {
+public class CodigoR105_4 extends Accion {
 
 	
-	// 15.1. REFERENCIA INDIRECCION iden RIDENTIFICADOR
+	/*105. REXP4 -> */
+	//105.4.  iden REXP3_2 RDEFINICION
 	
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
 		
-		Boolean esFun=false;
-		Boolean esFunB=(Boolean)((HashMap)listaAtrib.get(3)).get("esFuncion");
-		if (esFunB!=null)esFun=esFunB;
+		Boolean esOper=false;
+		Boolean esOperB=(Boolean)((HashMap)listaAtrib.get(1)).get("esOperacion");
+		if (esOperB!=null)esOper=esOperB;
 		
-	ArrayList<InstruccionIntermedio> listaCodOriginal=(ArrayList<InstruccionIntermedio>) atribActual.get("codigo");
+		
+		
+		ArrayList<InstruccionIntermedio> listaCodOriginal=(ArrayList<InstruccionIntermedio>) atribActual.get("codigo");
 		
 		ArrayList<InstruccionIntermedio> listaCod= new ArrayList<InstruccionIntermedio>();
+
 		
-		
-		
-		String lex = (String)((Token)listaAtrib.get(2)).getAtributo();
+		String lex = (String)((Token)listaAtrib.get(0)).getAtributo();
 				
 		
 		String varAct=lex;
 		
-			if (!esFun){//Es una variable 
+			if (esOper){//Es una operacion
 				
-				
-				
-				
-				Object nCorB=((HashMap)listaAtrib.get(3)).get("num"); // esta accion viene para prevenir el asunto de las lambdas que no llegan.
+				Object nCorB=((HashMap)listaAtrib.get(1)).get("num"); // esta accion viene para prevenir el asunto de las lambdas que no llegan.
 				int nCor=0;
 				if (nCorB!=null)nCor = (Integer)nCorB;
 				ArrayList<String> listaCor=null;
 				if (nCor>0){
-					listaCor = (ArrayList<String>)((HashMap)listaAtrib.get(3)).get("listaCorchete");
+					listaCor = (ArrayList<String>)((HashMap)listaAtrib.get(1)).get("listaCorchete");
 				}
 				
 				
@@ -86,33 +87,35 @@ public class CodigoR15_1 extends Accion {
 				}
 				
 				
-		// Es una funcion
-			}else if (esFun){	
-			 //De donde devuelve el lugar??.
+				//Ahora miramos que tipo de operacion es
+				String operacion=(String)((HashMap)listaAtrib.get(1)).get("operacion");
+				String oper1=(String)((HashMap)listaAtrib.get(1)).get("lugar");
+				
+				if (operacion.endsWith("=")){//Es una asignacion.
+					if (operacion.equals("=")){
+						 nuevaIns= new InsCuarteto();
+						 listaCod.add(nuevaIns);
+						 nuevaIns.setRes(varAct);
+						 nuevaIns.setOp1(oper1);
+						 
+						
+					}else{
+						String operacion2=(String)((HashMap)listaAtrib.get(1)).get("operacion2");
+						nuevaIns= new InsCuarteto();
+						listaCod.add(nuevaIns);
+						nuevaIns.setRes(varAct);
+						 nuevaIns.setOp1(varAct);
+						 nuevaIns.setOpRel(operacion2);
+						 nuevaIns.setOp2(oper1);
+					}
+				}else {
+					//Aqui irian operaciones que no fueran asignacion....
+				}
+		
 			}
 			
-			
-			
-			Object nIndB=((HashMap)listaAtrib.get(1)).get("num"); // esta accion viene para prevenir el asunto de las lambdas que no llegan.
-			int nInd=0;
-			if (nIndB!=null)nInd = (Integer)nIndB;
-			
-			
-			//La varAct vendrá de los corchetes (en caso de variable) o el lugar devuelto por la funcion.
-			for (int i=0;i<nInd;i++){
-				String varSig=ci.tempNuevo();
-				InsCuarteto nuevaIns= new InsCuarteto();
-				listaCod.add(nuevaIns);
-				nuevaIns.setOp1(varAct);
-				nuevaIns.setOpRel("*");
-				nuevaIns.setRes(varSig);
-				
-				varAct=varSig; //Avanzamos la variable.
-				
-			}	
-				
-			listaCodOriginal.addAll(listaCod);
-			atribActual.put("codigo", listaCodOriginal);
+				listaCodOriginal.addAll(listaCod);
+				atribActual.put("codigo", listaCodOriginal);
 				atribActual.put("lugar", varAct);
 		return null;
 	}

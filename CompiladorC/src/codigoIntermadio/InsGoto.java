@@ -22,6 +22,8 @@ public class InsGoto extends InstruccionIntermedio {
 		return new InsGoto();
 	}
 	
-	
+	public String toString(){
+		return super.toString()+"goto "+dir.toString();
+	}
 	
 }
