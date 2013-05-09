@@ -321,7 +321,42 @@ public class AccionesIntermedio {
  								},
 /*51. SENTENCIA_BUCLE -> */{
 	/*51.1. do L_SENTENCIAS while(EXP) */			{},
-	/*51.2.  while(EXP) L_SENTENCIAS */			{},
+	/*51.2.  while(EXP) L_SENTENCIAS */			{   //Creamos una lista nueva para el codigo
+													new AccionAsignar("codigo",new OperandoCrearArrayList()),
+													//Asignamos la etiqueta comienzo al principio del bloque while
+													new AccionAsignarEtiqueta(new OperandoGramatica(0,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo"),new OperandoGramatica(-1,"numWhile"),"suma"),0),  
+													/*Se introducen como en una pila*/
+													//Metemos el codigo de L_SENTENCIAS. (los bloques)
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))), 
+													//Metemos la instruccion if (exp.lugar=0) goto siguiente
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoDirecto("0"), new OperacionHeredada(new OperandoDirecto("siguiente"),0),
+													//El numWhile se propagará hacia arriba
+													new AccionAsignar("numWhile",new OperandoCrearIfTemp()), 
+													//Metemos el codigo de la EXP
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),
+													
+													
+													
+													
+													//Metemos la instruccion que vuelve al comienzo del while
+													new AccionGenCodigo(new InsGoto()), 
+													
+													
+													
+													
+													/*//Metemos la etiqueta fin-ifX al final del codigo
+													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,null,0), 
+													
+													//Metemos el bloque de codigo else.
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(1,"codigo"))), 
+													
+													//Metemos la instruccion goto despues del bloque if (para cuando es true se salte el else)
+													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,0), 
+								
+													//Metemos el bloque de codigo if.
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(0,"codigo"))),*/  
+
+												},
 	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/			{}
  								},
 /*52. CAMPO  -> */{
