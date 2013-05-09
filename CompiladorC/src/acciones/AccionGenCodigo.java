@@ -20,6 +20,8 @@ public class AccionGenCodigo extends Accion{
 	InstruccionIntermedio ins;
 	Operacion op1=null,op2=null,op3=null,op4=null,op5=null;
 	
+	int pos=-1;
+	
 	public AccionGenCodigo (InstruccionIntermedio i){
 		ins=i;
 	}
@@ -53,6 +55,16 @@ public class AccionGenCodigo extends Accion{
 		this.op3=op3;
 		this.op4=op4;
 		this.op5=op5;
+	}
+	
+	public AccionGenCodigo (InstruccionIntermedio i,Operacion op1,Operacion op2,Operacion op3,Operacion op4,Operacion op5,int pos){
+		ins=i;
+		this.op1=op1;
+		this.op2=op2;
+		this.op3=op3;
+		this.op4=op4;
+		this.op5=op5;
+		this.pos=pos;
 	}
 	
 	
@@ -90,7 +102,7 @@ public class AccionGenCodigo extends Accion{
 			((InsCall)ins).setEtiqueta((String)ob1);
 			((InsCall)ins).setDir((String)ob2);
 			((InsCall)ins).setNum((Integer)ob3);
-			listaCod.add(ins);
+			
 			
 		}else if (ins instanceof InsCuarteto){
 			((InsCuarteto)ins).setEtiqueta((String)ob1);
@@ -98,30 +110,35 @@ public class AccionGenCodigo extends Accion{
 			((InsCuarteto)ins).setOp1((String)ob3);
 			((InsCuarteto)ins).setOpRel((String)ob4);
 			((InsCuarteto)ins).setOp2((String)ob5);
-			listaCod.add(ins);
+			
 			
 		}else if (ins instanceof InsGoto){
 			((InsGoto)ins).setEtiqueta((String)ob1);
 			((InsGoto)ins).setDir((String)ob2);
-			listaCod.add(ins);
+			
 			
 		}else if (ins instanceof InsIfGoto){
 			((InsIfGoto)ins).setEtiqueta((String)ob1);
 			((InsIfGoto)ins).setOp1((String)ob2);
 			((InsIfGoto)ins).setOpRel((String)ob3);
-			((InsIfGoto)ins).setOp2((String)ob3);
-			((InsIfGoto)ins).setDir((String)ob4);
-			listaCod.add(ins);
+			((InsIfGoto)ins).setOp2((String)ob4);
+			((InsIfGoto)ins).setDir((String)ob5);
+			
 		
 		}else if (ins instanceof InsParam){
 			((InsParam)ins).setEtiqueta((String)ob1);
 			((InsParam)ins).setParam((String)ob2);
-			listaCod.add(ins);
+			
 		
 		}else if (ins instanceof InsReturn){
-			listaCod.add(ins);
-		}
+			((InsParam)ins).setEtiqueta((String)ob1);
 		
+		
+		}else if (ins instanceof InstruccionIntermedio){
+			((InstruccionIntermedio)ins).setEtiqueta((String)ob1);
+		}
+		if (pos==-1)listaCod.add(ins);
+		else listaCod.add(pos,ins);
 		
 		return new ArrayList<ErrorCompilador>();
 	}

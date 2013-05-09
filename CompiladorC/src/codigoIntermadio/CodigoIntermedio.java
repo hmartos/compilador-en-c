@@ -7,7 +7,14 @@ public class CodigoIntermedio {
 	
 	ArrayList<InstruccionIntermedio> lista;
 	int numTempVar;
+	int numTempIf;
 	
+	
+	public CodigoIntermedio(){
+		numTempVar=0;
+		numTempIf=0;
+		lista= new ArrayList<InstruccionIntermedio>();
+	}
 	
 	
 	public ArrayList<InstruccionIntermedio> getLista() {
@@ -20,10 +27,7 @@ public class CodigoIntermedio {
 	}
 
 
-	public CodigoIntermedio(){
-		numTempVar=0;
-		lista= new ArrayList<InstruccionIntermedio>();
-	}
+	
 	
 	
 	public void addInstruccion (InstruccionIntermedio i){
@@ -34,6 +38,12 @@ public class CodigoIntermedio {
 	public String tempNuevo(){
 		String s= "t"+numTempVar;
 		numTempVar++;
+		return s;
+	}
+	
+	public String ifNuevo(){
+		String s= String.valueOf(numTempIf);
+		numTempIf++;
 		return s;
 	}
 	

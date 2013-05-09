@@ -1,6 +1,9 @@
 package analizadorSemantico;
 
 import codigoIntermadio.InsCuarteto;
+import codigoIntermadio.InsGoto;
+import codigoIntermadio.InsIfGoto;
+import codigoIntermadio.InstruccionIntermedio;
 import acciones.*;
 import accionesEspecificas.AccionR15_1;
 import accionesEspecificas.AccionR3_2;
@@ -35,7 +38,7 @@ public class AccionesIntermedio {
  								},
 /*4. RDEFINICION -> */{
 	/*4.1. ;  */			{},
-	/*4.2. iden RDEFINICION2*/			{}
+	/*4.2. iden RDEFINICION2*/			{new AccionCondicionada(1,"esFuncion","igual",true,new AccionCondicionada(1,"esPrototipo","igual",false, new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperandoGramatica (0,""),0)))}
  								},
 /*5. RDEFINICION2 -> */{
 	/*5.1. CORCHETES RDEF_VARIABLE */			{},
@@ -257,11 +260,61 @@ public class AccionesIntermedio {
 	/*47.2.  λ*/			{}
  								},
 /*48. SENTENCIA_IF -> */{
-	/*48.1. if (EXP) RSENTENCIA_IF*/			{}
+	/*48.1. if (EXP) RSENTENCIA_IF*/			{	//Creamos una lista nueva para el codigo
+													new AccionAsignar("codigo",new OperandoCrearArrayList()),
+													/*Se introducen como en una pila*/
+													//Metemos el codigo de resto de sentecia IF. (los bloques)
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))), 
+													//Metemos la instruccion if (exp.lugar=0) goto else-if
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoDirecto("0"), new OperacionHeredada(new OperandoDirecto("else-if"),new OperandoGramatica(-1,"numIf"),"suma"),0), 
+													//Metemos el codigo de la exp.
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),
+													
+													/*codigo exp
+													 * (exp.lugar=0) goto else-if
+													 * bloques...
+													 */
+													
+													
+														}
  								},
-/*49. RSENTENCIA_IF -> */{
-	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/			{}
- 								},
+/*49. RSENTENCIA_IF -> */{									
+	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/			{new AccionAsignar("numIf",new OperandoCrearIfTemp()), //El numIf se propagará hacia arriba.
+														
+														//Creamos una lista nueva para el codigo
+														new AccionAsignar("codigo",new OperandoCrearArrayList()),
+														
+														//Asignamos la etiqueta else-ifX  al principio del bloque else.
+														new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("else-if"),new OperandoGramatica(-1,"numIf"),"suma"),0),  
+														
+														/*Se introducen como en una pila*/
+														
+														//Metemos la etiqueta fin-ifX al final del codigo
+														new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,null,0), 
+														
+														//Metemos el bloque de codigo else.
+														new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(1,"codigo"))), 
+														
+														//Metemos la instruccion goto despues del bloque if (para cuando es true se salte el else)
+														new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,0), 
+									
+														//Metemos el bloque de codigo if.
+														new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(0,"codigo"))),  
+
+														
+														
+														
+														/*bloque if
+														 * goto fin-if
+														 * etiqueta else-if: bloque else
+														 * etiqueta fin-if
+														 */
+														
+														
+														
+													}
+	
+						},
 /*50. SENTENCIA_ELSE -> */{
 	/*50.1. else L_SENTENCIAS */			{},
 	/*50.2.  λ*/			{}

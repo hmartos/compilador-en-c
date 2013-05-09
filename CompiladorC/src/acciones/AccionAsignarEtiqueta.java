@@ -13,16 +13,16 @@ public class AccionAsignarEtiqueta extends Accion {
 
 	Operacion opListaCod;
 	Operacion opEtiqueta;
-	int lugar;
+	int pos;
 	
 	
 	
 	public AccionAsignarEtiqueta(Operacion listaCod, Operacion etiqueta,
-			int lugar) {
+			int pos) {
 		super();
 		this.opListaCod = listaCod;
 		this.opEtiqueta = etiqueta;
-		this.lugar = lugar;
+		this.pos = pos;
 	}
 
 
@@ -32,9 +32,28 @@ public class AccionAsignarEtiqueta extends Accion {
 			HashMap<String, Object> atribActual, TablaSimbolos ts,
 			CodigoIntermedio ci) {
 
-		ArrayList<InstruccionIntermedio> listaCod=(ArrayList<InstruccionIntermedio>)opListaCod.getValor(listaAtrib, atribActual, ts, ci);
+		Object listaCodAux=(Object)opListaCod.getValor(listaAtrib, atribActual, ts, ci);
+		ArrayList<InstruccionIntermedio> listaCod=null;
+		int nCod=0;
+		
+		if (listaCodAux!=null){ //Si hay codigo lo cogemos
+			listaCod=(ArrayList<InstruccionIntermedio>) listaCodAux;
+			nCod=listaCod.size();
+		}else{//Si no hay creamos una lista nueva
+			listaCod=new ArrayList<InstruccionIntermedio>();
+			nCod=0;
+			atribActual.put("codigo", listaCod);
+		}
+		
 		String etiqueta=(String)opEtiqueta.getValor(listaAtrib, atribActual, ts, ci);
-		listaCod.get(lugar).setEtiqueta(etiqueta);
+		
+		if (pos<0)pos =listaCod.size()+pos; // con posiciones negativas contamos desde el final
+		
+		if (pos>=nCod||pos<0){ //Si no hay tantas instrucciones como pos metemos una instruccion vacía con la etiqueta al final.
+			listaCod.add(listaCod.size(), new InstruccionIntermedio(etiqueta));
+		}
+		//si no ponemos la etiqueta donde corresponde.
+		else listaCod.get(pos).setEtiqueta(etiqueta);
 		
 		return new ArrayList<ErrorCompilador>();
 	}
