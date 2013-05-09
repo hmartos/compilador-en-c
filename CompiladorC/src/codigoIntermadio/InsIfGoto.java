@@ -53,4 +53,8 @@ public class InsIfGoto extends InstruccionIntermedio {
 	}
 	
 	
+	public String toString(){
+		return super.toString()+"if("+op1.toString()+opRel.toString()+op2.toString()+") goto "+dir.toString();
+	}
+	
 }

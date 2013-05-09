@@ -32,6 +32,8 @@ public class InsCall extends InstruccionIntermedio {
 		return new InsCall();
 	}
 	
-	
+	public String toString(){
+		return super.toString()+"call "+dir.toString()+" "+num;
+	}
 	
 }

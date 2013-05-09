@@ -29,7 +29,9 @@ public class InstruccionIntermedio {
 	}
 	
 	
-	
+	public String toString(){
+		return etiqueta!=null ?etiqueta.toString()+": ":"";
+	}
 	
 	
 	

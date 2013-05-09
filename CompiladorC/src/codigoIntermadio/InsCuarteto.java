@@ -49,6 +49,17 @@ public class InsCuarteto extends InstruccionIntermedio {
 		return new InsCuarteto();
 	}
 	
-	
+	public String toString(){
+		
+		
+		String sOp2="",sOpRel="",sOp1="",sRes="";
+		
+		if (opRel!=null)sOpRel=opRel.toString();
+		if (op2!=null)sOp2=op2.toString();
+		if (op1!=null)sOp1=op1.toString();
+		if (res!=null)sRes=res.toString();
+		
+		return super.toString()+sRes+":="+sOp1+sOpRel+sOp2;
+	}
 	
 }

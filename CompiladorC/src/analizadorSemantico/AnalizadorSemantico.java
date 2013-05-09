@@ -31,6 +31,14 @@ public class AnalizadorSemantico {
 		
 	}
 	
+	
+	
+	public CodigoIntermedio getCi() {
+		return ci;
+	}
+
+
+
 	public void ejecutar(NT nT,int nRegla,ArrayList<Object> listaAtrib,HashMap<String,Object>atribActual){
 		
 		System.out.println("Ejecutando acciones de:"+(nT.ordinal()+1)+":"+(nRegla+1));

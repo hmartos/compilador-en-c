@@ -118,7 +118,7 @@ public class AccionesTipos {
 	/*16.2.  (L_PARAMS_LLAMADA) */	{new AccionAsignar ("esFuncion",true)},
 								},
 /*17. CORCHETES ->*/ {	
-	/*17.1.  ? */    { new AccionAsignar("num",0),new AccionAsignar("listaCorchete",new OperandoCrearArrayList())},
+	/*17.1.  ? */    { new AccionAsignar("num",0)},
 	/*17.2.  [CONTENIDO] CORCHETES*/ {new AccionAsignar("num",3,"num","suma",1)}},
 /*18. CONTENIDO -> */ {
 	/*18.1. ? */ {},
@@ -348,11 +348,16 @@ public class AccionesTipos {
 /* - - Definicion de Expresiones - -*/
 
 /*59. EXP -> */{
-	/*59.1. EXP_COND REXP*/	{new AccionCondicionada(
+	/*59.1. EXP_COND REXP*/	{
+						new AccionCondicionada(1,"tipo","distinto",null, //Hacemos está condición para que si la parte "derecha" de es vacia, interprete la parte izquierda como una parte derecha. (Se podría hacer en todas, pero aquí es obligatorio por la asignación).
+							new AccionCondicionada(
 								new CondicionEsCompatible(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")),
-								new Accion[]{new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo")))},
-								new Accion[]{new AccionAsignar("error",true),new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 59.1 Los tipos no son compatibles. ")}
-								),
+								new AccionCondicionada(0,"esConstante","igual",false,
+									new AccionAsignar("tipo",new OperacionCompatibilizarTipos(new OperandoGramatica(0,"tipo"),new OperandoGramatica(1,"tipo"))),
+									new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 59.1 El termino a la izquierda de la asignación no puede ser constante. ")),
+								new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 59.1 Los tipos no son compatibles. ")
+								)),
+								
 							new AccionCondicionada(
 								new CondicionHeredada(
 										new CondicionHeredada(new OperandoGramatica(0,"esConstante"),new OperandoDirecto(false),"distinto")

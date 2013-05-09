@@ -17,4 +17,9 @@ public class InsReturn extends InstruccionIntermedio {
 		return new InsReturn();
 	}
 	
+	
+	
+	public String toString(){
+		return super.toString()+"return";
+	}
 }

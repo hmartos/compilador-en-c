@@ -13,6 +13,24 @@ import tablaSimbolos.TablaSimbolos;
 
 public class AccionGenericaCodigo extends Accion {
 
+	boolean derechaAIzquierda=false;
+	
+	
+	
+	
+	
+	public AccionGenericaCodigo(boolean derechaAIzquierda) {
+		super();
+		this.derechaAIzquierda = derechaAIzquierda;
+	}
+
+
+
+	public AccionGenericaCodigo() {
+		super();
+	}
+
+
 	@Override
 	public ArrayList<ErrorCompilador> ejecutar(ArrayList<Object> listaAtrib,
 			HashMap<String, Object> atribActual, TablaSimbolos ts,CodigoIntermedio ci) {
@@ -25,7 +43,8 @@ public class AccionGenericaCodigo extends Accion {
 			if (atr instanceof HashMap){
 				Object listaCodHijo=((HashMap<String, Object>)atr).get("codigo");
 				if (listaCodHijo!=null){
-					listaCod.addAll(0,(ArrayList<InstruccionIntermedio>)listaCodHijo);
+					if (derechaAIzquierda)	listaCod.addAll(0,(ArrayList<InstruccionIntermedio>)listaCodHijo);
+					else listaCod.addAll((ArrayList<InstruccionIntermedio>)listaCodHijo);
 				}
 			}
 		}
