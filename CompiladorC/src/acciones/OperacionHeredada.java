@@ -33,6 +33,13 @@ public class OperacionHeredada extends ElemBinario implements Operacion {
 				return opInt1-opInt2;
 			}
 		}
+		else if ((op1 instanceof String)&& (op2 instanceof String)){
+			String opS1= (String)op1;
+			String opS2=(String)op2;
+			if (operacion.equals("suma")){
+				return opS1+opS2;
+			}
+		}
 		return null;
 	}
 

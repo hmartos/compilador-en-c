@@ -23,7 +23,9 @@ public class InsGoto extends InstruccionIntermedio {
 	}
 	
 	public String toString(){
-		return super.toString()+"goto "+dir.toString();
+		String sDir="";
+		if (dir!=null)sDir=dir.toString();
+		return super.toString()+"goto "+sDir;
 	}
 	
 }
