@@ -279,7 +279,7 @@ public class AccionesIntermedio {
 														}
  								},
 /*49. RSENTENCIA_IF -> */{									
-	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/			{new AccionAsignar("numIf",new OperandoCrearIfTemp()), //El numIf se propagará hacia arriba.
+	/*49.1. L_SENTENCIAS SENTENCIA_ELSE*/			{new AccionAsignar("numIf",new OperandoCrearIfTemp()), //Creamos un nuevo numero para el if. El numIf se propagará hacia arriba.
 														
 														//Creamos una lista nueva para el codigo
 														new AccionAsignar("codigo",new OperandoCrearArrayList()),
@@ -320,12 +320,42 @@ public class AccionesIntermedio {
 	/*50.2.  λ*/			{}
  								},
 /*51. SENTENCIA_BUCLE -> */{
-	/*51.1. do L_SENTENCIAS while(EXP) */			{},
-	/*51.2.  while(EXP) L_SENTENCIAS */			{   //Creamos una lista nueva para el codigo
+	/*51.1. do L_SENTENCIAS while(EXP) */			{//Creamos una lista nueva para el codigo
+													new AccionAsignar("codigo",new OperandoCrearArrayList()),
+													
+													//Creamos un nuevo numero para el bucle
+													new AccionAsignar("numBucle",new OperandoCrearBucleTemp()), 
+													
+													//Asignamos la etiqueta bucle-comienzo al principio del codigo de L_SENTENCIAS
+													new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo"),new OperandoGramatica(-1,"numBucle"),"suma"),0),  
+													
+													
+													
+													/*Se introducen como en una pila*/
+													
+													//Metemos la instruccion if (exp.lugar=1) goto comienzo-bucle
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoDirecto("1"), new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													
+													//Metemos el codigo de la EXP
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))),		
+															
+													//Metemos el codigo de L_SENTENCIAS. 
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(1,"codigo"))), 
+													
+													/*etiqueta comienzo-bucle: bloque L_SENTENCIAS
+													 * codigo EXP
+													 * if (exp.lugar=1) goto comienzo-bucle
+													 * 
+													 */
+													
+	
+	
+	},
+	/*51.2.  while(EXP) L_SENTENCIAS */			{  /* //Creamos una lista nueva para el codigo
 													new AccionAsignar("codigo",new OperandoCrearArrayList()),
 													//Asignamos la etiqueta comienzo al principio del bloque while
 													new AccionAsignarEtiqueta(new OperandoGramatica(0,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo"),new OperandoGramatica(-1,"numWhile"),"suma"),0),  
-													/*Se introducen como en una pila*/
+													
 													//Metemos el codigo de L_SENTENCIAS. (los bloques)
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))), 
 													//Metemos la instruccion if (exp.lugar=0) goto siguiente
@@ -338,15 +368,76 @@ public class AccionesIntermedio {
 													new AccionGenCodigo(new InsGoto(),null),
 													
 													
+<<<<<<< .mine
+													
+													
+													//Metemos la etiqueta fin-ifX al final del codigo
+													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,null,0), 
+													
+													//Metemos el bloque de codigo else.
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(1,"codigo"))), 
+													
+													//Metemos la instruccion goto despues del bloque if (para cuando es true se salte el else)
+													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,0), 
+								
+													//Metemos el bloque de codigo if.
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(0,"codigo"))),
+													*/ 
+		
+													/* etiqueta comienzo-bucle: codigo EXP
+													 * if (exp.lugar=0) goto fin-bucle
+													 * bloque L_SENTENCIAS
+													 * goto comienzo-bucle
+													 * etiqueta fin-bucle:
+													 */
+		
+		
+													
+
 												},
-	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/			{}
+	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/			{
+													
+													
+													/* codigo CAMPO1
+													 * etiqueta comienzo-bucle: codigo CAMPO2
+													 * if (CAMPO2.lugar=0) goto fin-bucle
+													 * bloque L_SENTENCIAS
+													 * codigo CAMPO3
+													 * goto comienzo-bucle
+													 * etiqueta fin-bucle:
+													 */
+												}
  								},
 /*52. CAMPO  -> */{
 	/*52.1. λ */			{},
 	/*52.2.   EXP*/			{}
  								},
 /*53. SENTENCIA_CASE -> */{
-	/*53.1. switch (EXP) L_CASES*/			{}
+	/*53.1. switch (EXP) L_CASES*/			{
+		
+		
+												
+												/* codigo EXP
+												 * etiqueta caseX.1: codigo EXP(case1)
+												 * if (EXP.lugar=EXP(case1).lugar) goto caseX.2
+												 * bloque case1
+												 
+												 * etiqueta caseX.2: codigo EXP(case2)
+												 * if (EXP.lugar=EXP(case2).lugar) goto caseX.3
+												 * bloque case2
+												 
+												 * etiqueta caseX.3: codigo EXP(case3)
+												 * if (EXP.lugar=EXP(case3).lugar) goto defaultX
+												 * bloque case3
+												 
+												 * etiqueta defaultX: bloque default
+												 * etiqueta fin-caseX:
+												 */
+		
+											//Como en este nivel no tenemos los atributos necesarios(el codigo,y el lugar de las EXP_COND y el codigo de los BLOQUE_SENTENCIAS) los tenemos que subir en listas
+											//Como hacer el break??; y las listas de listas?? listas<listas<codigo>>;
+		
+											}
  								},
 /*54. L_CASES  -> */{
 	/*54.1. CASE */			{},

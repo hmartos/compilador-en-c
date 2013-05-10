@@ -8,11 +8,13 @@ public class CodigoIntermedio {
 	ArrayList<InstruccionIntermedio> lista;
 	int numTempVar;
 	int numTempIf;
+	int numTempBucle;
 	
 	
 	public CodigoIntermedio(){
 		numTempVar=0;
 		numTempIf=0;
+		numTempBucle=0;
 		lista= new ArrayList<InstruccionIntermedio>();
 	}
 	
@@ -44,6 +46,13 @@ public class CodigoIntermedio {
 	public String ifNuevo(){
 		String s= String.valueOf(numTempIf);
 		numTempIf++;
+		return s;
+	}
+
+
+	public Object bucleNuevo() {
+		String s= String.valueOf(numTempBucle);
+		numTempBucle++;
 		return s;
 	}
 	
