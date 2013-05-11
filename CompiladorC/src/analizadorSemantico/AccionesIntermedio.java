@@ -67,7 +67,7 @@ public class AccionesIntermedio {
 	/*9.3.  ifdef iden RIFDEF #endif */			{},
 	/*9.4.  undef iden */			{},
 	/*9.5.   ifndef iden */			{},
-	/*9.6.  error (caracter)* EOF */			{},
+	/*9.6.  error (caracter)* EOF */			{}, 
 	/*9.7.  pragma (caracter)* EOL */			{}
  								},
 /*10. RINCLUDE -> */{

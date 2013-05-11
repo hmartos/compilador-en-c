@@ -1,8 +1,26 @@
 package tablaSimbolos;
 
+import codigoFinal.LugarRM;
+
 public class EntradaTabla {
 	
 String lex;
+
+Atributo att;
+
+LugarRM descriptDir;
+
+
+
+
+
+public LugarRM getDescriptDir() {
+	return descriptDir;
+}
+
+public void setDescriptDir(LugarRM descriptDir) {
+	this.descriptDir = descriptDir;
+}
 
 public String getLex() {
 	return lex;
@@ -12,7 +30,7 @@ public void setLex(String lex) {
 	this.lex = lex;
 }
 
-Atributo att;
+
 
 public Atributo getAtt() {
 	return att;
