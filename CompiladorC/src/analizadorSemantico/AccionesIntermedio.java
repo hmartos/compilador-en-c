@@ -391,6 +391,32 @@ public class AccionesIntermedio {
 	/*51.3.  for(CAMPO;CAMPO;CAMPO) L_SENTENCIAS*/			{
 													
 													
+													//Creamos una lista nueva para el codigo
+													new AccionAsignar("codigo",new OperandoCrearArrayList()),										
+													//Creamos un nuevo numero para el bucle
+													new AccionAsignar("numBucle",new OperandoCrearBucleTemp()), 
+									
+													
+													/*Se introducen como en una pila*/
+													// Asignamos la etiqueta fin bucle
+													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
+													// goto comienzo-bucle
+													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
+													//Metemos el codigo de CAMPO3 
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(6,"codigo"))),
+													//Metemos el codigo de L_SENTENCIAS 
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(8,"codigo"))),
+													//Metemos la instruccion if (CAMPO2.lugar=0) goto fin-bucle
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoDirecto("0"), new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													
+													// CÓDICO CAMPO 2
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))),										
+													 // etiqueta comienzo-bucle: codigo CAMPO2
+													new AccionAsignarEtiqueta(new OperandoGramatica(4,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													// codigo CAMPO1
+													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),										
+													
+													//FOR
 													/* codigo CAMPO1
 													 * etiqueta comienzo-bucle: codigo CAMPO2
 													 * if (CAMPO2.lugar=0) goto fin-bucle
