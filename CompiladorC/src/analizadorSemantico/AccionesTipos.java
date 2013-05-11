@@ -638,7 +638,7 @@ new AccionAsignar("esConstante",false))}},
 	/*98.9.  ENTRECOMILLADO*/			{new AccionAsignar("esConstante",false)}},
 /*99. REXP3_2 -> */{
 	/*99.1. INDIRECCION2 */				{new AccionAsignar("esOperacion",false)},
-	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar ("num",0,"num"),new AccionAsignar("esFuncion",0,"esFuncion")}}, //Forzamos a esFuncion y numCorchetes del 0 porque también existe un esFuncion y numCorchetes en el 1.
+	/*99.2.  RIDENTIFICADOR REXPRESIONES*/		{new AccionAsignar("esOperacion",true),new AccionAsignar ("num",0,"num"),new AccionAsignar("esFuncion",0,"esFuncion")}}, //Forzamos a esFuncion y numCorchetes del 0 porque también existe un esFuncion y numCorchetes en el 1.
 /*100. REXPRESIONES -> */{
 	/*100.1. REXP */					{new AccionAsignar("esOperacion",true)}, //Para la decision en la regla 105.4. (cuando esOperación deba ser false simplemente no lo asignamos al hashmap).
 	/*100.2.  REXP_COND */				{new AccionAsignar("esOperacion",true)},

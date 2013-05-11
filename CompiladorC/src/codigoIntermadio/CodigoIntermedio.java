@@ -2,20 +2,29 @@ package codigoIntermadio;
 
 import java.util.ArrayList;
 
+import acciones.Tipo;
+
+import tablaSimbolos.AtributosTablaVariable;
+import tablaSimbolos.EntradaTabla;
+import tablaSimbolos.TablaSimbolos;
+
 public class CodigoIntermedio {
 
 	
 	ArrayList<InstruccionIntermedio> lista;
+	
+	TablaSimbolos ts;
 	int numTempVar;
 	int numTempIf;
 	int numTempBucle;
 	
 	
-	public CodigoIntermedio(){
+	public CodigoIntermedio(TablaSimbolos ts){
 		numTempVar=0;
 		numTempIf=0;
 		numTempBucle=0;
 		lista= new ArrayList<InstruccionIntermedio>();
+		this.ts=ts;
 	}
 	
 	
@@ -37,10 +46,13 @@ public class CodigoIntermedio {
 	}
 	
 	
-	public String tempNuevo(){
+	public EntradaTabla tempNuevo(Tipo t){
 		String s= "t"+numTempVar;
 		numTempVar++;
-		return s;
+		
+		EntradaTabla ret=ts.insertar(s);
+		ts.añadirAtributos(s, new AtributosTablaVariable(t.getTipo(), t.getDim(),null));
+		return ret;
 	}
 	
 	public String ifNuevo(){

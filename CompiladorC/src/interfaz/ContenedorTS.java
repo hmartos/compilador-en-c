@@ -101,7 +101,7 @@ public class ContenedorTS extends JPanel {
 				for(Iterator<String> it= representada.tabla.keySet().iterator();it.hasNext();){
 					String lex=it.next();
 					contIntermedio.add(new JLabel(lex.toString())); // El lexema
-					contIntermedio.add(new JLabel(representada.tabla.get(lex).toString())); // Los atributos
+					contIntermedio.add(new JLabel(representada.tabla.get(lex).getAtt().toString())); // Los atributos
 					i++;
 				}
 				

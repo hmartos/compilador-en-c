@@ -1,8 +1,10 @@
 package codigoIntermadio;
 
+import tablaSimbolos.EntradaTabla;
+
 public class InsParam extends InstruccionIntermedio {
 
-	String param;
+	EntradaTabla param;
 	public InsParam() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -10,11 +12,11 @@ public class InsParam extends InstruccionIntermedio {
 
 
 
-	public String getParam() {
+	public EntradaTabla getParam() {
 		return param;
 	}
 
-	public void setParam(String param) {
+	public void setParam(EntradaTabla param) {
 		this.param = param;
 	}
 

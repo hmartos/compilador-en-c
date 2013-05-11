@@ -1,8 +1,10 @@
 package analizadorSemantico;
 
+import codigoIntermadio.InsAsigValor;
 import codigoIntermadio.InsCuarteto;
 import codigoIntermadio.InsGoto;
 import codigoIntermadio.InsIfGoto;
+import codigoIntermadio.InsReturn;
 import codigoIntermadio.InstruccionIntermedio;
 import acciones.*;
 import accionesEspecificas.AccionR15_1;
@@ -42,7 +44,7 @@ public class AccionesIntermedio {
  								},
 /*5. RDEFINICION2 -> */{
 	/*5.1. CORCHETES RDEF_VARIABLE */			{},
-	/*5.2. (L_PARAMS) RDEF_FUNCION*/			{}
+	/*5.2. M_AMBITO(L_PARAMS) RDEF_FUNCION*/			{new AccionCondicionada(4,"esPrototipo","igual",false,new AccionGenCodigo(new InsReturn()))}
  								},
 /*6. RDEF_VARIABLE -> */{
 	/*6.1. OP_ASIG EXP RDEF_VARIABLE2 */			{},
@@ -234,7 +236,7 @@ public class AccionesIntermedio {
 	/*41.2.  continue */			{},
 	/*41.3.  printf(ENTRECOMILLADO RPRINTF) */			{},
 	/*41.4.  scanf(ENTRECOMILLADO RSCANF) */			{},
-	/*41.5.  return EXP*/			{}
+	/*41.5.  return EXP*/			{new AccionGenCodigo(new InsReturn(),null,null,null,null,null,0)}
 
  								},
 /*42. ENTRECOMILLADO -> */{
@@ -265,13 +267,18 @@ public class AccionesIntermedio {
 													/*Se introducen como en una pila*/
 													//Metemos el codigo de resto de sentecia IF. (los bloques)
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))), 
-													//Metemos la instruccion if (exp.lugar=0) goto else-if
-													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoDirecto("0"), new OperacionHeredada(new OperandoDirecto("else-if"),new OperandoGramatica(-1,"numIf"),"suma"),0), 
+													//Metemos la instruccion if (exp.lugar=0) goto else-i
+													//Creamos un lugar para el 0.
+													new AccionAsignar("auxLugar",new OperandoCrearVarTemp(new OperandoDirecto(new Tipo("int",0)))),
+													//Metemos la propia instruccion if
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("else-if"),new OperandoGramatica(-1,"numIf"),"suma"),0), 
+													//Metemos la asignacion del 0 a la variable auxiliar.
+													new AccionGenCodigo(new InsAsigValor(),null,new OperandoGramatica(-1,"auxLugar"),new OperandoDirecto("0"),null,null,0),
 													//Metemos el codigo de la exp.
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),
 													
 													/*codigo exp
-													 * (exp.lugar=0) goto else-if
+													 * if(exp.lugar=0) goto else-if
 													 * bloques...
 													 */
 													
@@ -327,14 +334,21 @@ public class AccionesIntermedio {
 													new AccionAsignar("numBucle",new OperandoCrearBucleTemp()), 
 													
 													//Asignamos la etiqueta bucle-comienzo al principio del codigo de L_SENTENCIAS
-													new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo"),new OperandoGramatica(-1,"numBucle"),"suma"),0),  
+													new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),  
 													
 													
 													
 													/*Se introducen como en una pila*/
 													
 													//Metemos la instruccion if (exp.lugar=1) goto comienzo-bucle
-													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoDirecto("1"), new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													//Creamos un lugar para el 0.
+													new AccionAsignar("auxLugar",new OperandoCrearVarTemp(new OperandoDirecto(new Tipo("int",0)))),
+													//Metemos la propia instruccion if
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													//Metemos la asignacion del 1 a la variable auxiliar.
+													new AccionGenCodigo(new InsAsigValor(),null,new OperandoGramatica(-1,"auxLugar"),new OperandoDirecto("1"),null,null,0),
+													
+													
 													
 													//Metemos el codigo de la EXP
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))),		
@@ -369,9 +383,17 @@ public class AccionesIntermedio {
 													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
 													//Metemos el codigo de L_SENTENCIAS. 
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))), 
-													//Metemos la instruccion if (exp.lugar=0) goto fin-bucle
-													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoDirecto("0"), new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
 													
+													
+													//Metemos la instruccion if (exp.lugar=0) goto fin-bucle
+													//Creamos un lugar para el 0.
+													new AccionAsignar("auxLugar",new OperandoCrearVarTemp(new OperandoDirecto(new Tipo("int",0)))),
+													//Metemos la propia instruccion if
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													//Metemos la asignacion del 0 a la variable auxiliar.
+													new AccionGenCodigo(new InsAsigValor(),null,new OperandoGramatica(-1,"auxLugar"),new OperandoDirecto("0"),null,null,0),
+													
+																									
 													//Metemos el codigo de la EXP
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),		
 													
@@ -516,7 +538,7 @@ public class AccionesIntermedio {
  								},
 /*62. EXP_COND  -> */{
 	/*62.1. EXP_ORL REXP_COND*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 											//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 										}
  								},
@@ -526,7 +548,7 @@ public class AccionesIntermedio {
  								},
 /*64. EXP_ORL  ->  */{
 	/*64.1. EXP_ANDL REXP_ORL*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 										}
  								},
@@ -536,7 +558,7 @@ public class AccionesIntermedio {
  								},
 /*66. EXP_ANDL -> */{
 	/*66.1. EXP_ORB REXP_ANDL*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 										}
  								},
@@ -546,7 +568,7 @@ public class AccionesIntermedio {
  								},
 /*68. EXP_ORB  -> */{
 	/*68.1. EXP_XORB REXP_ORB*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-			new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+			new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 		//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 										}
  								},
@@ -556,7 +578,7 @@ public class AccionesIntermedio {
  								},
 /*70. EXP_XORB  ->  */{
 	/*70.1. EXP_ANDB REXP_XORB*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-													new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+													new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 												//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 									}
  								},
@@ -566,7 +588,7 @@ public class AccionesIntermedio {
  								},
 /*72. EXP_ANDB  ->  */{
 	/*72.1. EXP_REL REXP_ANDB */			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-			new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+			new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 		//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 										}
  								},
@@ -576,7 +598,7 @@ public class AccionesIntermedio {
  								},
 /*74. EXP_REL -> */{
 	/*74.1. EXP_COMP REXP_REL*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-			new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+			new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 		//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 										}
  								},
@@ -590,7 +612,7 @@ public class AccionesIntermedio {
  								},
 /*77. EXP_COMP -> */{
 	/*77.1. EXP_DESPL  REXP_COMP */			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 											//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 											},
  								},
@@ -606,7 +628,7 @@ public class AccionesIntermedio {
  								},
 /*80. EXP_DESPL -> */{
 	/*80.1. EXP_AD REXP_DESPL*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 											//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 											}
  								},
@@ -620,7 +642,7 @@ public class AccionesIntermedio {
  								},
 /*83. EXP_AD  ->  */{
 	/*83.1. EXP_MULT REXP_AD*/			{new AccionGenericaCodigo(true), new AccionCondicionada(1,"lugar","distinto",null,
-											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 									}
  								},
@@ -634,7 +656,7 @@ public class AccionesIntermedio {
  								},
 /*86. EXP_MULT -> */{
 	/*86.1. EXP1 REXP_MULT*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+												new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 											//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 										}
  								},
@@ -666,7 +688,7 @@ public class AccionesIntermedio {
  								},
 /*92. EXP2 ->  */{
 	/*92.1. EXP3  REXP2*/			{new AccionGenericaCodigo(true),new AccionCondicionada(1,"lugar","distinto",null,
-											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp()), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
+											new Accion[]{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))), new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,"lugar"), new OperandoGramatica(1,"operacion"), new OperandoGramatica(1,"lugar"))})
 										//Si no hay lugar, se conserva el de EXP (izquierda) y no hace falta subirlo pues se propaga solo.
 									}
  								},
@@ -681,15 +703,15 @@ public class AccionesIntermedio {
  								},
 /*95. EXP3 -> */{
 	/*95.1. IDENTIFICADOR */			{/*Cogemos el lugar del identificador*/},
-	/*95.2.  entero */			{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
-									new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
-	/*95.3. real */			{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
-										new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
+	/*95.2.  entero */			{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))),
+									new AccionGenCodigo(new InsAsigValor(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
+	/*95.3. real */			{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))),
+										new AccionGenCodigo(new InsAsigValor(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
 	/*95.4.  ( REXP3 */			{},
 	/*95.5.  NULL */			{},
 	/*95.6.  { LISTA_EXP} */			{},
-	/*95.7.  comillasChar */			{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
-											new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
+	/*95.7.  comillasChar */			{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))),
+											new AccionGenCodigo(new InsAsigValor(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
 	/*95.8.  ENTRECOMILLADO*/			{}
  								},
 /*96. LISTA_EXP ->  */{
@@ -706,15 +728,15 @@ public class AccionesIntermedio {
 /*98. EXP_SIN_IDEN -> */{
 	/*98.1. & INDIRECCION iden RIDEN */			{},
 	/*98.2.  INDIRECCION2 iden RIDEN */			{},
-	/*98.3.  entero */			{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
-									new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
-	/*98.4. real */			{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
-										new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
+	/*98.3.  entero */			{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))),
+									new AccionGenCodigo(new InsAsigValor(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
+	/*98.4. real */			{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))),
+										new AccionGenCodigo(new InsAsigValor(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
 	/*98.5.  ( REXP3 */			{},
 	/*98.6.  NULL */			{},
 	/*98.7.  { LISTA_EXP} */			{},
-	/*98.8.  comillasChar */			{new AccionAsignar("lugar",new OperandoCrearVarTemp()),
-											new AccionGenCodigo(new InsCuarteto(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
+	/*98.8.  comillasChar */			{new AccionAsignar("lugar",new OperandoCrearVarTemp(new OperandoGramatica(-1,"tipo"))),
+											new AccionGenCodigo(new InsAsigValor(),null, new OperandoGramatica(-1,"lugar"), new OperandoGramatica(0,""), null, null)},
 	/*98.9.  ENTRECOMILLADO*/			{}
  								},
 /*99. REXP3_2 -> */{
@@ -741,12 +763,12 @@ public class AccionesIntermedio {
 	/*101.1. * INDIRECCION*/			{}
  								},
 /*102. L_PARAMS_LLAMADA -> */{
-	/*102.1.  EXP  RES_LISTA_PARAMS_LLAMDA */			{},
-	/*102.2.  λ*/			{}
+	/*102.1.  EXP  RES_LISTA_PARAMS_LLAMDA */			{new AccionAsignar("listaLugar",new OperacionAgregarALista(new OperandoGramatica(1,"listaLugar"), new OperandoGramatica(0,"lugar")))},
+	/*102.2.  λ*/			{new AccionAsignar("listaLugar",new OperandoCrearArrayList())}
  								},
 /*103. RES_LISTA_PARAMS_LLAMADA ->  */{
-	/*103.1. ,EXP  RES_LISTA_PARAMS_LLAMADA */			{},
-	/*103.2.  λ*/			{}
+	/*103.1. ,EXP  RES_LISTA_PARAMS_LLAMADA */			{new AccionAsignar("listaLugar",new OperacionAgregarALista(new OperandoGramatica(2,"listaLugar"), new OperandoGramatica(1,"lugar")))},
+	/*103.2.  λ*/			{new AccionAsignar("listaLugar",new OperandoCrearArrayList())}
  								},
 /*104. AUX-> */{
 	/*104.1. EXP */			{},

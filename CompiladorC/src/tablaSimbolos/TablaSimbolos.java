@@ -12,7 +12,7 @@ public class TablaSimbolos {
 		actual=global;
 		reservadas= new TablaAmbito();
 		for (int cont=0;cont<PalRes.values().length;cont++){
-			EntradaTabla entrada= new EntradaTabla();
+			EntradaTabla entrada= new EntradaTabla(PalRes.values()[cont].toString().substring(8));
 			entrada.setAtt(new AtributosTablaPalRes(PalRes.values()[cont]));
 			reservadas.tabla.put(PalRes.values()[cont].toString().substring(8), entrada);
 
@@ -47,7 +47,7 @@ public class TablaSimbolos {
 	}
 	
 	public EntradaTabla insertar (String lexema){
-		actual.tabla.put(lexema, new EntradaTabla());
+		actual.tabla.put(lexema, new EntradaTabla(lexema));
 		return actual.tabla.get(lexema);
 	}
 	
