@@ -2,6 +2,16 @@ package tablaSimbolos;
 
 public class EntradaTabla {
 	
+String lex;
+
+public String getLex() {
+	return lex;
+}
+
+public void setLex(String lex) {
+	this.lex = lex;
+}
+
 Atributo att;
 
 public Atributo getAtt() {
@@ -13,10 +23,12 @@ public void setAtt(Atributo att) {
 }
 
 public String toString(){
-	return att.toString();
+	return lex;
 }
 
-public EntradaTabla(){att=null;}
+public EntradaTabla(String lex){
+	this.lex=lex;att=null;
+}
 	
 
 }

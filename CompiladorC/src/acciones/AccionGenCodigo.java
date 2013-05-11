@@ -5,8 +5,10 @@ import gestorErrores.ErrorCompilador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaSimbolos;
 import codigoIntermadio.CodigoIntermedio;
+import codigoIntermadio.InsAsigValor;
 import codigoIntermadio.InsCall;
 import codigoIntermadio.InsCuarteto;
 import codigoIntermadio.InsGoto;
@@ -90,11 +92,7 @@ public class AccionGenCodigo extends Accion{
 		if (op4!=null)ob4=op4.getValor(listaAtrib, atribActual, ts,ci);
 		if (op5!=null)ob5=op5.getValor(listaAtrib, atribActual, ts,ci);
 		
-		if(ob1!=null)ob1=ob1.toString();
-		if(ob2!=null)ob2=ob2.toString();
-		if(ob3!=null)ob3=ob3.toString();
-		if(ob4!=null)ob4=ob4.toString();
-		if(ob5!=null)ob5=ob5.toString();
+		
 		
 		
 		
@@ -106,10 +104,15 @@ public class AccionGenCodigo extends Accion{
 			
 		}else if (ins instanceof InsCuarteto){
 			((InsCuarteto)ins).setEtiqueta((String)ob1);
-			((InsCuarteto)ins).setRes((String)ob2);
-			((InsCuarteto)ins).setOp1((String)ob3);
+			((InsCuarteto)ins).setRes((EntradaTabla)ob2);
+			((InsCuarteto)ins).setOp1((EntradaTabla)ob3);
 			((InsCuarteto)ins).setOpRel((String)ob4);
-			((InsCuarteto)ins).setOp2((String)ob5);
+			((InsCuarteto)ins).setOp2((EntradaTabla)ob5);
+			
+		}else if (ins instanceof InsAsigValor){
+			((InsAsigValor)ins).setEtiqueta((String)ob1);
+			((InsAsigValor)ins).setRes((EntradaTabla)ob2);
+			((InsAsigValor)ins).setOp1(ob3.toString());
 			
 			
 		}else if (ins instanceof InsGoto){
@@ -119,19 +122,19 @@ public class AccionGenCodigo extends Accion{
 			
 		}else if (ins instanceof InsIfGoto){
 			((InsIfGoto)ins).setEtiqueta((String)ob1);
-			((InsIfGoto)ins).setOp1((String)ob2);
+			((InsIfGoto)ins).setOp1((EntradaTabla)ob2);
 			((InsIfGoto)ins).setOpRel((String)ob3);
-			((InsIfGoto)ins).setOp2((String)ob4);
+			((InsIfGoto)ins).setOp2((EntradaTabla)ob4);
 			((InsIfGoto)ins).setDir((String)ob5);
 			
 		
 		}else if (ins instanceof InsParam){
 			((InsParam)ins).setEtiqueta((String)ob1);
-			((InsParam)ins).setParam((String)ob2);
+			((InsParam)ins).setParam((EntradaTabla)ob2);
 			
 		
 		}else if (ins instanceof InsReturn){
-			((InsParam)ins).setEtiqueta((String)ob1);
+			((InsReturn)ins).setEtiqueta((String)ob1);
 		
 		
 		}else if (ins instanceof InstruccionIntermedio){

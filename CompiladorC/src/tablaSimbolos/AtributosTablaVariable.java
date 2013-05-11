@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class AtributosTablaVariable extends Atributo {
 
+	
 	String tipo;
 	int dim;
 	ArrayList<Integer> tamaños;
@@ -36,6 +37,10 @@ public class AtributosTablaVariable extends Atributo {
 		this.tamaños = tamaños;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "AtributosTablaVariable [tipo=" + tipo + ", dim=" + dim
+				+ ", tamaños=" + tamaños + "]";
+	}
 	
 }

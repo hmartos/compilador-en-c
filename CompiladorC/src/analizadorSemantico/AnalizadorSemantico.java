@@ -27,7 +27,7 @@ public class AnalizadorSemantico {
 	public AnalizadorSemantico(GestorDeErrores ge,TablaSimbolos ts){
 		this.ge=ge;
 		this.ts=ts;
-		this.ci= new CodigoIntermedio();
+		this.ci= new CodigoIntermedio(ts);
 		
 	}
 	

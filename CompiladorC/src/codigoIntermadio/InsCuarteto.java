@@ -1,10 +1,12 @@
 package codigoIntermadio;
 
+import tablaSimbolos.EntradaTabla;
+
 public class InsCuarteto extends InstruccionIntermedio {
 
-	String res;
-	String op1;
-	String op2;
+	EntradaTabla res;
+	EntradaTabla op1;
+	EntradaTabla op2;
 	String opRel;
 	public InsCuarteto() {
 		super();
@@ -13,27 +15,27 @@ public class InsCuarteto extends InstruccionIntermedio {
 	}
 
 
-	public String getRes() {
+	public EntradaTabla getRes() {
 		return res;
 	}
 
-	public void setRes(String res) {
+	public void setRes(EntradaTabla res) {
 		this.res = res;
 	}
 
-	public String getOp1() {
+	public EntradaTabla getOp1() {
 		return op1;
 	}
 
-	public void setOp1(String op1) {
+	public void setOp1(EntradaTabla op1) {
 		this.op1 = op1;
 	}
 
-	public String getOp2() {
+	public EntradaTabla getOp2() {
 		return op2;
 	}
 
-	public void setOp2(String op2) {
+	public void setOp2(EntradaTabla op2) {
 		this.op2 = op2;
 	}
 

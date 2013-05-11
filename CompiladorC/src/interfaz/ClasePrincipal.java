@@ -111,7 +111,7 @@ public class ClasePrincipal extends JFrame {
 		//textoTS.setEditable(false);
 		
 		//Panel de texto: 1 label de info + 1 JScroll con el textoCodigo.
-		textoCodigo =new JTextArea("int main(void);\nint main(){ \n 	int a=1; \n	int b=c; \n}");
+		textoCodigo =new JTextArea("int fun(int);\nint main(void);\nint fun(int i){\n}\nint main(){ \n 	int a=1; \n	int b=c; \n}");
 		textoCodigo.addKeyListener(new OyenteTeclado());
 		infoCodigo= new JLabel();
 		JPanel panelCodigo = new JPanel(new BorderLayout());

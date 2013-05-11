@@ -5,9 +5,13 @@ import gestorErrores.ErrorSemantico;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import codigoIntermadio.CodigoIntermedio;
+import codigoIntermadio.InsAsigFun;
+import codigoIntermadio.InsCall;
 import codigoIntermadio.InsCuarteto;
+import codigoIntermadio.InsParam;
 import codigoIntermadio.InstruccionIntermedio;
 
 import tablaSimbolos.Atributo;
@@ -45,8 +49,11 @@ public class CodigoR15_1 extends Accion {
 		String lex = (String)((Token)listaAtrib.get(2)).getAtributo();
 				
 		
-		String varAct=lex;
+
+				
 		
+		EntradaTabla varAct=ts.busquedaCompleta(lex);
+		Tipo tIden=null;
 			if (!esFun){//Es una variable 
 				
 				
@@ -55,13 +62,15 @@ public class CodigoR15_1 extends Accion {
 				Object nCorB=((HashMap)listaAtrib.get(3)).get("num"); // esta accion viene para prevenir el asunto de las lambdas que no llegan.
 				int nCor=0;
 				if (nCorB!=null)nCor = (Integer)nCorB;
-				ArrayList<String> listaCor=null;
+				ArrayList<EntradaTabla> listaCor=null;
 				if (nCor>0){
-					listaCor = (ArrayList<String>)((HashMap)listaAtrib.get(3)).get("listaCorchete");
+					listaCor = (ArrayList<EntradaTabla>)((HashMap)listaAtrib.get(3)).get("listaCorchete");
 				}
 				
 				
-				String varSig;
+				AtributosTablaVariable att= (AtributosTablaVariable)varAct.getAtt();
+				tIden=new Tipo(att.getTipo(),att.getDim());
+				EntradaTabla varSig;
 				InsCuarteto nuevaIns;
 				/*
 				varSig=ci.tempNuevo();
@@ -73,7 +82,9 @@ public class CodigoR15_1 extends Accion {
 				*/
 				//Vamos haciendo una operacion =[] por cada corchete que aparezca.
 				for (int i=0;i<nCor;i++){
-					 varSig=ci.tempNuevo();
+					tIden.setDim(tIden.getDim()-1);
+					varSig=ci.tempNuevo(tIden); // el tipo de la variable auxiliar es una indireccion menos por cada vuelta.
+
 					 nuevaIns= new InsCuarteto();
 					listaCod.add(nuevaIns);
 					nuevaIns.setOp1(varAct);
@@ -89,6 +100,35 @@ public class CodigoR15_1 extends Accion {
 		// Es una funcion
 			}else if (esFun){	
 			 //De donde devuelve el lugar??.
+				
+				AtributosTablaFuncion att= (AtributosTablaFuncion)varAct.getAtt();
+				tIden=new Tipo(att.getTipoRet(),att.getDimRet());
+				ArrayList<EntradaTabla> listParam= (ArrayList<EntradaTabla>)((HashMap)listaAtrib.get(3)).get("listaLugar");
+				if (listParam!=null){
+					
+					for (Iterator<EntradaTabla> it=listParam.iterator();it.hasNext();){
+	
+						InsParam insparam=new InsParam();
+						insparam.setParam(it.next());
+						listaCod.add(insparam);
+					}
+					//el call
+					InsCall nuevaIns=new InsCall();
+					listaCod.add( nuevaIns);
+					nuevaIns.setDir(lex);
+					nuevaIns.setNum(listParam.size());
+					//Asignar retorno a variable auxiliar.
+					InsAsigFun nuevaIns2=new InsAsigFun();
+					listaCod.add( nuevaIns2);
+					varAct=ci.tempNuevo(tIden);
+					nuevaIns2.setRes(varAct);
+					
+					
+				}
+				
+				
+				
+				
 			}
 			
 			
@@ -100,7 +140,8 @@ public class CodigoR15_1 extends Accion {
 			
 			//La varAct vendrá de los corchetes (en caso de variable) o el lugar devuelto por la funcion.
 			for (int i=0;i<nInd;i++){
-				String varSig=ci.tempNuevo();
+				tIden.setDim(tIden.getDim()-1);
+				EntradaTabla varSig=ci.tempNuevo(tIden); // el tipo de la variable auxiliar es una indireccion menos por cada vuelta.
 				InsCuarteto nuevaIns= new InsCuarteto();
 				listaCod.add(nuevaIns);
 				nuevaIns.setOp1(varAct);
