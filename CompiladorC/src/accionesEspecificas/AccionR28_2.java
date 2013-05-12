@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import codigoFinal.LugarRM;
 import codigoIntermadio.CodigoIntermedio;
 
 import tablaSimbolos.Atributo;
@@ -38,12 +39,14 @@ public class AccionR28_2 extends Accion {
 		if (!esProto){
 			ArrayList<Tipo> listaTipo=(ArrayList<Tipo>) (atribActual.get("listaTipo"));
 			ArrayList<String> listaIden= (ArrayList<String>)(atribActual.get("listaIden"));
+			int despl=0;
 			
 			for (int i=0;i<listaIden.size();i++){
 				String lex=listaIden.get(i);
 				if (ts.busquedaAmbito(lex)==null){
-					ts.insertar(lex);
+					ts.insertar(lex).setDescriptDir(new LugarRM(false,despl )); //Parte de preasignacion de memoria.
 					ts.añadirAtributos(lex, new AtributosTablaVariable(listaTipo.get(i).getTipo(),listaTipo.get(i).getDim(), null));
+					despl++;
 				}else {
 					atribActual.put("error", true);
 					listErr.add(new ErrorSemantico(rowErr,colErr,"El parametro "+lex.toString()+ " está duplicado.")); 

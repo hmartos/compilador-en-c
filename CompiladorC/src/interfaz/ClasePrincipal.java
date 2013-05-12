@@ -32,6 +32,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import codigoFinal.CodigoFinal;
 import codigoIntermadio.InstruccionIntermedio;
 
 import tablaSimbolos.EntradaTabla;
@@ -52,13 +53,14 @@ public class ClasePrincipal extends JFrame {
 	JLabel infoCodigo;
 	
 	JTextArea  textoCodigo;
-	JTextPane texto3Dir,textoError;
+	JTextPane texto3Dir,textoError,textoFinal;
 	
 	ContenedorTS cuadroTS;
 	
 	AnalizadorLexico analizador;
 	AnalizadorSintactico sintactico;
 	AnalizadorSemantico semantico;
+	CodigoFinal codFinal;
 	
 	TablaSimbolos TS;
 	GestorDeErrores GE;
@@ -80,10 +82,12 @@ public class ClasePrincipal extends JFrame {
 		panelPrincipal.setLayout(new BorderLayout());
 		
 		JPanel  panelTexto = new JPanel(new GridLayout(2,2));  ;
+		JPanel panelSalida=new JPanel(new GridLayout(1,2));
 		JPanel panelBotones= new JPanel(new GridLayout(1,2)); ;
 		
 		panelPrincipal.add(panelTexto,BorderLayout.CENTER);
 		panelPrincipal.add(panelBotones,BorderLayout.NORTH);
+		
 		
 		this.setContentPane(panelPrincipal);
 		
@@ -101,13 +105,16 @@ public class ClasePrincipal extends JFrame {
 		
 		
 		
+
 		textoError =new JTextPane();
 		texto3Dir =new JTextPane();
+		textoFinal =new JTextPane();
 		//textoTS =new JTextArea();
 		cuadroTS = new ContenedorTS();
 		
 		textoError.setEditable(false);
 		texto3Dir.setEditable(false);
+		textoFinal.setEditable(false);
 		//textoTS.setEditable(false);
 		
 		//Panel de texto: 1 label de info + 1 JScroll con el textoCodigo.
@@ -118,7 +125,8 @@ public class ClasePrincipal extends JFrame {
 		panelCodigo.add(infoCodigo,BorderLayout.NORTH);
 		panelCodigo.add(new JScrollPane(textoCodigo),BorderLayout.CENTER);
 		
-		
+		panelSalida.add(texto3Dir);
+		panelSalida.add(textoFinal);
 		
 		panelBotones.add(botonCargar);
 		panelBotones.add(botonCompleto);
@@ -126,7 +134,7 @@ public class ClasePrincipal extends JFrame {
 			
 		panelTexto.add(panelCodigo);
 		panelTexto.add(new JScrollPane(textoError));
-		panelTexto.add(new JScrollPane(texto3Dir));
+		panelTexto.add(new JScrollPane(panelSalida));
 		panelTexto.add(cuadroTS);
 		
 		
@@ -178,7 +186,26 @@ public class ClasePrincipal extends JFrame {
 		}
 	}
 
+	void actualizarTextoFinal(){
+		//ACTUALIZACION TEXTO ERROR
+		textoFinal.setText("");
+		SimpleAttributeSet attrs2 = new SimpleAttributeSet();
+		ArrayList<InstruccionIntermedio> lista3Dir=semantico.getCi().getLista();
+		codFinal=new CodigoFinal(TS,lista3Dir);
+		codFinal.generarCodigoFinal();
+		ArrayList<String> listaFinal = codFinal.getSalida(); 
+		for(int i=0; i<listaFinal.size();i++){
 	
+			
+			
+		
+			try {
+				textoFinal.getStyledDocument().insertString(textoFinal.getStyledDocument().getLength(), listaFinal.get(i).toString()+"\n", attrs2);
+			} catch (BadLocationException e1) {
+				e1.printStackTrace();
+			} 
+		}
+	}
 	
 	/*
 	void actualizarTextoTS(){
@@ -237,6 +264,7 @@ public class ClasePrincipal extends JFrame {
 	
 					actualizarTextoError();
 					actualizarTexto3Dir();
+					actualizarTextoFinal();
 					cuadroTS.actualizar(cuadroTS.representada);
 					
 				}
@@ -261,6 +289,7 @@ public class ClasePrincipal extends JFrame {
 					
 					TS= new TablaSimbolos();
 					GE=new GestorDeErrores();
+					
 					listaToken= new ArrayList<Token>();
 					cuadroTS.setTS(TS);
 					

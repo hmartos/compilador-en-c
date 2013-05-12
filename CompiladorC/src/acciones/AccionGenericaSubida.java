@@ -23,7 +23,7 @@ public class AccionGenericaSubida extends Accion {
 				HashMap<String,Object >atrH=((HashMap<String, Object>)atr);
 				for (Iterator<String> itK=atrH.keySet().iterator();itK.hasNext();){
 					String k= itK.next();
-					if(k!="filaInicio"&&k!="colInicio"&&k!="filaFin"&&k!="colFin")atribActual.put(k, atrH.get(k)); 
+					if(k!="filaInicio"&&k!="colInicio"&&k!="filaFin"&&k!="colFin"&&k!="codigo")atribActual.put(k, atrH.get(k)); 
 					//El valor antiguo es remplazado, por lo que si hay colisiones, hay que resolverlas manualmente.
 					//Este codigo se ejecutara cuando los errores sean false, asique no debe haber problemas al cojer el error del ultimo.(sera false igual)
 				}
