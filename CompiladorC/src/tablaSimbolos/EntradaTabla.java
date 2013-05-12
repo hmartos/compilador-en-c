@@ -8,7 +8,7 @@ String lex;
 
 Atributo att;
 
-LugarRM descriptDir;
+LugarRM descriptDir=null;
 
 
 

@@ -96,12 +96,15 @@ public class ContenedorTS extends JPanel {
 				int i=0; //representada.tabla.size()
 				//panelTabla.removeAll();
 				contIntermedio.removeAll();
-				contIntermedio.setLayout( new GridLayout(representada.tabla.size(),2));
+				contIntermedio.setLayout( new GridLayout(representada.tabla.size(),1));
 				
 				for(Iterator<String> it= representada.tabla.keySet().iterator();it.hasNext();){
+					String s="";
 					String lex=it.next();
-					contIntermedio.add(new JLabel(lex.toString())); // El lexema
-					contIntermedio.add(new JLabel(representada.tabla.get(lex).getAtt().toString())); // Los atributos
+					s+=lex.toString()+" : "; // El lexema
+					s+=(representada.tabla.get(lex).getDescriptDir()!=null?"-"+representada.tabla.get(lex).getDescriptDir().getDescriptDirMem():"") + " : ";
+					s+=representada.tabla.get(lex).getAtt().toString(); // Los atributos
+					contIntermedio.add(new JLabel(s));
 					i++;
 				}
 				

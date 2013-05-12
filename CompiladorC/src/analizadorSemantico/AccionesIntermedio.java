@@ -11,6 +11,7 @@ import accionesEspecificas.AccionR15_1;
 import accionesEspecificas.AccionR3_2;
 import accionesEspecificas.CodigoR105_4;
 import accionesEspecificas.CodigoR15_1;
+import accionesEspecificas.CodigoR3_2;
 
 public class AccionesIntermedio {
 	
@@ -31,7 +32,7 @@ public class AccionesIntermedio {
  								},
 /*3. DEFINICION_GLOBAL -> */{		
 	/*3.1. MACROS */			{},				
-	/*3.2. TIPO RDEFINICION*/			{},		
+	/*3.2. TIPO RDEFINICION*/			{new CodigoR3_2()},		
 	/*3.3.  DEFINICION_STRUCT */			{},	
 	/*3.4. DEFINICION_ENUM */			{},		
 	/*3.5. DEFINICION_UNION */			{},		
@@ -47,12 +48,12 @@ public class AccionesIntermedio {
 	/*5.2. M_AMBITO(L_PARAMS) RDEF_FUNCION*/			{new AccionCondicionada(4,"esPrototipo","igual",false,new AccionGenCodigo(new InsReturn()))}
  								},
 /*6. RDEF_VARIABLE -> */{
-	/*6.1. OP_ASIG EXP RDEF_VARIABLE2 */			{},
-	/*6.2. RDEF_VARIABLE2*/			{}
+	/*6.1. OP_ASIG EXP RDEF_VARIABLE2 */			{new AccionAsignar("listaLugar",new OperacionAgregarALista(new OperandoGramatica(2,"listaLugar"),new OperandoGramatica(1,"lugar")))},
+	/*6.2. RDEF_VARIABLE2*/							{new AccionAsignar("listaLugar",new OperacionAgregarALista(new OperandoGramatica(0,"listaLugar"),new OperandoDirecto(null)))}
  								},
 /*7. RDEF_VARIABLE2 -> */{
-	/*7.1. , iden RDEF_VARIABLE */			{},
-	/*7.2.  ;*/			{}
+	/*7.1. , iden RDEF_VARIABLE */					{},
+	/*7.2.  ;*/										{new AccionAsignar("listaLugar",new OperandoCrearArrayList())}
 
 
 /* - - Definicion de Macros - -*/
