@@ -291,16 +291,19 @@ private boolean operaMemoria(int numInst){
 }
 
 	
-public void genCodigo(int numInst ){
+public void genCodigo(int numInst )
+{
 	
 	
 	InstruccionIntermedio inst=entrada.get(numInst);
 	
 	salida.add("; "+inst.toString());
 	//Por comodidad ponemos la etiqueta con un nop, se podria añadir donde correspondiera al inicio de cada instruccion.
-	if (inst.getEtiqueta()!=null){
+	if (inst.getEtiqueta()!=null)
+	{
 		salida.add(inst.getEtiqueta()+": nop"); 
-		if (inst.getEtiqueta().startsWith("finFun")){
+		if (inst.getEtiqueta().startsWith("finFun"))
+		{
 			numIni=0;
 		}
 	}
@@ -310,7 +313,8 @@ public void genCodigo(int numInst ){
 	
 	
 	//Instrucciones insCuarteto, tipo : x=y,  x=y op,  x=y op z;
-	if (inst instanceof InsCuarteto){
+	if (inst instanceof InsCuarteto)
+	{
 		LugarRM lugarX= obtenLugar(numInst);
 		InsCuarteto instC=(InsCuarteto) inst;
 		String op=((InsCuarteto) inst).getOpRel();
@@ -322,33 +326,43 @@ public void genCodigo(int numInst ){
 			}else{//La operacion se ha hecho directamente en memoria.
 				
 			}
-		}else{ //Op no es null
-		EntradaTabla nombreZ=((InsCuarteto) inst).getOp2();
+		}
+		else
+		{ //Op no es null, operadores unarios
+		    EntradaTabla nombreZ=((InsCuarteto) inst).getOp2();
 		
-			if (nombreZ==null){
-				
+			if (nombreZ==null)
+			{
+				LugarRM lugarZ= nombreZ.getDescriptDir();
 				if (op.equals("+")){
-					
+					salida.add("INC "+getOperando(lugarX)+","+getOperando(lugarZ)+"; incremento  (genCodigo)");
 				}else if (op.equals("-")){
-					
+					salida.add("DEC "+getOperando(lugarX)+","+getOperando(lugarZ)+"; decremento  (genCodigo)");
 				}else if (op.equals("*")){
-					
+					//salida.add("MOVE .a,"+getOperando(lugarX) ); 
 				}else if (op.equals("&")){
 					
 				}
-			}else { //hay operando 2 (Z)
+			}
+			else 
+			{ //hay operando 2 (Z), operadores binarios
 				LugarRM lugarZ= nombreZ.getDescriptDir();
 				if (op.equals("+")){
 					salida.add("ADD "+getOperando(lugarX)+","+getOperando(lugarZ)+"; suma  (genCodigo)");
 					salida.add("MOVE .a,"+getOperando(lugarX) );
 				}else if (op.equals("-")){
-					
+					salida.add("SUB "+getOperando(lugarX)+","+getOperando(lugarZ)+"; resta  (genCodigo)");
+					salida.add("MOVE .a,"+getOperando(lugarX) );
 				}else if (op.equals("*")){
-					
+					salida.add("MUL "+getOperando(lugarX)+","+getOperando(lugarZ)+"; multiplicacion  (genCodigo)");
+					salida.add("MOVE .a,"+getOperando(lugarX) );
 				}else if (op.equals("&")){
-					
+					// COMPROBAR!! TENEMOS DUDAS
+					// salida.add("MOVE .a,"+getOperando(lugarX) );  
 				}
+				
 			}
+		    
 		}
 	}else if (inst instanceof InsParam){
 		InsParam instP=(InsParam)inst;
