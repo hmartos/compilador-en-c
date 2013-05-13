@@ -29,6 +29,35 @@ public class CodigoIntermedio {
 	
 	
 	public ArrayList<InstruccionIntermedio> getLista() {
+		ArrayList<InstruccionIntermedio> insDelMain= new ArrayList<InstruccionIntermedio>();
+		
+		boolean mainEncontrado=false;
+		int posMain=0;
+		while (!mainEncontrado && posMain<lista.size()){
+			if ("main".equals(lista.get(posMain).getEtiqueta())){
+				mainEncontrado=true;
+			}
+			posMain++;
+		}
+		if (!mainEncontrado) return null;
+		
+		posMain--;
+		boolean mainFinEncontrado=false;
+		while (!mainFinEncontrado&& posMain<lista.size()){
+			
+			if ("finFunmain".equals(lista.get(posMain).getEtiqueta())){
+				mainFinEncontrado=true;
+			}
+			InstruccionIntermedio delMain =lista.get(posMain);
+			insDelMain.add(delMain);
+			lista.remove(posMain);
+			
+			
+		}
+		if (!mainFinEncontrado) return null;
+		
+		lista.addAll(0,insDelMain);
+		
 		return lista;
 	}
 
