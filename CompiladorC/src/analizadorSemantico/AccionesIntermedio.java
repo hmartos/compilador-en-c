@@ -460,8 +460,27 @@ public class AccionesIntermedio {
  								},
 /*53. SENTENCIA_CASE -> */{
 	/*53.1. switch (EXP) L_CASES*/			{
-		
-		
+												//Creamos una lista nueva para el codigo
+												new AccionAsignar("codigo",new OperandoCrearArrayList()),										
+												//Creamos un nuevo numero para el bucle
+												new AccionAsignar("numBucle",new OperandoCrearBucleTemp()), 
+												
+												/*Se introducen como en una pila*/
+												// Asignamos la etiqueta fin-caseX
+												new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-case"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
+												// Asignamos la etiqueta defaultX: bloque default
+												new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("default:bloque default"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
+												
+												//Metemos bloque case1
+												new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))),
+												//Metemos la instruccion if (EXP.lugar=EXP(case1).lugar) goto caseX.2
+												new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoGramatica(4,"lugar"), new OperacionHeredada(new OperandoDirecto("caseX.2"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+												// etiqueta caseX.1: codigo EXP(case1)
+												new AccionAsignarEtiqueta(new OperandoGramatica(2,"codigo"),new OperacionHeredada(new OperandoDirecto("case"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+												// codigo EXP
+												new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),										
+												
+												
 												
 												/* codigo EXP
 												 * etiqueta caseX.1: codigo EXP(case1)
