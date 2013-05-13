@@ -41,7 +41,11 @@ public class AccionesIntermedio {
  								},
 /*4. RDEFINICION -> */{
 	/*4.1. ;  */			{},
-	/*4.2. iden RDEFINICION2*/			{new AccionCondicionada(1,"esFuncion","igual",true,new AccionCondicionada(1,"esPrototipo","igual",false, new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperandoGramatica (0,""),0)))}
+	/*4.2. iden RDEFINICION2*/			{new AccionCondicionada(1,"esFuncion","igual",true,new AccionCondicionada(1,"esPrototipo","igual",false,new Accion[]{ 
+											new AccionGenCodigo(new InstruccionIntermedio(),new OperandoGramatica (0,""),null,null,null,null,0), 
+											new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("finFun"),new OperandoGramatica (0,""),"suma"),null,null,null,null,-1)
+											}
+										))}
  								},
 /*5. RDEFINICION2 -> */{
 	/*5.1. CORCHETES RDEF_VARIABLE */			{},
@@ -237,7 +241,7 @@ public class AccionesIntermedio {
 	/*41.2.  continue */			{},
 	/*41.3.  printf(ENTRECOMILLADO RPRINTF) */			{},
 	/*41.4.  scanf(ENTRECOMILLADO RSCANF) */			{},
-	/*41.5.  return EXP*/			{new AccionGenCodigo(new InsReturn(),null,null,null,null,null,0)}
+	/*41.5.  return EXP*/			{new AccionGenCodigo(new InsReturn(),null,new OperandoGramatica(1,"lugar"),null,null,null)}
 
  								},
 /*42. ENTRECOMILLADO -> */{

@@ -1,6 +1,16 @@
 package codigoIntermadio;
 
+import tablaSimbolos.EntradaTabla;
 public class InsReturn extends InstruccionIntermedio {
+
+	EntradaTabla valorRet;
+	public EntradaTabla getValorRet() {
+		return valorRet;
+	}
+
+	public void setValorRet(EntradaTabla valorRet) {
+		this.valorRet = valorRet;
+	}
 
 	public InsReturn() {
 		super();
@@ -20,6 +30,8 @@ public class InsReturn extends InstruccionIntermedio {
 	
 	
 	public String toString(){
-		return super.toString()+"return";
+		String sVRet="";
+		if (valorRet!=null)sVRet=valorRet.toString();
+		return super.toString()+"return "+sVRet;
 	}
 }

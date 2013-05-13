@@ -7,7 +7,7 @@ public class InsAsigValor extends InstruccionIntermedio {
 	
 	
 	EntradaTabla res;
-	String op1;
+	String valor;
 	
 
 
@@ -27,12 +27,12 @@ public class InsAsigValor extends InstruccionIntermedio {
 		this.res = res;
 	}
 
-	public String getOp1() {
-		return op1;
+	public String getValor() {
+		return valor;
 	}
 
-	public void setOp1(String op1) {
-		this.op1 = op1;
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 
 	
@@ -48,7 +48,7 @@ public String toString(){
 		String sOp1="",sRes="";
 		
 		
-		if (op1!=null)sOp1=op1.toString();
+		if (valor!=null)sOp1=valor.toString();
 		if (res!=null)sRes=res.toString();
 		
 		return super.toString()+sRes+":="+sOp1;

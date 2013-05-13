@@ -112,7 +112,7 @@ public class AccionGenCodigo extends Accion{
 		}else if (ins instanceof InsAsigValor){
 			((InsAsigValor)ins).setEtiqueta((String)ob1);
 			((InsAsigValor)ins).setRes((EntradaTabla)ob2);
-			((InsAsigValor)ins).setOp1(ob3.toString());
+			((InsAsigValor)ins).setValor(ob3.toString());
 			
 			
 		}else if (ins instanceof InsGoto){
@@ -135,7 +135,7 @@ public class AccionGenCodigo extends Accion{
 		
 		}else if (ins instanceof InsReturn){
 			((InsReturn)ins).setEtiqueta((String)ob1);
-		
+			((InsReturn)ins).setValorRet((EntradaTabla)ob2);
 		
 		}else if (ins instanceof InstruccionIntermedio){
 			((InstruccionIntermedio)ins).setEtiqueta((String)ob1);
