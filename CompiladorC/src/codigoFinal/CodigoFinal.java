@@ -335,9 +335,10 @@ public void genCodigo(int numInst )
 			{
 				LugarRM lugarZ= nombreZ.getDescriptDir();
 				if (op.equals("+")){
-					salida.add("INC "+getOperando(lugarX)+","+getOperando(lugarZ)+"; incremento  (genCodigo)");
+					// ESTA MALS
+					//salida.add("INC "+getOperando(lugarX)+","+getOperando(lugarZ)+"; incremento  (genCodigo)");
 				}else if (op.equals("-")){
-					salida.add("DEC "+getOperando(lugarX)+","+getOperando(lugarZ)+"; decremento  (genCodigo)");
+					salida.add("NEG "+getOperando(lugarZ)+"; cambioSigno  (genCodigo)");
 				}else if (op.equals("*")){
 					//salida.add("MOVE .a,"+getOperando(lugarX) ); 
 				}else if (op.equals("&")){
@@ -360,8 +361,21 @@ public void genCodigo(int numInst )
 					// COMPROBAR!! TENEMOS DUDAS
 					// salida.add("MOVE .a,"+getOperando(lugarX) );  
 				}
+				else if (op.equals(">")){
+					salida.add("CMP "+getOperando(lugarX)+","+getOperando(lugarZ)+"; mayor  (genCodigo)");
+					salida.add("BN "+getOperando(lugarX)+","+getOperando(lugarZ)+"; mayor  (genCodigo)");
+					/**************************************************************/
+			
+				}else if (op.equals(">=")){
+				
+				}else if (op.equals("<")){
+					
+				}else if (op.equals("<=")){
+					
+				}
 				
 			}
+			
 		    
 		}
 	}else if (inst instanceof InsParam){
