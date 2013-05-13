@@ -419,7 +419,10 @@ public void genCodigo(int numInst ){
 		
 	}else if (inst instanceof InsIfGoto){
 		InsIfGoto instIF=(InsIfGoto)inst;
-		
+		salida.add("CMP "+getOperando(instIF.getOp1().getDescriptDir())+","+getOperando(instIF.getOp2().getDescriptDir())+"; comparacion del salto (genCodigo)");
+		if ("=".equals(instIF.getOpRel())) salida.add("BZ /"+instIF.getDir());
+		else if ("!=".equals(instIF.getOpRel())) salida.add("BNZ /"+instIF.getDir());
+
 	}else if (inst instanceof InsIni){
 		InsIni instIni=(InsIni)inst;
 		salida.add("PUSH #"+instIni.getValorIni()+"; variable local (genCodigo)");
