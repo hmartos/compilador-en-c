@@ -13,6 +13,7 @@ import codigoIntermadio.InsGoto;
 import codigoIntermadio.InsIfGoto;
 import codigoIntermadio.InsIni;
 import codigoIntermadio.InsParam;
+import codigoIntermadio.InsPrintf;
 import codigoIntermadio.InsReturn;
 import codigoIntermadio.InstruccionIntermedio;
 
@@ -441,7 +442,7 @@ public void genCodigo(int numInst )
 					salida.add("MOVE .r"+regY+",.r"+regX);
 					salida.add("NEG .r"+regX+"; cambioSigno  (genCodigo)");
 				}else if (op.equals("*")){
-					//salida.add("MOVE .a,"+getOperando(lugarX) ); 
+					salida.add("MOVE .r"+regY+",.r"+regX); //COMPROBAR
 				}else if (op.equals("&")){
 					
 				}
@@ -645,6 +646,15 @@ public void genCodigo(int numInst )
 		InsIni instIni=(InsIni)inst;
 		salida.add("PUSH #"+instIni.getValorIni()+"; variable local (genCodigo)");
 		numIni.set(numIniIndex-1,numIni.get(numIniIndex-1)+1);
+		
+	}else if (inst instanceof InsPrintf){
+		InsPrintf instPrintf=(InsPrintf)inst;
+		//mirar de la entrada de la tabla el tipo y según el tipo poner la instucción
+			//Si es un char
+			salida.add("WRCHAR #"+instPrintf.getEXPlugar()+"; variable local (genCodigo)");
+			//Si es un entero
+			salida.add("WRINT #"+instPrintf.getEXPlugar()+"; variable local (genCodigo)");
+		//numIni.set(numIniIndex-1,numIni.get(numIniIndex-1)+1);
 		
 	}
 	
