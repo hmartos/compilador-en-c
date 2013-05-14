@@ -495,8 +495,8 @@ public void genCodigo(int numInst )
 				else if (op.equals(">="))
 				{
 						salida.add("CMP "+".r"+regY+",.r"+regZ+"; comparacion mayor-igual  (genCodigo)");
-						salida.add("BP $6 ; salta asig1"); 
-						salida.add("BR $1 ; salta asig0");
+						salida.add("BP $5 ; salta asig1"); 
+						
 						//asig0
 						salida.add("MOVE #0,.a ; es asig0");
 						salida.add("BR $3 ; salta a fin");
@@ -525,8 +525,8 @@ public void genCodigo(int numInst )
 				else if (op.equals("<="))
 				{
 						salida.add("CMP "+".r"+regY+",.r"+regZ+"; menor  (genCodigo)");					
-						salida.add("BN $6 ; salta asig1"); 
-						salida.add("BR $1 ; salta asig0");
+						salida.add("BN $5 ; salta asig1"); 
+						
 						//asig0
 						salida.add("MOVE #0,.a ; es asig0");
 						salida.add("BR $3 ; salta a fin");
@@ -539,8 +539,8 @@ public void genCodigo(int numInst )
 				else if (op.equals("=="))
 				{
 						salida.add("CMP "+".r"+regY+",.r"+regZ+"; menor  (genCodigo)");					
-						salida.add("BZ $6 ; salta asig1"); 
-						salida.add("BR $1 ; salta asig0");
+						salida.add("BZ $5 ; salta asig1"); 
+						
 						//asig0
 						salida.add("MOVE #0,.a ; es asig0");
 						salida.add("BR $3 ; salta a fin");
@@ -553,8 +553,8 @@ public void genCodigo(int numInst )
 				{
 						//salida.add("ADD "+".r"+regY+",r"+regZ+"; suma  (genCodigo)");
 						salida.add("CMP "+".r"+regY+",.r"+regZ+"; menor  (genCodigo)");
-						salida.add("BNZ $6 ; salta asig1"); 
-						salida.add("BR $1 ; salta asig0");
+						salida.add("BNZ $5 ; salta asig1"); 
+						
 						//asig0
 						salida.add("MOVE #0,.a ; es asig0");
 						salida.add("BR $3 ; salta a fin");
