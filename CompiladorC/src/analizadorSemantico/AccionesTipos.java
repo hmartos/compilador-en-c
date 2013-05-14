@@ -271,26 +271,15 @@ public class AccionesTipos {
 /*41. OTRAS_SENTENCIAS  -> */ {
 	/*41.1. break */ {},
 	/*41.2.  continue */ {},
-	/*41.3.  printf(ENTRECOMILLADO RPRINTF) */ {},
-	/*41.4.  scanf(ENTRECOMILLADO RSCANF) */ {},
+	/*41.3.  printf(EXP) */ {},
+	/*41.4.  scanf(iden) */ {},
 	/*41.5.  return EXP*/ {}},
 
 /*42. ENTRECOMILLADO -> */ {
 	/*42.1. “(caracter)*” */ {new AccionAsignar("tipo",new OperandoCrearTipo("char",1))}},
-/*43. RPRINTF -> */ {
-	/*43.1. , REFERENCIA   INDIRECCION   RPRINTF2 */ {new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error")/*, rellenar new ComprobarAsteriscos(********)*/)},
-	/*43.2.  ?*/ {new AccionAsignar("tipo","vacio")}},
 /*44. REFERENCIA -> */ {
 	/*44.1. & */ { new AccionAsignar("tieneAmp",true)},
 	/*44.2.   ?*/ {new AccionAsignar("tieneAmp",false)}},
-/*45. RPRINTF2 -> */ {
-	/*45.1. EXP RPRINTF*/ {new AccionCondicionada(1,"tipo","igual","error", new AccionAsignar("tipo","error"), new AccionAsignar("tipo",0,"tipo"))}},
-/*46. RSCANF -> */ {
-	/*46.1. ,REFERENCIA   INDIRECCION   RSCANF2 */ {new AccionCondicionada(3,"tipo","igual","error",new AccionAsignar("tipo","error")/*,rellenar new ComprobarAsteriscos(********)*/)},
-	/*46.2.  ?*/ {}},
-/*47. RSCANF2 -> */ {
-	/*47.1. IDENTIFICADOR CORCHETES */ {/*rellenar new AccionCondicionada(new DiferenciaDim(0,1),new AccionAsignar("tipo","error"))*/},
-	/*47.2.  ?*/ {}},
 /*48. SENTENCIA_IF -> */ {
 	/*48.1. if (EXP) RSENTENCIA_IF*/  {new AccionCondicionada(new CondicionEsCompatible(new OperandoGramatica(2,"tipo"),new OperandoCrearTipo("int",0)),new Accion[]{},new Accion[]{new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 48.1 Tipo en la condición inválido. ")})} 
 						},
