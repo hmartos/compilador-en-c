@@ -424,7 +424,7 @@ public void genCodigo(int numInst )
 
 		
 		if (op==null){//asignacion simple (x=y)
-			salida.add("MOVE .r"+regX+",r"+regY );
+			salida.add("MOVE .r"+regY+",.r"+regX +"; asignacion directa");
 			
 		}
 		else
@@ -450,20 +450,20 @@ public void genCodigo(int numInst )
 			{ //hay operando 2 (Z), operadores binarios
 				int regZ = obtenLugar(instC.getOp2(), numInst);
 				if (op.equals("+")){
-					salida.add("ADD "+".r"+regY+",r"+regZ+"; suma  (genCodigo)");
+					salida.add("ADD "+".r"+regY+",.r"+regZ+"; suma  (genCodigo)");
 					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("-")){
-					salida.add("SUB "+".r"+regY+",r"+regZ+"; resta (genCodigo)");
+					salida.add("SUB "+".r"+regY+",.r"+regZ+"; resta (genCodigo)");
 					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("*")){
-					salida.add("MUL "+".r"+regY+",r"+regZ+"; mult (genCodigo)");
+					salida.add("MUL "+".r"+regY+",.r"+regZ+"; mult (genCodigo)");
 					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("&")){
 					// COMPROBAR!! TENEMOS DUDAS
 					// salida.add("MOVE .a,"+getOperando(lugarX) );  
 				}
 				else if (op.equals(">")){
-					salida.add("CMP "+".r"+regY+",r"+regZ+"; comparacion mayor  (genCodigo)");
+					salida.add("CMP "+".r"+regY+",.r"+regZ+"; comparacion mayor  (genCodigo)");
 					salida.add("BP $2 ; salta compZero"); 
 					salida.add("BR $2 ; salta asig0");
 					//compZero
@@ -494,7 +494,7 @@ public void genCodigo(int numInst )
 				}
 				else if (op.equals(">="))
 				{
-						salida.add("CMP "+".r"+regY+",r"+regZ+"; comparacion mayor-igual  (genCodigo)");
+						salida.add("CMP "+".r"+regY+",.r"+regZ+"; comparacion mayor-igual  (genCodigo)");
 						salida.add("BP $6 ; salta asig1"); 
 						salida.add("BR $1 ; salta asig0");
 						//asig0
@@ -508,7 +508,7 @@ public void genCodigo(int numInst )
 
 				else if (op.equals("<"))
 				{
-						salida.add("CMP "+".r"+regY+",r"+regZ+"; comparacion menor  (genCodigo)");
+						salida.add("CMP "+".r"+regY+",.r"+regZ+"; comparacion menor  (genCodigo)");
 						salida.add("BN $2 ; salta compZero"); 
 						salida.add("BR $2 ; salta asig0");
 						//compZero
@@ -524,7 +524,7 @@ public void genCodigo(int numInst )
 
 				else if (op.equals("<="))
 				{
-						salida.add("CMP "+".r"+regY+",r"+regZ+"; menor  (genCodigo)");					
+						salida.add("CMP "+".r"+regY+",.r"+regZ+"; menor  (genCodigo)");					
 						salida.add("BN $6 ; salta asig1"); 
 						salida.add("BR $1 ; salta asig0");
 						//asig0
@@ -538,7 +538,7 @@ public void genCodigo(int numInst )
 
 				else if (op.equals("=="))
 				{
-						salida.add("CMP "+".r"+regY+",r"+regZ+"; menor  (genCodigo)");					
+						salida.add("CMP "+".r"+regY+",.r"+regZ+"; menor  (genCodigo)");					
 						salida.add("BZ $6 ; salta asig1"); 
 						salida.add("BR $1 ; salta asig0");
 						//asig0
@@ -552,7 +552,7 @@ public void genCodigo(int numInst )
 				else if (op.equals("!="))
 				{
 						//salida.add("ADD "+".r"+regY+",r"+regZ+"; suma  (genCodigo)");
-						salida.add("CMP "+".r"+regY+",r"+regZ+"; menor  (genCodigo)");
+						salida.add("CMP "+".r"+regY+",.r"+regZ+"; menor  (genCodigo)");
 						salida.add("BNZ $6 ; salta asig1"); 
 						salida.add("BR $1 ; salta asig0");
 						//asig0
@@ -603,7 +603,7 @@ public void genCodigo(int numInst )
 		
 		salida.add("MOVE .sp,.ix");
 		if (instR.getValorRet()!=null){ //Metemos el valor de retorno en la posicion
-			salida.add("MOVE "+getOperando(instR.getValorRet().getDescriptDir(),instR.getValorRet().getLex())+",#-"+(12+numIni.get(numIniIndex-1))+"[.ix]"+"; guardamos valor de retorno (genCodigo)");
+			salida.add("MOVE "+getOperando(instR.getValorRet())+",#-"+(12+numIni.get(numIniIndex-1))+"[.ix]"+"; guardamos valor de retorno (genCodigo)");
 		}else{
 			salida.add("MOVE #0,"+"#-"+(12+numIni.get(numIniIndex-1))+"[.ix]"+"; valor de retorno 0 (genCodigo)");
 
@@ -625,7 +625,7 @@ public void genCodigo(int numInst )
 			salida.add("DEC .sp"+"; sacamos param (genCodigo)");
 		}
 		
-		salida.add("MOVE .a,"+getOperando(instAF.getRes().getDescriptDir(),instAF.getRes().getLex())+"; guardamos de A al que recibe return (genCodigo)");
+		salida.add("MOVE .a,"+getOperando(instAF.getRes())+"; guardamos de A al que recibe return (genCodigo)");
 
 		numParam=0;
 		
@@ -637,7 +637,7 @@ public void genCodigo(int numInst )
 		
 	}else if (inst instanceof InsIfGoto){
 		InsIfGoto instIF=(InsIfGoto)inst;
-		salida.add("CMP "+getOperando(instIF.getOp1().getDescriptDir(),instIF.getOp1().getLex())+","+getOperando(instIF.getOp2().getDescriptDir(),instIF.getOp2().getLex())+"; comparacion del salto (genCodigo)");
+		salida.add("CMP "+getOperando(instIF.getOp1())+","+getOperando(instIF.getOp2())+"; comparacion del salto (genCodigo)");
 		if ("=".equals(instIF.getOpRel())) salida.add("BZ /"+instIF.getDir());
 		else if ("!=".equals(instIF.getOpRel())) salida.add("BNZ /"+instIF.getDir());
 
@@ -661,7 +661,8 @@ private String getOperando(EntradaTabla et){
 			despl+=numIni.get(i);
 		}
 		despl+=et.getDescriptDir().getDescriptDirMem();
-		return "#-"+(despl+1)+"[.ix]";
+		//return "#-"+(despl+1)+"[.ix]"; ?? es +1??
+		return "#-"+(despl)+"[.ix]";
 	}
 }
 

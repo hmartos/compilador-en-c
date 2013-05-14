@@ -234,7 +234,7 @@ public class ClasePrincipal extends JFrame {
 		for(int i=0; i<listaFinal.size();i++){
 	
 			
-			num3Dir.add(new JLabel(String.valueOf(i)+" "));
+			numFinal.add(new JLabel(String.valueOf(i)+" "));
 		
 			try {
 				textoFinal.getStyledDocument().insertString(textoFinal.getStyledDocument().getLength(), listaFinal.get(i).toString()+"\n", attrs2);
