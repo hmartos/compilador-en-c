@@ -37,7 +37,7 @@ public class AccionCerrarAmbito extends Accion {
 		for (Iterator<EntradaTabla> itVarL=values.iterator();itVarL.hasNext();){
 			EntradaTabla et= itVarL.next();
 			if (et.getDescriptDir()==null){ 
-				et.setDescriptDir(new LugarRM(false,nParam+11));
+				et.setDescriptDir(new LugarRM(false,nParam+12));
 				
 				//generacion de codigo (push para las variables locales)
 				InsIni push=new InsIni();
@@ -61,12 +61,16 @@ public class AccionCerrarAmbito extends Accion {
 		for (Iterator<EntradaTabla> itDesc=values.iterator();itDesc.hasNext();){
 			EntradaTabla et= itDesc.next();
 			LugarRM lug= et.getDescriptDir();
-			lug.setDescriptDirMem((values.size()+11)-lug.getDescriptDirMem());
+			lug.setDescriptDirMem((values.size()+12)-lug.getDescriptDirMem()-1);
 			et.setDescriptDir(lug);
 			
 		} 
 		
 		
+		((ArrayList<InstruccionIntermedio>)atribActual.get("codigo")).add(0,new InstruccionIntermedio("openAmbito"+ci.ambitoNuevo()));
+		
+		((ArrayList<InstruccionIntermedio>)atribActual.get("codigo")).add(new InstruccionIntermedio("closeAmbito"+ci.ambitoNuevo()));
+
 		ts.cerrarAmbito();
 		return new ArrayList<ErrorCompilador>();
 	}

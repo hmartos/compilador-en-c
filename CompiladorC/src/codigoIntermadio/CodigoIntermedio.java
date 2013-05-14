@@ -17,12 +17,14 @@ public class CodigoIntermedio {
 	int numTempVar;
 	int numTempIf;
 	int numTempBucle;
+	int numTempAmbito;
 	
 	
 	public CodigoIntermedio(TablaSimbolos ts){
 		numTempVar=0;
 		numTempIf=0;
 		numTempBucle=0;
+		numTempAmbito=0;
 		lista= new ArrayList<InstruccionIntermedio>();
 		this.ts=ts;
 	}
@@ -98,6 +100,11 @@ public class CodigoIntermedio {
 	public Object bucleNuevo() {
 		String s= String.valueOf(numTempBucle);
 		numTempBucle++;
+		return s;
+	}
+	public Object ambitoNuevo() {
+		String s= String.valueOf(numTempAmbito);
+		numTempAmbito++;
 		return s;
 	}
 	

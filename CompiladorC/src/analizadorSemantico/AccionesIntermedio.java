@@ -363,8 +363,7 @@ public class AccionesIntermedio {
 													//Creamos un nuevo numero para el bucle
 													new AccionAsignar("numBucle",new OperandoCrearBucleTemp()), 
 													
-													//Asignamos la etiqueta bucle-comienzo al principio del codigo de EXP
-													//new AccionAsignarEtiqueta(new OperandoGramatica(2,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo"),new OperandoGramatica(-1,"numBucle"),"suma"),0),  
+													
 													
 													
 													
@@ -373,6 +372,7 @@ public class AccionesIntermedio {
 													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("finBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
 													// goto comienzo-bucle
 													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
+													
 													//Metemos el codigo de L_SENTENCIAS. 
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))), 
 													

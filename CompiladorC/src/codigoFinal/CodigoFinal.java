@@ -661,8 +661,8 @@ private String getOperando(EntradaTabla et){
 			despl+=numIni.get(i);
 		}
 		despl+=et.getDescriptDir().getDescriptDirMem();
-		//return "#-"+(despl+1)+"[.ix]"; ?? es +1??
-		return "#-"+(despl)+"[.ix]";
+		return "#-"+(despl+1)+"[.ix]"; //?? es +1??
+		//return "#-"+(despl)+"[.ix]";
 	}
 }
 
