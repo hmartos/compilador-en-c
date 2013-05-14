@@ -119,6 +119,48 @@ public class CodigoFinal {
 	
 	
 	
+	public int obtenLugar(EntradaTabla t,int numInst){
+		//si ya está en registro devolvemos ese registro directamente
+		if (t.getDescriptDir().estaEnRegistro()) return t.getDescriptDir().getDescriptDirReg();
+		else {
+			
+			//buscamos si hay registros libres.
+			int registroLibre= -1;
+			Iterator<ArrayList<EntradaTabla>> itReg = descriptReg.iterator();
+			int i=0;
+			while (registroLibre==-1 && itReg.hasNext()){
+				ArrayList<EntradaTabla> regAct= itReg.next();
+				if (regAct.size()==0)registroLibre=i;
+				i++;
+			}
+			//si hay un registro libre, lo usamos.
+			if (registroLibre!=-1){
+				salida.add("MOVE "+getOperando(t)+",.r"+registroLibre+"; traemos el operando al nuevo registro (obtenLugar)");
+				//actualizacion de los descriptores.
+				descriptReg.get(registroLibre).add(t);
+				t.getDescriptDir().setDescriptDirReg(registroLibre);
+				return registroLibre;
+			}
+			else{
+				int reg= liberarRegOcupado(numInst);
+				salida.add("MOVE "+getOperando(t)+",.r"+reg+"; traemos el operando al registro liberado (obtenLugar)");
+				//actualizacion de los descriptores.
+				descriptReg.get(reg).add(t);
+				t.getDescriptDir().setDescriptDirReg(reg);
+				return reg;
+				
+				
+			}
+		
+			
+			
+
+		}
+	}
+	
+	
+	
+	/*
 	public LugarRM obtenLugar(int numInst){
 		InstruccionIntermedio inst=entrada.get(numInst);
 		
@@ -221,7 +263,7 @@ public class CodigoFinal {
 		} return null;
 	}
 	
-	
+	*/
 private int liberarRegOcupado(int numInst){
 	int registro=-1;
 	int i=0;
@@ -231,6 +273,7 @@ private int liberarRegOcupado(int numInst){
 			actualizado=actualizado&&it.next().getDescriptDir().isActualizadoReg();
 		}
 		if (actualizado) registro=i;
+		i++;
 	}
 	
 	if (registro!=-1) return registro;
@@ -267,11 +310,16 @@ private int liberarRegOcupado(int numInst){
 	
 private boolean operaMemoria(int numInst){
 	
-	LugarRM lugarX= obtenLugar(numInst);
+
+	
 	InstruccionIntermedio inst=entrada.get(numInst);
 	
 	if (inst instanceof InsCuarteto){
 		InsCuarteto instC=(InsCuarteto) inst;
+		
+
+		
+		
 		String op=((InsCuarteto) inst).getOpRel();
 
 		if (op==null){//asignacion simple (x=y)
@@ -291,7 +339,9 @@ private boolean operaMemoria(int numInst){
 					
 				}
 			}else { //hay operando 2 (Z)
-				LugarRM lugarZ= nombreZ.getDescriptDir();
+				int regZ= obtenLugar(instC.getOp2(),numInst);
+
+				
 				if (op.equals("+")){
 					return true;
 				}else if (op.equals("-")){
@@ -364,12 +414,14 @@ public void genCodigo(int numInst )
 	//Instrucciones insCuarteto, tipo : x=y,  x=y op,  x=y op z;
 	if (inst instanceof InsCuarteto)
 	{
-		
-		LugarRM lugarX= obtenLugar(numInst);
 		InsCuarteto instC=(InsCuarteto) inst;
+		int regX= obtenLugar(instC.getRes(),numInst);
+		int regY= obtenLugar(instC.getOp1(),numInst);
+		
+		
 		String op=((InsCuarteto) inst).getOpRel();
-		EntradaTabla nombreY = instC.getOp1();
-		EntradaTabla nombreX = instC.getRes();
+		
+
 		
 		if (op==null){//asignacion simple (x=y)
 			if (lugarX.estaEnRegistro()){//La operacion se ha resuelto asignando el mismo registro
@@ -536,17 +588,17 @@ public void genCodigo(int numInst )
 	
 }
 
-private String getOperando(LugarRM l,String lexema){
-	if (l.estaEnRegistro()){
-		return ".r"+l.getDescriptDirReg();
+private String getOperando(EntradaTabla et){
+	if (et.getDescriptDir().estaEnRegistro()){
+		return ".r"+et.getDescriptDir().getDescriptDirReg();
 	}else {
 		salida.add("MOVE .sp,.ix");
-		int prof=ts.busquedaCompletaProfundidad(lexema);
+		int prof=ts.busquedaCompletaProfundidad(et.getLex());
 		int despl=0;
 		for (int i=numIniIndex-1;i>numIniIndex-1-prof;i--){
 			despl+=numIni.get(i);
 		}
-		despl+=l.getDescriptDirMem();
+		despl+=et.getDescriptDir().getDescriptDirMem();
 		return "#-"+(despl+1)+"[.ix]";
 	}
 }
