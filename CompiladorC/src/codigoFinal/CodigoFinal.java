@@ -424,12 +424,8 @@ public void genCodigo(int numInst )
 
 		
 		if (op==null){//asignacion simple (x=y)
-			if (lugarX.estaEnRegistro()){//La operacion se ha resuelto asignando el mismo registro
-				descriptReg.get(lugarX.getDescriptDirReg()).add(instC.getRes());
-				
-			}else{//La operacion se ha hecho directamente en memoria.
-				
-			}
+			salida.add("MOVE .r"+regX+",r"+regY );
+			
 		}
 		else
 		{ //Op no es null, operadores unarios
