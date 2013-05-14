@@ -14,7 +14,9 @@ import codigoIntermadio.InsCuarteto;
 import codigoIntermadio.InsGoto;
 import codigoIntermadio.InsIfGoto;
 import codigoIntermadio.InsParam;
+import codigoIntermadio.InsPrintf;
 import codigoIntermadio.InsReturn;
+import codigoIntermadio.InsScanf;
 import codigoIntermadio.InstruccionIntermedio;
 
 public class AccionGenCodigo extends Accion{
@@ -35,7 +37,7 @@ public class AccionGenCodigo extends Accion{
 	public AccionGenCodigo (InstruccionIntermedio i,Operacion op1,Operacion op2){
 		ins=i;
 		this.op1=op1;
-		this.op1=op1;
+		this.op2=op2;
 	}
 	public AccionGenCodigo (InstruccionIntermedio i,Operacion op1,Operacion op2,Operacion op3){
 		ins=i;
@@ -137,6 +139,10 @@ public class AccionGenCodigo extends Accion{
 			((InsReturn)ins).setEtiqueta((String)ob1);
 			((InsReturn)ins).setValorRet((EntradaTabla)ob2);
 		
+		}else if (ins instanceof InsPrintf){
+			((InsPrintf)ins).setEXPlugar((EntradaTabla)ob2);
+		}else if(ins instanceof InsScanf){
+			((InsScanf)ins).setEXPlugar((EntradaTabla)ob2);
 		}else if (ins instanceof InstruccionIntermedio){
 			((InstruccionIntermedio)ins).setEtiqueta((String)ob1);
 		}

@@ -4,7 +4,9 @@ import codigoIntermadio.InsAsigValor;
 import codigoIntermadio.InsCuarteto;
 import codigoIntermadio.InsGoto;
 import codigoIntermadio.InsIfGoto;
+import codigoIntermadio.InsPrintf;
 import codigoIntermadio.InsReturn;
+import codigoIntermadio.InsScanf;
 import codigoIntermadio.InstruccionIntermedio;
 import acciones.*;
 import accionesEspecificas.AccionR15_1;
@@ -239,8 +241,8 @@ public class AccionesIntermedio {
 /*41. OTRAS_SENTENCIAS  -> */{
 	/*41.1. break */			{},
 	/*41.2.  continue */			{},
-	/*41.3.  printf(EXP) */			{},
-	/*41.4.  scanf(iden) */			{},
+	/*41.3.  printf(EXP) */			{new AccionGenCodigo(new InsPrintf(),null,new OperandoGramatica(2,"lugar"))},
+	/*41.4.  scanf(IDENTIFICADOR) */			{new AccionGenCodigo(new InsScanf(),null,new OperandoGramatica(2,"lugar"))},
 	/*41.5.  return EXP*/			{new AccionGenCodigo(new InsReturn(),null,new OperandoGramatica(1,"lugar"),null,null,null)}
 
  								},

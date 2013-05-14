@@ -10,8 +10,6 @@ public class InstruccionIntermedio {
 	public InstruccionIntermedio(){
 		etiqueta=null;
 	}
-
-	
 	
 	
 	
