@@ -7,6 +7,24 @@ public class TablaSimbolos {
 	TablaAmbito reservadas;
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void setGlobal(TablaAmbito global) {
+		this.global = global;
+	}
+
+
+	public void setActual(TablaAmbito actual) {
+		this.actual = actual;
+	}
+
+
 	public TablaSimbolos(){
 		global=new TablaAmbito();
 		actual=global;
@@ -43,6 +61,23 @@ public class TablaSimbolos {
 				busquedaAct=busquedaAct.contenedor; //Actualizamos por si no la ha encontrado.
 			}
 			return buscado;
+		}
+	}
+	
+	
+public int busquedaCompletaProfundidad (String lexema){
+		
+		EntradaTabla buscado= busquedaPalabraReservada(lexema);
+		if (buscado!=null) return -1;
+		else{
+			TablaAmbito busquedaAct=actual;
+			int prof=0;
+			while(buscado==null&&busquedaAct!=null){
+				buscado=busquedaAct.tabla.get(lexema);
+				busquedaAct=busquedaAct.contenedor; //Actualizamos por si no la ha encontrado.
+				prof++;
+			}
+			return prof-1;
 		}
 	}
 	

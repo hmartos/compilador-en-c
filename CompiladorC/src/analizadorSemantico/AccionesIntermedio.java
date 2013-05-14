@@ -42,7 +42,7 @@ public class AccionesIntermedio {
 /*4. RDEFINICION -> */{
 	/*4.1. ;  */			{},
 	/*4.2. iden RDEFINICION2*/			{new AccionCondicionada(1,"esFuncion","igual",true,new AccionCondicionada(1,"esPrototipo","igual",false,new Accion[]{ 
-											new AccionGenCodigo(new InstruccionIntermedio(),new OperandoGramatica (0,""),null,null,null,null,0), 
+											new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("comienzoFun"),new OperandoGramatica (0,""),"suma"),null,null,null,null,0), 
 											new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("finFun"),new OperandoGramatica (0,""),"suma"),null,null,null,null,-1)
 											}
 										))}
@@ -276,7 +276,7 @@ public class AccionesIntermedio {
 													//Creamos un lugar para el 0.
 													new AccionAsignar("auxLugar",new OperandoCrearVarTemp(new OperandoDirecto(new Tipo("int",0)))),
 													//Metemos la propia instruccion if
-													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("else-if"),new OperandoGramatica(-1,"numIf"),"suma"),0), 
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("elseIf"),new OperandoGramatica(-1,"numIf"),"suma"),0), 
 													//Metemos la asignacion del 0 a la variable auxiliar.
 													new AccionGenCodigo(new InsAsigValor(),null,new OperandoGramatica(-1,"auxLugar"),new OperandoDirecto("0"),null,null,0),
 													//Metemos el codigo de la exp.
@@ -297,18 +297,18 @@ public class AccionesIntermedio {
 														new AccionAsignar("codigo",new OperandoCrearArrayList()),
 														
 														//Asignamos la etiqueta else-ifX  al principio del bloque else.
-														new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("else-if"),new OperandoGramatica(-1,"numIf"),"suma"),0),  
+														new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("elseIf"),new OperandoGramatica(-1,"numIf"),"suma"),0),  
 														
 														/*Se introducen como en una pila*/
 														
 														//Metemos la etiqueta fin-ifX al final del codigo
-														new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,null,0), 
+														new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("finIf"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,null,0), 
 														
 														//Metemos el bloque de codigo else.
 														new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(1,"codigo"))), 
 														
 														//Metemos la instruccion goto despues del bloque if (para cuando es true se salte el else)
-														new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("fin-if"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,0), 
+														new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("finIf"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,0), 
 									
 														//Metemos el bloque de codigo if.
 														new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(0,"codigo"))),  
@@ -339,7 +339,7 @@ public class AccionesIntermedio {
 													new AccionAsignar("numBucle",new OperandoCrearBucleTemp()), 
 													
 													//Asignamos la etiqueta bucle-comienzo al principio del codigo de L_SENTENCIAS
-													new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),  
+													new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),  
 													
 													
 													
@@ -349,7 +349,7 @@ public class AccionesIntermedio {
 													//Creamos un lugar para el 0.
 													new AccionAsignar("auxLugar",new OperandoCrearVarTemp(new OperandoDirecto(new Tipo("int",0)))),
 													//Metemos la propia instruccion if
-													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
 													//Metemos la asignacion del 1 a la variable auxiliar.
 													new AccionGenCodigo(new InsAsigValor(),null,new OperandoGramatica(-1,"auxLugar"),new OperandoDirecto("1"),null,null,0),
 													
@@ -383,9 +383,9 @@ public class AccionesIntermedio {
 													
 													/*Se introducen como en una pila*/
 													// Asignamos la etiqueta fin bucle
-													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
+													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("finBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
 													// goto comienzo-bucle
-													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
+													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
 													//Metemos el codigo de L_SENTENCIAS. 
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))), 
 													
@@ -394,7 +394,7 @@ public class AccionesIntermedio {
 													//Creamos un lugar para el 0.
 													new AccionAsignar("auxLugar",new OperandoCrearVarTemp(new OperandoDirecto(new Tipo("int",0)))),
 													//Metemos la propia instruccion if
-													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(2,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("finBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
 													//Metemos la asignacion del 0 a la variable auxiliar.
 													new AccionGenCodigo(new InsAsigValor(),null,new OperandoGramatica(-1,"auxLugar"),new OperandoDirecto("0"),null,null,0),
 													
@@ -403,7 +403,7 @@ public class AccionesIntermedio {
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),		
 													
 													//new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("comienzo"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),
-													new AccionAsignarEtiqueta(new OperandoGramatica(2,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													new AccionAsignarEtiqueta(new OperandoGramatica(2,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
 													/* etiqueta comienzo-bucle: codigo EXP
 													 * if (exp.lugar=0) goto fin-bucle
 													 * bloque L_SENTENCIAS
@@ -426,20 +426,34 @@ public class AccionesIntermedio {
 													
 													/*Se introducen como en una pila*/
 													// Asignamos la etiqueta fin bucle
-													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
+													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("finBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
 													// goto comienzo-bucle
-													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
+													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
 													//Metemos el codigo de CAMPO3 
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(6,"codigo"))),
 													//Metemos el codigo de L_SENTENCIAS 
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(8,"codigo"))),
+													
+													
 													//Metemos la instruccion if (CAMPO2.lugar=0) goto fin-bucle
-													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoDirecto("0"), new OperacionHeredada(new OperandoDirecto("fin-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													
+													//Metemos la instruccion if (exp.lugar=0) goto fin-bucle
+													//Creamos un lugar para el 0.
+													new AccionAsignar("auxLugar",new OperandoCrearVarTemp(new OperandoDirecto(new Tipo("int",0)))),
+													//Metemos la propia instruccion if
+													new AccionGenCodigo(new InsIfGoto(),null,new OperandoGramatica(4,"lugar"),new OperandoDirecto("="),new OperandoGramatica(-1,"auxLugar"), new OperacionHeredada(new OperandoDirecto("finBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													//Metemos la asignacion del 0 a la variable auxiliar.
+													new AccionGenCodigo(new InsAsigValor(),null,new OperandoGramatica(-1,"auxLugar"),new OperandoDirecto("0"),null,null,0),
+													
+													
+													
+													
+													
 													
 													// CÓDICO CAMPO 2
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(4,"codigo"))),										
 													 // etiqueta comienzo-bucle: codigo CAMPO2
-													new AccionAsignarEtiqueta(new OperandoGramatica(4,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzo-bucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													new AccionAsignarEtiqueta(new OperandoGramatica(4,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
 													// codigo CAMPO1
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),										
 													

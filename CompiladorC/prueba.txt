@@ -1,0 +1,125 @@
+org 0
+; main: 
+main: nop
+; ini 0
+PUSH #0; variable local (genCodigo)
+; ini 0
+PUSH #0; variable local (genCodigo)
+; ini 0
+PUSH #0; variable local (genCodigo)
+; t5:=6
+MOVE .sp,.ix
+MOVE #6,#-3[.ix]; valor directo (genCodigo)
+; param t5
+; call fun 1
+MOVE .sp,.ix
+MOVE .sp,.ix
+PUSH #-3[.ix]; param (genCodigo)
+PUSH #0; valor de retorno (genCodigo)
+PUSH .r0; salvar registros (genCodigo)
+PUSH .r1; salvar registros (genCodigo)
+PUSH .r2; salvar registros (genCodigo)
+PUSH .r3; salvar registros (genCodigo)
+PUSH .r4; salvar registros (genCodigo)
+PUSH .r5; salvar registros (genCodigo)
+PUSH .r6; salvar registros (genCodigo)
+PUSH .r7; salvar registros (genCodigo)
+PUSH .r8; salvar registros (genCodigo)
+PUSH .r9; salvar registros (genCodigo)
+MOVE .sp,.ix
+CALL /fun
+POP .r9; recuperar registros (genCodigo)
+POP .r8; recuperar registros (genCodigo)
+POP .r7; recuperar registros (genCodigo)
+POP .r6; recuperar registros (genCodigo)
+POP .r5; recuperar registros (genCodigo)
+POP .r4; recuperar registros (genCodigo)
+POP .r3; recuperar registros (genCodigo)
+POP .r2; recuperar registros (genCodigo)
+POP .r1; recuperar registros (genCodigo)
+POP .r0; recuperar registros (genCodigo)
+; t6:=return
+POP .a; guardamos retorno en A (genCodigo)
+DEC .sp; sacamos param (genCodigo)
+MOVE .sp,.ix
+MOVE .a,#-2[.ix]; guardamos de A al que recibe return (genCodigo)
+; a:=t6
+MOVE .sp,.ix
+MOVE #-2[.ix],.r0; traemos y al nuevo registro (obtenLugar)
+WRINT .r0
+; return 
+MOVE .sp,.ix
+MOVE #0,#-15[.ix]; valor de retorno 0 (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+RET 
+; finFunmain: 
+finFunmain: nop
+; fun: 
+fun: nop
+; ini 0
+PUSH #0; variable local (genCodigo)
+; ini 0
+PUSH #0; variable local (genCodigo)
+; ini 0
+PUSH #0; variable local (genCodigo)
+; t0:=6
+MOVE .sp,.ix
+MOVE #6,#-3[.ix]; valor directo (genCodigo)
+; t1:=i==t0
+MOVE .sp,.ix
+MOVE #-16[.ix],.r1; traemos y al nuevo registro (obtenLugar)
+; t4:=0
+MOVE .sp,.ix
+MOVE #0,#-2[.ix]; valor directo (genCodigo)
+; if(t1=t4) goto elseIf0
+MOVE .sp,.ix
+CMP .r1,#-2[.ix]; comparacion del salto (genCodigo)
+BZ /elseIf0
+; ini 0
+PUSH #0; variable local (genCodigo)
+; t2:=100
+MOVE .sp,.ix
+MOVE #100,#-2[.ix]; valor directo (genCodigo)
+; return t2
+MOVE .sp,.ix
+MOVE .sp,.ix
+MOVE #-2[.ix],#-16[.ix]; guardamos valor de retorno (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+RET 
+; goto finIf0
+BR /finIf0
+; elseIf0: ini 0
+elseIf0: nop
+PUSH #0; variable local (genCodigo)
+; t3:=50
+MOVE .sp,.ix
+MOVE #50,#-2[.ix]; valor directo (genCodigo)
+; return t3
+MOVE .sp,.ix
+MOVE .sp,.ix
+MOVE #-2[.ix],#-17[.ix]; guardamos valor de retorno (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+RET 
+; finIf0: 
+finIf0: nop
+; return 
+MOVE .sp,.ix
+MOVE #0,#-17[.ix]; valor de retorno 0 (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+RET 
+; finFunfun: 
+finFunfun: nop
+end
