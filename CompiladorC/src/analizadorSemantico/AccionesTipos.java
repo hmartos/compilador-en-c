@@ -272,7 +272,7 @@ public class AccionesTipos {
 	/*41.1. break */ {},
 	/*41.2.  continue */ {},
 	/*41.3.  printf(EXP) */ {},
-	/*41.4.  scanf(iden) */ {},
+	/*41.4.  scanf(IDENTIFICADOR) */ {new AccionCondicionada(2,"esFuncion","igual",true, new AccionGenError(new OperandoGramatica(-1,"filaInicio"),new OperandoGramatica(-1,"colInicio"),"regla 41.4 En un scanf no puede ir una funcion"))},
 	/*41.5.  return EXP*/ {}},
 
 /*42. ENTRECOMILLADO -> */ {

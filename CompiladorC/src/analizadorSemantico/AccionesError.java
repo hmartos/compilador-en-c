@@ -227,7 +227,7 @@ public class AccionesError {
 	/*41.1. break */			{},
 	/*41.2.  continue */			{},
 	/*41.3.  printf(EXP) */			{},
-	/*41.4.  scanf(iden) */			{},
+	/*41.4.  scanf(IDENTIFICADOR) */			{},
 	/*41.5.  return EXP*/			{}
 
  								},
