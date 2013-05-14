@@ -239,32 +239,17 @@ public class AccionesIntermedio {
 /*41. OTRAS_SENTENCIAS  -> */{
 	/*41.1. break */			{},
 	/*41.2.  continue */			{},
-	/*41.3.  printf(ENTRECOMILLADO RPRINTF) */			{},
-	/*41.4.  scanf(ENTRECOMILLADO RSCANF) */			{},
+	/*41.3.  printf(EXP) */			{},
+	/*41.4.  scanf(iden) */			{},
 	/*41.5.  return EXP*/			{new AccionGenCodigo(new InsReturn(),null,new OperandoGramatica(1,"lugar"),null,null,null)}
 
  								},
 /*42. ENTRECOMILLADO -> */{
 	/*42.1. “(caracter)*” */			{}
  								},
-/*43. RPRINTF -> */{
-	/*43.1. , REFERENCIA   INDIRECCION   RPRINTF2 */			{},
-	/*43.2.  λ*/			{}
- 								},
 /*44. REFERENCIA -> */{
 	/*44.1. & */			{},
 	/*44.2.   λ*/			{}
- 								},
-/*45. RPRINTF2 -> */{ 
-	/*45.1. EXP RPRINTF*/			{}
- 								},
-/*46. RSCANF -> */{
-	/*46.1. REFERENCIA   INDIRECCION   RSCANF2 */			{},
-	/*46.2.  λ*/			{}
- 								},
-/*47. RSCANF2 -> */{
-	/*47.1. IDENTIFICADOR CORCHETES */			{},
-	/*47.2.  λ*/			{}
  								},
 /*48. SENTENCIA_IF -> */{
 	/*48.1. if (EXP) RSENTENCIA_IF*/			{	//Creamos una lista nueva para el codigo 
