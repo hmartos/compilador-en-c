@@ -14,6 +14,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,7 +50,7 @@ public class ClasePrincipal extends JFrame {
 
 	
 	JPanel panelPrincipal;
-	JButton botonCargar,botonCompleto,botonIniciar;
+	JButton botonCargar,botonCompleto,botonIniciar,botonWENS,botonGuardar,botonENS;
 	
 	JLabel infoCodigo;
 	
@@ -67,7 +69,8 @@ public class ClasePrincipal extends JFrame {
 	static ArrayList<Token> listaToken;
 	String ruta;
 	JFileChooser seleFile; //Asi recuerda el ultimo directorio
-
+	JFileChooser guardarFile;
+	
 	//Controla si se usara el texto del textoCodigo o la ruta elegida para pasar al analizador.
 	boolean modoTextoEscrito; 
 	
@@ -95,7 +98,9 @@ public class ClasePrincipal extends JFrame {
 		botonCargar = new JButton("Cargar nuevo codigo");
 		botonCompleto = new JButton("Analisis completo");
 		botonIniciar = new JButton("Iniciar analisis");
-		
+		botonWENS = new JButton("WENS2001");
+		botonENS = new JButton("ENS2001 (consola)");
+		botonGuardar=new JButton("Guardar código final");
 		
 		iniciado=false;
 		modoTextoEscrito=true; //Empieza en modo texto para evitar errores.
@@ -114,7 +119,7 @@ public class ClasePrincipal extends JFrame {
 		
 		textoError.setEditable(false);
 		texto3Dir.setEditable(false);
-		textoFinal.setEditable(false);
+		textoFinal.setEditable(true);
 		//textoTS.setEditable(false);
 		
 		//Panel de texto: 1 label de info + 1 JScroll con el textoCodigo.
@@ -131,6 +136,9 @@ public class ClasePrincipal extends JFrame {
 		panelBotones.add(botonCargar);
 		panelBotones.add(botonCompleto);
 		panelBotones.add(botonIniciar);
+		panelBotones.add(botonWENS);
+		panelBotones.add(botonENS);
+		panelBotones.add(botonGuardar);
 			
 		panelTexto.add(panelCodigo);
 		panelTexto.add(new JScrollPane(textoError));
@@ -141,7 +149,12 @@ public class ClasePrincipal extends JFrame {
 		botonCargar.addActionListener(new Oyente());
 		botonCompleto.addActionListener(new Oyente());
 		botonIniciar.addActionListener(new Oyente());
+		botonWENS.addActionListener(new Oyente());
+		botonENS.addActionListener(new Oyente());
+		botonGuardar.addActionListener(new Oyente());
+		
 		seleFile = new JFileChooser();
+		guardarFile = new JFileChooser();
 	
 	}
 	public static ArrayList<Token> getListaToken(){
@@ -307,6 +320,56 @@ public class ClasePrincipal extends JFrame {
 					
 				}
 
+				
+			}else if (botonWENS==e.getSource()){
+				try {
+					String cmd = "winens.exe"; 
+					Runtime.getRuntime().exec(cmd); 
+				} catch (IOException ioe) {
+					System.out.println (ioe);
+				}
+				
+			}else if (botonENS==e.getSource()){
+				try {
+					
+		
+					
+					File archivoEscritura= new File("compiladorC.ens");
+					
+					try {
+						PrintWriter pw = new PrintWriter(archivoEscritura);
+						pw.append(textoFinal.getText());
+						pw.close();
+						
+						
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					Runtime.getRuntime().exec("ejecutar.bat"); 
+				} catch (IOException ioe) {
+					System.out.println (ioe);
+				}
+				
+			}else if (botonGuardar==e.getSource()){
+				guardarFile.showSaveDialog(null);
+				File archivoEscritura= guardarFile.getSelectedFile();
+				
+				try {
+					PrintWriter pw = new PrintWriter(archivoEscritura);
+					pw.append(textoFinal.getText());
+					pw.close();
+					
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
 				
 			}
 			

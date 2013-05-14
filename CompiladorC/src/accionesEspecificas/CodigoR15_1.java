@@ -115,7 +115,7 @@ public class CodigoR15_1 extends Accion {
 					//el call
 					InsCall nuevaIns=new InsCall();
 					listaCod.add( nuevaIns);
-					nuevaIns.setDir(lex);
+					nuevaIns.setDir("comienzoFun"+lex);
 					nuevaIns.setNum(listParam.size());
 					//Asignar retorno a variable auxiliar.
 					InsAsigFun nuevaIns2=new InsAsigFun();

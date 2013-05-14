@@ -17,6 +17,7 @@ import codigoIntermadio.InsReturn;
 import codigoIntermadio.InstruccionIntermedio;
 
 import tablaSimbolos.EntradaTabla;
+import tablaSimbolos.TablaAmbito;
 import tablaSimbolos.TablaSimbolos;
 
 public class CodigoFinal {
@@ -26,9 +27,15 @@ public class CodigoFinal {
 
 	TablaSimbolos ts;
 	
-	int numIni=0;
+	ArrayList<Integer> numIni=new ArrayList<Integer>();
+	ArrayList<Integer> numAmbitos=new ArrayList<Integer>();
+
+	int numIniIndex=1;
 	int numParam=0;
 	ArrayList<EntradaTabla> parametros;
+	
+
+
 
 	ArrayList<ArrayList<EntradaTabla>> descriptReg; 
 	//el primer array se indexa por número de registro. 
@@ -49,6 +56,14 @@ public class CodigoFinal {
 	
 	public CodigoFinal(TablaSimbolos ts,	ArrayList<InstruccionIntermedio> entrada){
 		this.ts=ts;
+		//borrar ambitos vacios del global (por los prototipos).
+		for (int i=0;i<ts.getGlobal().contenido.size();){
+			TablaAmbito t= ts.getGlobal().contenido.get(i);
+			if (t.tabla.size()==0){
+				ts.getGlobal().contenido.remove(t);
+			}else i++;
+		}
+		ts.setActual(ts.getGlobal());
 		this.entrada=entrada;
 		salida=new ArrayList<String>();
 		descriptReg=new ArrayList<ArrayList<EntradaTabla>>();
@@ -56,6 +71,9 @@ public class CodigoFinal {
 		for (int i=0; i<10;i++){
 			descriptReg.add(new ArrayList<EntradaTabla>());
 		}
+		
+		numIni.add(0);
+		numAmbitos.add(0);
 		
 	}
 	
@@ -142,7 +160,7 @@ public class CodigoFinal {
 							return lugarY;
 						}else if (registroLibre!=-1){ //Hay registros libres
 							//Mover y al registro nuevo.
-							salida.add("MOVE "+getOperando(lugarY)+",.r"+registroLibre+"; traemos y al nuevo registro (obtenLugar)");
+							salida.add("MOVE "+getOperando(lugarY,nombreY.getLex())+",.r"+registroLibre+"; traemos y al nuevo registro (obtenLugar)");
 							
 							descriptReg.get(registroLibre).add(instC.getRes());
 							instC.getRes().getDescriptDir().setDescriptDirReg(registroLibre);
@@ -173,13 +191,13 @@ public class CodigoFinal {
 			if (registroLibre!=-1){ //El valor de y no esta en un registro, o ese registro está referenciado, o se usará proximamente.
 				//Hay registros libres
 				//Mover y al registro nuevo.
-				salida.add("MOVE "+getOperando(lugarY)+",.r"+registroLibre+"; traemos y al nuevo registro (obtenLugar)");
+				salida.add("MOVE "+getOperando(lugarY,nombreY.getLex())+",.r"+registroLibre+"; traemos y al nuevo registro (obtenLugar)");
 				descriptReg.get(registroLibre).add(instC.getRes());
 				instC.getRes().getDescriptDir().setDescriptDirReg(registroLibre);
 				instC.getRes().getDescriptDir().setActualizadoReg(true);
 
 				return new LugarRM(registroLibre);
-			}else if (!seUsa(nombreY,numInst+1,1)&&operaMemoria(numInst)){//Operaremos desde memoria
+			}else if (!seUsa(nombreY,numInst+1,1)&&operaMemoria(numInst)){//Operaremos desde memoria (revisar)
 				//if x en registro, store X.
 				salida.add("MOVE .sp,.ix");
 				salida.add("MOVE .r"+instC.getRes().getDescriptDir().getDescriptDirReg()+",#-"+instC.getRes().getDescriptDir().getDescriptDirMem()+"[.ix]"+"; store de x (obtenLugar)");
@@ -188,7 +206,7 @@ public class CodigoFinal {
 			}else{ //Necesitamos un registro para operar, obtenemos uno adecuado.
 				int registro=liberarRegOcupado(numInst);
 				//Mover y al registro nuevo.
-				salida.add("MOVE "+getOperando(lugarY)+",.r"+registro+"; traemos y al registro liberado (obtenLugar)");
+				salida.add("MOVE "+getOperando(lugarY,nombreY.getLex())+",.r"+registro+"; traemos y al registro liberado (obtenLugar)");
 				
 				descriptReg.get(registro).add(instC.getRes());
 				instC.getRes().getDescriptDir().setDescriptDirReg(registro);
@@ -304,10 +322,41 @@ public void genCodigo(int numInst )
 		salida.add(inst.getEtiqueta()+": nop"); 
 		if (inst.getEtiqueta().startsWith("finFun"))
 		{
-			numIni=0;
+			numIni.remove(numIniIndex-1);
+			numIniIndex--;
+			numAmbitos.remove(numAmbitos.size()-1);
+			ts.setActual(ts.getActual().contenedor);
+		
+		}else if(inst.getEtiqueta().startsWith("comienzoFun")){
+				numIni.add(0);
+				numIniIndex++;
+				ts.setActual(ts.getActual().contenido.get(numAmbitos.get(numAmbitos.size()-1)));
+				numAmbitos.set(numAmbitos.size()-1,numAmbitos.get(numAmbitos.size()-1)+1);
+				
+				numAmbitos.add(0);
+			
+		}else if(inst.getEtiqueta().startsWith("comienzoBucle")){
+			numIni.add(0);
+			numIniIndex++;
+			ts.setActual(ts.getActual().contenido.get(numAmbitos.get(numAmbitos.size()-1)));
+			numAmbitos.set(numAmbitos.size()-1,numAmbitos.get(numAmbitos.size()-1)+1);
+			numAmbitos.add(0);
+			
+		}else if(inst.getEtiqueta().startsWith("finBucle")){
+			
+			for(int i=0; i<numIni.get(numIniIndex-1);i++){ //sacamos variables locales
+				salida.add("DEC .sp"+"; sacar variables locales (genCodigo)");
+			}
+			numAmbitos.remove(numAmbitos.size()-1);
+			ts.setActual(ts.getActual().contenedor);
+			
+			
+			numIni.remove(numIniIndex-1);
+			numIniIndex--;
+			
 		}
-	}
 	
+	}
 	
 	
 	
@@ -315,10 +364,13 @@ public void genCodigo(int numInst )
 	//Instrucciones insCuarteto, tipo : x=y,  x=y op,  x=y op z;
 	if (inst instanceof InsCuarteto)
 	{
+		
 		LugarRM lugarX= obtenLugar(numInst);
 		InsCuarteto instC=(InsCuarteto) inst;
 		String op=((InsCuarteto) inst).getOpRel();
-
+		EntradaTabla nombreY = instC.getOp1();
+		EntradaTabla nombreX = instC.getRes();
+		
 		if (op==null){//asignacion simple (x=y)
 			if (lugarX.estaEnRegistro()){//La operacion se ha resuelto asignando el mismo registro
 				descriptReg.get(lugarX.getDescriptDirReg()).add(instC.getRes());
@@ -333,12 +385,12 @@ public void genCodigo(int numInst )
 		
 			if (nombreZ==null)
 			{
-				LugarRM lugarZ= nombreZ.getDescriptDir();
+				
 				if (op.equals("+")){
 					// ESTA MALS
 					//salida.add("INC "+getOperando(lugarX)+","+getOperando(lugarZ)+"; incremento  (genCodigo)");
 				}else if (op.equals("-")){
-					salida.add("NEG "+getOperando(lugarZ)+"; cambioSigno  (genCodigo)");
+					salida.add("NEG "+getOperando(lugarX,nombreY.getLex())+"; cambioSigno  (genCodigo)");
 				}else if (op.equals("*")){
 					//salida.add("MOVE .a,"+getOperando(lugarX) ); 
 				}else if (op.equals("&")){
@@ -349,23 +401,47 @@ public void genCodigo(int numInst )
 			{ //hay operando 2 (Z), operadores binarios
 				LugarRM lugarZ= nombreZ.getDescriptDir();
 				if (op.equals("+")){
-					salida.add("ADD "+getOperando(lugarX)+","+getOperando(lugarZ)+"; suma  (genCodigo)");
-					salida.add("MOVE .a,"+getOperando(lugarX) );
+					salida.add("ADD "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; suma  (genCodigo)");
+					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()) );
 				}else if (op.equals("-")){
-					salida.add("SUB "+getOperando(lugarX)+","+getOperando(lugarZ)+"; resta  (genCodigo)");
-					salida.add("MOVE .a,"+getOperando(lugarX) );
+					salida.add("SUB "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; resta  (genCodigo)");
+					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()) );
 				}else if (op.equals("*")){
-					salida.add("MUL "+getOperando(lugarX)+","+getOperando(lugarZ)+"; multiplicacion  (genCodigo)");
-					salida.add("MOVE .a,"+getOperando(lugarX) );
+					salida.add("MUL "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; multiplicacion  (genCodigo)");
+					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()) );
 				}else if (op.equals("&")){
 					// COMPROBAR!! TENEMOS DUDAS
 					// salida.add("MOVE .a,"+getOperando(lugarX) );  
 				}
 				else if (op.equals(">")){
-					salida.add("CMP "+getOperando(lugarX)+","+getOperando(lugarZ)+"; mayor  (genCodigo)");
-					salida.add("BN "+getOperando(lugarX)+","+getOperando(lugarZ)+"; mayor  (genCodigo)");
-					/**************************************************************/
-			
+					salida.add("CMP "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; mayor  (genCodigo)");
+					salida.add("BP $2 ; salta compZero"); 
+					salida.add("BR $2 ; salta asig0");
+					//compZero
+					salida.add("BNZ $5 ; es compZero, salta a asig1" );
+					//asig0
+					salida.add("MOVE #0,.a ; es asig0");
+					salida.add("BR $3 ; salta a fin");
+					//asig1
+					salida.add("MOVE #1,.a ; es asig1");
+					//fin
+					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex())+" ; esto es fin");
+
+					
+					/* otra alternativa que no funciona porque la division de numeros negativos devuelve siempre 0 ??¿¿¿
+					salida.add("MOVE .sr,.a");
+					salida.add("NOT .a");
+					salida.add("DIV .a,#16");
+					salida.add("MOD .a,#2");
+					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex())); // no negativo
+					
+					salida.add("MOVE .sr,.a");
+					salida.add("NOT .a");
+					salida.add("MOD .a,#2");//nocero
+					salida.add("AND .a,"+getOperando(lugarX,nombreX.getLex())); // nocero y no negativo 
+					
+					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()));
+			*/
 				}else if (op.equals(">=")){
 				
 				}else if (op.equals("<")){
@@ -387,7 +463,7 @@ public void genCodigo(int numInst )
 		InsCall instF=(InsCall)inst;
 		salida.add("MOVE .sp,.ix"); //Metiendo los parametros de llamada
 		for (int i=0;i<numParam;i++){
-			salida.add("PUSH "+getOperando(parametros.get(i).getDescriptDir())+"; param (genCodigo)");
+			salida.add("PUSH "+getOperando(parametros.get(i).getDescriptDir(),parametros.get(i).getLex())+"; param (genCodigo)");
 		}
 		parametros= new ArrayList<EntradaTabla>(); //limpiamos params, pues ya los hemos usado.
 		
@@ -406,20 +482,20 @@ public void genCodigo(int numInst )
 		
 	}else if (inst instanceof InsAsigValor){
 		InsAsigValor instAV=(InsAsigValor)inst;
-		salida.add("MOVE #"+instAV.getValor()+","+getOperando(instAV.getRes().getDescriptDir())+"; valor directo (genCodigo)");
+		salida.add("MOVE #"+instAV.getValor()+","+getOperando(instAV.getRes().getDescriptDir(),instAV.getRes().getLex())+"; valor directo (genCodigo)");
 		
 	}else if (inst instanceof InsReturn){
 		InsReturn instR=(InsReturn)inst;
 		
 		salida.add("MOVE .sp,.ix");
 		if (instR.getValorRet()!=null){ //Metemos el valor de retorno en la posicion
-			salida.add("MOVE "+getOperando(instR.getValorRet().getDescriptDir())+",#-"+(12+numIni)+"[.ix]"+"; guardamos valor de retorno (genCodigo)");
+			salida.add("MOVE "+getOperando(instR.getValorRet().getDescriptDir(),instR.getValorRet().getLex())+",#-"+(12+numIni.get(numIniIndex-1))+"[.ix]"+"; guardamos valor de retorno (genCodigo)");
 		}else{
-			salida.add("MOVE #0,"+"#-"+(12+numIni)+"[.ix]"+"; valor de retorno 0 (genCodigo)");
+			salida.add("MOVE #0,"+"#-"+(12+numIni.get(numIniIndex-1))+"[.ix]"+"; valor de retorno 0 (genCodigo)");
 
 		}
 		
-		for(int i=0; i<numIni;i++){ //sacamos variables locales
+		for(int i=0; i<numIni.get(numIniIndex-1);i++){ //sacamos variables locales
 			salida.add("DEC .sp"+"; sacar variables locales (genCodigo)");
 		}
 		
@@ -435,7 +511,7 @@ public void genCodigo(int numInst )
 			salida.add("DEC .sp"+"; sacamos param (genCodigo)");
 		}
 		
-		salida.add("MOVE .a,"+getOperando(instAF.getRes().getDescriptDir())+"; guardamos de A al que recibe return (genCodigo)");
+		salida.add("MOVE .a,"+getOperando(instAF.getRes().getDescriptDir(),instAF.getRes().getLex())+"; guardamos de A al que recibe return (genCodigo)");
 
 		numParam=0;
 		
@@ -447,25 +523,31 @@ public void genCodigo(int numInst )
 		
 	}else if (inst instanceof InsIfGoto){
 		InsIfGoto instIF=(InsIfGoto)inst;
-		salida.add("CMP "+getOperando(instIF.getOp1().getDescriptDir())+","+getOperando(instIF.getOp2().getDescriptDir())+"; comparacion del salto (genCodigo)");
+		salida.add("CMP "+getOperando(instIF.getOp1().getDescriptDir(),instIF.getOp1().getLex())+","+getOperando(instIF.getOp2().getDescriptDir(),instIF.getOp2().getLex())+"; comparacion del salto (genCodigo)");
 		if ("=".equals(instIF.getOpRel())) salida.add("BZ /"+instIF.getDir());
 		else if ("!=".equals(instIF.getOpRel())) salida.add("BNZ /"+instIF.getDir());
 
 	}else if (inst instanceof InsIni){
 		InsIni instIni=(InsIni)inst;
 		salida.add("PUSH #"+instIni.getValorIni()+"; variable local (genCodigo)");
-		numIni++;
+		numIni.set(numIniIndex-1,numIni.get(numIniIndex-1)+1);
 		
 	}
 	
 }
 
-private String getOperando(LugarRM l){
+private String getOperando(LugarRM l,String lexema){
 	if (l.estaEnRegistro()){
 		return ".r"+l.getDescriptDirReg();
 	}else {
 		salida.add("MOVE .sp,.ix");
-		return "#-"+(l.getDescriptDirMem()+1)+"[.ix]";
+		int prof=ts.busquedaCompletaProfundidad(lexema);
+		int despl=0;
+		for (int i=numIniIndex-1;i>numIniIndex-1-prof;i--){
+			despl+=numIni.get(i);
+		}
+		despl+=l.getDescriptDirMem();
+		return "#-"+(despl+1)+"[.ix]";
 	}
 }
 
@@ -477,6 +559,40 @@ public boolean generarCodigoFinal(){
 	for (int i=0;i<entrada.size();i++){
 		genCodigo(i);
 	}
+	
+	ArrayList<String> insDelMain= new ArrayList<String>();
+	
+	
+	boolean mainEncontrado=false;
+	int posMain=0;
+	while (!mainEncontrado && posMain<salida.size()){
+		if (salida.get(posMain).startsWith("; comienzoFunmain")){
+			mainEncontrado=true;
+		}
+		posMain++;
+	}
+	if (!mainEncontrado) return false;
+	
+	posMain--;
+	boolean mainFinEncontrado=false;
+	while (!mainFinEncontrado&& posMain<salida.size()){
+		
+		if (salida.get(posMain).startsWith("finFunmain")){
+			mainFinEncontrado=true;
+		}
+		String delMain =salida.get(posMain);
+		insDelMain.add(delMain);
+		salida.remove(posMain);
+		
+		
+	}
+	if (!mainFinEncontrado) return false;
+	
+	salida.addAll(0,insDelMain);
+	
+	
+	
+	
 	salida.add(0,"org 0");
 	salida.add("end");
 	return true;
