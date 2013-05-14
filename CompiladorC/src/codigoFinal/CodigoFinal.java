@@ -438,7 +438,8 @@ public void genCodigo(int numInst )
 					// ESTA MALS
 					//salida.add("INC "+getOperando(lugarX)+","+getOperando(lugarZ)+"; incremento  (genCodigo)");
 				}else if (op.equals("-")){
-					salida.add("NEG "+getOperando(lugarX,nombreY.getLex())+"; cambioSigno  (genCodigo)");
+					salida.add("MOVE .r"+regY+",.r"+regX);
+					salida.add("NEG .r"+regX+"; cambioSigno  (genCodigo)");
 				}else if (op.equals("*")){
 					//salida.add("MOVE .a,"+getOperando(lugarX) ); 
 				}else if (op.equals("&")){
@@ -447,10 +448,10 @@ public void genCodigo(int numInst )
 			}
 			else 
 			{ //hay operando 2 (Z), operadores binarios
-				LugarRM lugarZ= nombreZ.getDescriptDir();
+				int regZ = obtenLugar(instC.getOp2(), numInst);
 				if (op.equals("+")){
-					salida.add("ADD "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; suma  (genCodigo)");
-					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()) );
+					salida.add("ADD "+".r"+regY+",r"+regZ+"; suma  (genCodigo)");
+					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("-")){
 					salida.add("SUB "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; resta  (genCodigo)");
 					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()) );

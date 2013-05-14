@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -30,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -56,6 +58,7 @@ public class ClasePrincipal extends JFrame {
 	
 	JTextArea  textoCodigo;
 	JTextPane texto3Dir,textoError,textoFinal;
+	JPanel num3Dir,numFinal;
 	
 	ContenedorTS cuadroTS;
 	
@@ -114,6 +117,14 @@ public class ClasePrincipal extends JFrame {
 		textoError =new JTextPane();
 		texto3Dir =new JTextPane();
 		textoFinal =new JTextPane();
+		
+		num3Dir=new JPanel();
+		numFinal=new JPanel();
+		BoxLayout bl3Dir = new BoxLayout(num3Dir,BoxLayout.Y_AXIS);
+		BoxLayout blFinal = new BoxLayout(numFinal,BoxLayout.Y_AXIS);
+		num3Dir.setLayout(bl3Dir);
+		numFinal.setLayout(blFinal);
+		
 		//textoTS =new JTextArea();
 		cuadroTS = new ContenedorTS();
 		
@@ -130,8 +141,16 @@ public class ClasePrincipal extends JFrame {
 		panelCodigo.add(infoCodigo,BorderLayout.NORTH);
 		panelCodigo.add(new JScrollPane(textoCodigo),BorderLayout.CENTER);
 		
-		panelSalida.add(texto3Dir);
-		panelSalida.add(textoFinal);
+		
+		JPanel panel3Dir= new JPanel(new BorderLayout());
+		JPanel panelFinal= new JPanel(new BorderLayout());
+		panel3Dir.add(texto3Dir,BorderLayout.CENTER);
+		panel3Dir.add(num3Dir,BorderLayout.WEST);
+		panelFinal.add(textoFinal,BorderLayout.CENTER);
+		panelFinal.add(numFinal,BorderLayout.WEST);
+		
+		panelSalida.add(panel3Dir);
+		panelSalida.add(panelFinal);
 		
 		panelBotones.add(botonCargar);
 		panelBotones.add(botonCompleto);
@@ -186,10 +205,12 @@ public class ClasePrincipal extends JFrame {
 		texto3Dir.setText("");
 		SimpleAttributeSet attrs2 = new SimpleAttributeSet();
 		ArrayList<InstruccionIntermedio> lista3Dir=semantico.getCi().getLista();
+		
+		num3Dir.removeAll();
 		for(int i=0; i<lista3Dir.size();i++){
 	
 			
-			
+			num3Dir.add(new JLabel(String.valueOf(i)+" "));
 		
 			try {
 				texto3Dir.getStyledDocument().insertString(texto3Dir.getStyledDocument().getLength(), lista3Dir.get(i).toString()+"\n", attrs2);
@@ -207,10 +228,13 @@ public class ClasePrincipal extends JFrame {
 		codFinal=new CodigoFinal(TS,lista3Dir);
 		codFinal.generarCodigoFinal();
 		ArrayList<String> listaFinal = codFinal.getSalida(); 
+		
+		numFinal.removeAll();
+		
 		for(int i=0; i<listaFinal.size();i++){
 	
 			
-			
+			num3Dir.add(new JLabel(String.valueOf(i)+" "));
 		
 			try {
 				textoFinal.getStyledDocument().insertString(textoFinal.getStyledDocument().getLength(), listaFinal.get(i).toString()+"\n", attrs2);
