@@ -453,17 +453,17 @@ public void genCodigo(int numInst )
 					salida.add("ADD "+".r"+regY+",r"+regZ+"; suma  (genCodigo)");
 					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("-")){
-					salida.add("SUB "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; resta  (genCodigo)");
-					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()) );
+					salida.add("SUB "+".r"+regY+",r"+regZ+"; resta (genCodigo)");
+					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("*")){
-					salida.add("MUL "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; multiplicacion  (genCodigo)");
-					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex()) );
+					salida.add("MUL "+".r"+regY+",r"+regZ+"; mult (genCodigo)");
+					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("&")){
 					// COMPROBAR!! TENEMOS DUDAS
 					// salida.add("MOVE .a,"+getOperando(lugarX) );  
 				}
 				else if (op.equals(">")){
-					salida.add("CMP "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; mayor  (genCodigo)");
+					salida.add("CMP "+".r"+regY+",r"+regZ+"; comparacion mayor  (genCodigo)");
 					salida.add("BP $2 ; salta compZero"); 
 					salida.add("BR $2 ; salta asig0");
 					//compZero
@@ -474,7 +474,7 @@ public void genCodigo(int numInst )
 					//asig1
 					salida.add("MOVE #1,.a ; es asig1");
 					//fin
-					salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex())+" ; esto es fin");
+					salida.add("MOVE .a,.r"+regX +" ; esto es fin");
 
 					
 					/* otra alternativa que no funciona porque la division de numeros negativos devuelve siempre 0 ??¿¿¿
@@ -494,7 +494,7 @@ public void genCodigo(int numInst )
 				}
 				else if (op.equals(">="))
 				{
-						salida.add("CMP "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; mayor igual  (genCodigo)");
+						salida.add("CMP "+".r"+regY+",r"+regZ+"; comparacion mayor-igual  (genCodigo)");
 						salida.add("BP $6 ; salta asig1"); 
 						salida.add("BR $1 ; salta asig0");
 						//asig0
@@ -503,12 +503,12 @@ public void genCodigo(int numInst )
 						//asig1
 						salida.add("MOVE #1,.a ; es asig1");
 						//fin
-						salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex())+" ; esto es fin");
+						salida.add("MOVE .a,.r"+regX +" ; esto es fin");
 				}
 
 				else if (op.equals("<"))
 				{
-						salida.add("CMP "+getOperando(lugarX,nombreY.getLex())+","+getOperando(lugarZ,nombreZ.getLex())+"; menor  (genCodigo)");
+						salida.add("CMP "+".r"+regY+",r"+regZ+"; comparacion menor  (genCodigo)");
 						salida.add("BN $2 ; salta compZero"); 
 						salida.add("BR $2 ; salta asig0");
 						//compZero
@@ -519,7 +519,7 @@ public void genCodigo(int numInst )
 						//asig1
 						salida.add("MOVE #1,.a ; es asig1");
 						//fin
-						salida.add("MOVE .a,"+getOperando(lugarX,nombreX.getLex())+" ; esto es fin");
+						salida.add("MOVE .a,.r"+regX +" ; esto es fin");
 				}
 
 				else if (op.equals("<="))
@@ -576,7 +576,7 @@ public void genCodigo(int numInst )
 		InsCall instF=(InsCall)inst;
 		salida.add("MOVE .sp,.ix"); //Metiendo los parametros de llamada
 		for (int i=0;i<numParam;i++){
-			salida.add("PUSH "+getOperando(parametros.get(i).getDescriptDir(),parametros.get(i).getLex())+"; param (genCodigo)");
+			salida.add("PUSH "+getOperando(parametros.get(i))+"; param (genCodigo)");
 		}
 		parametros= new ArrayList<EntradaTabla>(); //limpiamos params, pues ya los hemos usado.
 		
@@ -595,7 +595,7 @@ public void genCodigo(int numInst )
 		
 	}else if (inst instanceof InsAsigValor){
 		InsAsigValor instAV=(InsAsigValor)inst;
-		salida.add("MOVE #"+instAV.getValor()+","+getOperando(instAV.getRes().getDescriptDir(),instAV.getRes().getLex())+"; valor directo (genCodigo)");
+		salida.add("MOVE #"+instAV.getValor()+","+getOperando(instAV.getRes())+"; valor directo (genCodigo)");
 		
 	}else if (inst instanceof InsReturn){
 		InsReturn instR=(InsReturn)inst;
