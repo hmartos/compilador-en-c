@@ -26,7 +26,7 @@ char caracter;
 	@Override
 	public Object getAtributo() {
 		// TODO Auto-generated method stub
-		return null;
+		return caracter;
 	}
 	
 	/*Para la gramatica usamos el equals. No usar el equals para
