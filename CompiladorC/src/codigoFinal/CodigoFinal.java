@@ -15,6 +15,7 @@ import codigoIntermadio.InsIni;
 import codigoIntermadio.InsParam;
 import codigoIntermadio.InsPrintf;
 import codigoIntermadio.InsReturn;
+import codigoIntermadio.InsScanf;
 import codigoIntermadio.InsTextoDirecto;
 import codigoIntermadio.InstruccionIntermedio;
 
@@ -296,19 +297,31 @@ public class CodigoFinal {
 private int liberarRegOcupado(int numInst){
 	int registro=-1;
 	int i=0;
+	
+	InstruccionIntermedio inst= entrada.get(numInst);
+	
+	//si hay alguno actualizado cogemos ese.
 	while (registro==-1 &&i<descriptReg.size()){
 		boolean actualizado=true;
 		for (Iterator<EntradaTabla> it=descriptReg.get(i).iterator();it.hasNext();){
 			actualizado=actualizado&&it.next().getDescriptDir().isActualizadoReg();
 		}
-		if (actualizado) registro=i;
+		if (actualizado){
+			if (inst instanceof InsCuarteto){
+				InsCuarteto instC= (InsCuarteto) inst;
+				if (i!=instC.getRes().getDescriptDir().getDescriptDirReg()
+						&& i!=instC.getOp1().getDescriptDir().getDescriptDirReg()
+						&&(instC.getOp2()==null || i!=instC.getOp2().getDescriptDir().getDescriptDirReg()))
+					registro=i;
+			}else registro=i;
+		}
 		i++;
 	}
 	
 	if (registro!=-1){
 		liberarRegistro(registro);
 		return registro;
-	}
+	} // si no miramos el siguiente "que tarde mas en usarse"
 	else{
 		i=0;
 		while (registro==-1 &&i<descriptReg.size()){
@@ -316,17 +329,47 @@ private int liberarRegOcupado(int numInst){
 			for (Iterator<EntradaTabla> it=descriptReg.get(i).iterator();it.hasNext();){
 				seUsa=seUsa||seUsa(it.next(), numInst, 5);
 			}
-			if (!seUsa)registro=i;
+			if (!seUsa){
+				if (inst instanceof InsCuarteto){
+					InsCuarteto instC= (InsCuarteto) inst;
+					if (i!=instC.getRes().getDescriptDir().getDescriptDirReg()
+							&& i!=instC.getOp1().getDescriptDir().getDescriptDirReg()
+							&&(instC.getOp2()==null || i!=instC.getOp2().getDescriptDir().getDescriptDirReg()))
+						registro=i;
+				}else registro=i;
+			}
+			i++;
 		}
 		if (registro!=-1) {
 			liberarRegistro(registro);
 			return registro;
-		}
+		}// si no el registro 0.
 		else {
-			liberarRegistro(0);
-			return 0;
+			
+
+			i=0;
+			while (registro==-1 &&i<descriptReg.size()){
+			
+			
+				if (inst instanceof InsCuarteto){
+					InsCuarteto instC= (InsCuarteto) inst;
+					if (i!=instC.getRes().getDescriptDir().getDescriptDirReg()
+							&& i!=instC.getOp1().getDescriptDir().getDescriptDirReg()
+							&& (instC.getOp2()==null ||i!=instC.getOp2().getDescriptDir().getDescriptDirReg()))
+						registro=i;
+				}else registro=i;
+			i++;
+			}
+			
+			if (registro!=-1){
+				liberarRegistro(registro);
+				return registro;
+			}
 		}
 	}
+	
+	liberarRegistro(0);
+	return 0;
 	
 }
 	/*
@@ -393,7 +436,7 @@ public void genCodigo(int numInst )
 	}
 	if (inst.getEtiqueta()!=null)
 	{
-		salida.add(inst.getEtiqueta()+": nop"); 
+		
 		
 		if (inst.getEtiqueta().startsWith("openAmbito")){
 			//liberamos los registros.
@@ -419,9 +462,13 @@ public void genCodigo(int numInst )
 			numIni.remove(numIniIndex-1);
 			numIniIndex--;
 			
+		}else if (inst.getEtiqueta().startsWith("comienzoBucle")){
+			actualizarMem();
+		
+		}else if (inst.getEtiqueta().startsWith("finBucle")){
+			actualizarMem();
 		}
-		
-		
+		salida.add(inst.getEtiqueta()+": nop"); 
 		/*
 		if (inst.getEtiqueta().startsWith("finFun"))
 		{
@@ -505,6 +552,12 @@ public void genCodigo(int numInst )
 					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("*")){
 					salida.add("MUL "+".r"+regY+",.r"+regZ+"; mult (genCodigo)");
+					salida.add("MOVE .a,.r"+regX );
+				}else if (op.equals("/")){
+					salida.add("DIV "+".r"+regY+",.r"+regZ+"; div (genCodigo)");
+					salida.add("MOVE .a,.r"+regX );
+				}else if (op.equals("%")){
+					salida.add("MOD "+".r"+regY+",.r"+regZ+"; mod (genCodigo)");
 					salida.add("MOVE .a,.r"+regX );
 				}else if (op.equals("&")){
 					// COMPROBAR!! TENEMOS DUDAS
@@ -647,9 +700,22 @@ public void genCodigo(int numInst )
 		
 	}else if (inst instanceof InsAsigValor){
 		InsAsigValor instAV=(InsAsigValor)inst;
-		salida.add("MOVE .sp,.ix");
-		salida.add("MOVE #"+instAV.getValor()+","+getOperando(instAV.getRes())+"; valor directo (genCodigo)");
 		instAV.getRes().getDescriptDir().setActualizadoReg(false);
+		AtributosTablaVariable att=(AtributosTablaVariable) instAV.getRes().getAtt();
+		salida.add("MOVE .sp,.ix");
+		
+		if (att.getTipo().equals("char")&&att.getDim()==0){	
+			//Si es un char
+			salida.add("MOVE #"+Integer.valueOf(instAV.getValor().charAt(0))+","+getOperando(instAV.getRes())+"; valor directo (genCodigo)");
+		}else if (att.getTipo().equals("int")&&att.getDim()==0){		
+			//Si es un entero
+			salida.add("MOVE #"+instAV.getValor()+","+getOperando(instAV.getRes())+"; valor directo (genCodigo)");
+		//numIni.set(numIniIndex-1,numIni.get(numIniIndex-1)+1);
+		}else{
+			salida.add("MOVE #"+Integer.valueOf(instAV.getValor().charAt(0))+","+getOperando(instAV.getRes())+"; valor directo (genCodigo)");
+		}
+		
+		
 		
 	}else if (inst instanceof InsReturn){
 		InsReturn instR=(InsReturn)inst;
@@ -693,26 +759,35 @@ public void genCodigo(int numInst )
 	
 	}else if (inst instanceof InsAsigFun){
 		InsAsigFun instAF=(InsAsigFun)inst;
+		
+		instAF.getRes().getDescriptDir().setActualizadoReg(false);
+
 		salida.add("POP .a"+"; guardamos retorno en A (genCodigo)");
 		
 		for(int i=0; i<numParam;i++){ //sacamos parametros de llamada
 			salida.add("DEC .sp"+"; sacamos param (genCodigo)");
 		}
 		
+		//aqui ya estamos en el sp del llamante.
+		salida.add("MOVE .sp,.ix");
+
 		salida.add("MOVE .a,"+getOperando(instAF.getRes())+"; guardamos de A al que recibe return (genCodigo)");
 
 		numParam=0;
-		instAF.getRes().getDescriptDir().setActualizadoReg(false);
 
 		
 		
 	}else if (inst instanceof InsGoto){
 		InsGoto instG=(InsGoto)inst;
+		actualizarMem();
 		salida.add("BR /"+instG.getDir());
 		
 	}else if (inst instanceof InsIfGoto){
 		InsIfGoto instIF=(InsIfGoto)inst;
+		salida.add("MOVE .sp,.ix");
+		actualizarMem();
 		salida.add("CMP "+getOperando(instIF.getOp1())+","+getOperando(instIF.getOp2())+"; comparacion del salto (genCodigo)");
+
 		if ("=".equals(instIF.getOpRel())) salida.add("BZ /"+instIF.getDir());
 		else if ("!=".equals(instIF.getOpRel())) salida.add("BNZ /"+instIF.getDir());
 
@@ -725,6 +800,7 @@ public void genCodigo(int numInst )
 		InsPrintf instPrintf=(InsPrintf)inst;
 		//mirar de la entrada de la tabla el tipo y según el tipo poner la instucción
 		AtributosTablaVariable att=(AtributosTablaVariable) instPrintf.getEXPlugar().getAtt();
+		salida.add("MOVE .sp,.ix");
 		if (att.getTipo().equals("char")&&att.getDim()==0){	
 			//Si es un char
 			salida.add("WRCHAR "+getOperando(instPrintf.getEXPlugar())+"; imprimiendo char (genCodigo)");
@@ -734,6 +810,22 @@ public void genCodigo(int numInst )
 		//numIni.set(numIniIndex-1,numIni.get(numIniIndex-1)+1);
 		}else{
 			salida.add("WRINT "+getOperando(instPrintf.getEXPlugar())+"; imprimiendo valor? (genCodigo)");
+		}
+	}else if (inst instanceof InsScanf){
+		InsScanf instScanf=(InsScanf)inst;
+		instScanf.getEXPlugar().getDescriptDir().setActualizadoReg(false);
+		//mirar de la entrada de la tabla el tipo y según el tipo poner la instucción
+		AtributosTablaVariable att=(AtributosTablaVariable) instScanf.getEXPlugar().getAtt();
+		salida.add("MOVE .sp,.ix");
+		if (att.getTipo().equals("char")&&att.getDim()==0){	
+			//Si es un char
+			salida.add("INCHAR "+getOperando(instScanf.getEXPlugar())+"; leyendo char (genCodigo)");
+		}else if (att.getTipo().equals("int")&&att.getDim()==0){		
+			//Si es un entero
+			salida.add("ININT "+getOperando(instScanf.getEXPlugar())+"; leyendo int (genCodigo)");
+		//numIni.set(numIniIndex-1,numIni.get(numIniIndex-1)+1);
+		}else{
+			salida.add("ININT "+getOperando(instScanf.getEXPlugar())+"; leyendo valor? (genCodigo)");
 		}
 	}else if (inst instanceof InsTextoDirecto){
 		salida.add(((InsTextoDirecto)inst).getTexto());

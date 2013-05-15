@@ -1,0 +1,113 @@
+org 0
+varGlobal0Cadena0:RES 1
+varGlobal0Cadena1:RES 1
+varGlobal0RetMain:RES 1
+varGlobal0Cadena4:RES 1
+varGlobal0Cadena3:RES 1
+varGlobal0Cadena2:RES 1
+; 0RetMain:=0
+MOVE #0,/varGlobal0RetMain; valor directo (genCodigo)
+MOVE .sp,.ix
+; call comienzoFunmain 0
+MOVE .sp,.ix
+PUSH #0; valor de retorno (genCodigo)
+MOVE .sp,.ix
+CALL /comienzoFunmain
+; 0RetMain:=return
+POP .a; guardamos retorno en A (genCodigo)
+MOVE .sp,.ix
+MOVE .a,/varGlobal0RetMain; guardamos de A al que recibe return (genCodigo)
+; 0Cadena0:=70
+MOVE #55,/varGlobal0Cadena0; valor directo (genCodigo)
+MOVE .sp,.ix
+; printf 0Cadena0
+MOVE .sp,.ix
+WRCHAR /varGlobal0Cadena0; imprimiendo char (genCodigo)
+; 0Cadena1:=105
+MOVE #49,/varGlobal0Cadena1; valor directo (genCodigo)
+MOVE .sp,.ix
+; printf 0Cadena1
+MOVE .sp,.ix
+WRCHAR /varGlobal0Cadena1; imprimiendo char (genCodigo)
+; 0Cadena2:=110
+MOVE #49,/varGlobal0Cadena2; valor directo (genCodigo)
+MOVE .sp,.ix
+; printf 0Cadena2
+MOVE .sp,.ix
+WRCHAR /varGlobal0Cadena2; imprimiendo char (genCodigo)
+; 0Cadena3:=58
+MOVE #53,/varGlobal0Cadena3; valor directo (genCodigo)
+MOVE .sp,.ix
+; printf 0Cadena3
+MOVE .sp,.ix
+WRCHAR /varGlobal0Cadena3; imprimiendo char (genCodigo)
+; 0Cadena4:=32
+MOVE #51,/varGlobal0Cadena4; valor directo (genCodigo)
+MOVE .sp,.ix
+; printf 0Cadena4
+MOVE .sp,.ix
+WRCHAR /varGlobal0Cadena4; imprimiendo char (genCodigo)
+; printf 0RetMain
+MOVE .sp,.ix
+WRINT /varGlobal0RetMain; imprimiendo int (genCodigo)
+; halt
+halt
+comienzoFunfun: nop
+openAmbito0: nop
+closeAmbito0: nop
+; return 
+MOVE .sp,.ix
+MOVE #0,#-2[.ix]; valor de retorno 0 (genCodigo)
+RET 
+finFunfun: nop
+comienzoFunmain: nop
+openAmbito3: nop
+; ini 0
+PUSH #0; variable local (genCodigo)
+; ini 0
+PUSH #0; variable local (genCodigo)
+; t0:=0
+MOVE #0,#-1[.ix]; valor directo (genCodigo)
+MOVE .sp,.ix
+; t3:=0
+MOVE #0,#-2[.ix]; valor directo (genCodigo)
+MOVE .sp,.ix
+; if(t0=t3) goto elseIf0
+MOVE .sp,.ix
+CMP #-1[.ix],#-2[.ix]; comparacion del salto (genCodigo)
+BZ /elseIf0
+openAmbito1: nop
+; ini 0
+PUSH #0; variable local (genCodigo)
+; t1:=t
+MOVE #116,#-1[.ix]; valor directo (genCodigo)
+MOVE .sp,.ix
+; printf t1
+MOVE .sp,.ix
+WRCHAR #-1[.ix]; imprimiendo char (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+closeAmbito1: nop
+; goto finIf0
+BR /finIf0
+elseIf0: nop
+openAmbito2: nop
+; ini 0
+PUSH #0; variable local (genCodigo)
+; t2:=b
+MOVE #98,#-1[.ix]; valor directo (genCodigo)
+MOVE .sp,.ix
+; printf t2
+MOVE .sp,.ix
+WRCHAR #-1[.ix]; imprimiendo char (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+closeAmbito2: nop
+finIf0: nop
+DEC .sp; sacar variables locales (genCodigo)
+DEC .sp; sacar variables locales (genCodigo)
+closeAmbito3: nop
+; return 
+MOVE .sp,.ix
+MOVE #0,#-2[.ix]; valor de retorno 0 (genCodigo)
+RET 
+finFunmain: nop
+end

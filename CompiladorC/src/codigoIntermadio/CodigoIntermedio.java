@@ -130,7 +130,7 @@ public class CodigoIntermedio {
 				EntradaTabla etChar=ts.añadirAtributos("0Cadena"+i, new AtributosTablaVariable("char", 0, null));
 				InsAsigValor asigChar= new InsAsigValor();
 				asigChar.setRes(etChar);
-				asigChar.setValor(String.valueOf(Integer.valueOf(despedida.charAt(i))));
+				asigChar.setValor(String.valueOf(despedida.charAt(i)));
 				llamadaMain.add(asigChar);
 				
 				InsPrintf printChar= new InsPrintf();
