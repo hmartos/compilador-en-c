@@ -15,8 +15,11 @@ import codigoIntermadio.InsIni;
 import codigoIntermadio.InsParam;
 import codigoIntermadio.InsPrintf;
 import codigoIntermadio.InsReturn;
+import codigoIntermadio.InsTextoDirecto;
 import codigoIntermadio.InstruccionIntermedio;
 
+import tablaSimbolos.Atributo;
+import tablaSimbolos.AtributosTablaVariable;
 import tablaSimbolos.EntradaTabla;
 import tablaSimbolos.TablaAmbito;
 import tablaSimbolos.TablaSimbolos;
@@ -57,13 +60,7 @@ public class CodigoFinal {
 	
 	public CodigoFinal(TablaSimbolos ts,	ArrayList<InstruccionIntermedio> entrada){
 		this.ts=ts;
-		//borrar ambitos vacios del global (por los prototipos).
-		for (int i=0;i<ts.getGlobal().contenido.size();){
-			TablaAmbito t= ts.getGlobal().contenido.get(i);
-			if (t.tabla.size()==0){
-				ts.getGlobal().contenido.remove(t);
-			}else i++;
-		}
+		
 		ts.setActual(ts.getGlobal());
 		this.entrada=entrada;
 		salida=new ArrayList<String>();
@@ -120,7 +117,7 @@ public class CodigoFinal {
 	
 	
 	
-	public int obtenLugar(EntradaTabla t,int numInst){
+	private int obtenLugar(EntradaTabla t,int numInst){
 		//si ya está en registro devolvemos ese registro directamente
 		if (t.getDescriptDir().estaEnRegistro()) return t.getDescriptDir().getDescriptDirReg();
 		else {
@@ -265,6 +262,37 @@ public class CodigoFinal {
 	}
 	
 	*/
+	
+	private void liberarRegistro(int registro){
+		for (Iterator<EntradaTabla> it=descriptReg.get(registro).iterator();it.hasNext();){
+			EntradaTabla et=it.next();
+			if (!et.getDescriptDir().isActualizadoReg()){
+				salida.add("MOVE " +".r"+registro+","+getOperandoMem(et)+"; store para liberar (liberarRegistro)");
+			}
+			et.getDescriptDir().setDescriptDirReg(-1);
+			et.getDescriptDir().setActualizadoReg(true);
+		}
+		descriptReg.get(registro).clear();
+		
+		
+	}
+
+
+
+	private void actualizarMem() {
+		for(int registro=0;registro<descriptReg.size();registro++){
+			liberarRegistro(registro);
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 private int liberarRegOcupado(int numInst){
 	int registro=-1;
 	int i=0;
@@ -277,7 +305,10 @@ private int liberarRegOcupado(int numInst){
 		i++;
 	}
 	
-	if (registro!=-1) return registro;
+	if (registro!=-1){
+		liberarRegistro(registro);
+		return registro;
+	}
 	else{
 		i=0;
 		while (registro==-1 &&i<descriptReg.size()){
@@ -288,27 +319,17 @@ private int liberarRegOcupado(int numInst){
 			if (!seUsa)registro=i;
 		}
 		if (registro!=-1) {
-			for (Iterator<EntradaTabla> it=descriptReg.get(registro).iterator();it.hasNext();){
-				EntradaTabla et=it.next();
-				salida.add("MOVE " +".r"+registro+","+et.getDescriptDir().getDescriptDirMem()+"; store para liberar (liberarRegOcupado)");
-				et.getDescriptDir().setDescriptDirReg(-1);
-				et.getDescriptDir().setActualizadoReg(true);
-			}
+			liberarRegistro(registro);
 			return registro;
 		}
 		else {
-			for (Iterator<EntradaTabla> it=descriptReg.get(0).iterator();it.hasNext();){
-				EntradaTabla et=it.next();
-				salida.add("MOVE " +".r"+0+","+et.getDescriptDir().getDescriptDirMem()+"; store para liberar (liberarRegOcupado)");
-				et.getDescriptDir().setDescriptDirReg(-1);
-				et.getDescriptDir().setActualizadoReg(true);
-			}
+			liberarRegistro(0);
 			return 0;
 		}
 	}
 	
 }
-	
+	/*
 private boolean operaMemoria(int numInst){
 	
 
@@ -358,7 +379,7 @@ private boolean operaMemoria(int numInst){
 	}
 	return false;
 }
-
+*/
 	
 public void genCodigo(int numInst )
 {
@@ -366,11 +387,42 @@ public void genCodigo(int numInst )
 	
 	InstruccionIntermedio inst=entrada.get(numInst);
 	
-	salida.add("; "+inst.toString());
+	if (!inst.getClass().equals(InstruccionIntermedio.class)){
+		salida.add("; "+inst.toString());
 	//Por comodidad ponemos la etiqueta con un nop, se podria añadir donde correspondiera al inicio de cada instruccion.
+	}
 	if (inst.getEtiqueta()!=null)
 	{
 		salida.add(inst.getEtiqueta()+": nop"); 
+		
+		if (inst.getEtiqueta().startsWith("openAmbito")){
+			//liberamos los registros.
+			actualizarMem();
+			
+			numIni.add(0);
+			numIniIndex++;
+			ts.setActual(ts.getActual().contenido.get(numAmbitos.get(numAmbitos.size()-1)));
+			numAmbitos.set(numAmbitos.size()-1,numAmbitos.get(numAmbitos.size()-1)+1);
+			numAmbitos.add(0);
+			
+		}else if (inst.getEtiqueta().startsWith("closeAmbito")){
+			//liberamos los registros.
+			actualizarMem();
+			
+			for(int i=0; i<numIni.get(numIniIndex-1);i++){ //sacamos variables locales
+				salida.add("DEC .sp"+"; sacar variables locales (genCodigo)");
+			}
+			numAmbitos.remove(numAmbitos.size()-1);
+			ts.setActual(ts.getActual().contenedor);
+			
+			
+			numIni.remove(numIniIndex-1);
+			numIniIndex--;
+			
+		}
+		
+		
+		/*
 		if (inst.getEtiqueta().startsWith("finFun"))
 		{
 			numIni.remove(numIniIndex-1);
@@ -395,18 +447,10 @@ public void genCodigo(int numInst )
 			
 		}else if(inst.getEtiqueta().startsWith("finBucle")){
 			
-			for(int i=0; i<numIni.get(numIniIndex-1);i++){ //sacamos variables locales
-				salida.add("DEC .sp"+"; sacar variables locales (genCodigo)");
-			}
-			numAmbitos.remove(numAmbitos.size()-1);
-			ts.setActual(ts.getActual().contenedor);
 			
-			
-			numIni.remove(numIniIndex-1);
-			numIniIndex--;
 			
 		}
-	
+	*/
 	}
 	
 	
@@ -415,6 +459,8 @@ public void genCodigo(int numInst )
 	//Instrucciones insCuarteto, tipo : x=y,  x=y op,  x=y op z;
 	if (inst instanceof InsCuarteto)
 	{
+		salida.add("MOVE .sp,.ix");
+
 		InsCuarteto instC=(InsCuarteto) inst;
 		int regX= obtenLugar(instC.getRes(),numInst);
 		int regY= obtenLugar(instC.getOp1(),numInst);
@@ -422,7 +468,8 @@ public void genCodigo(int numInst )
 		
 		String op=((InsCuarteto) inst).getOpRel();
 		
-
+		//en cualquier operacion de desactualiza el registro x
+		instC.getRes().getDescriptDir().setActualizadoReg(false);
 		
 		if (op==null){//asignacion simple (x=y)
 			salida.add("MOVE .r"+regY+",.r"+regX +"; asignacion directa");
@@ -575,6 +622,9 @@ public void genCodigo(int numInst )
 		numParam++;
 	
 	}else if (inst instanceof InsCall){
+		//actualizando la memoria con los registros en uso.
+		actualizarMem();
+		
 		InsCall instF=(InsCall)inst;
 		salida.add("MOVE .sp,.ix"); //Metiendo los parametros de llamada
 		for (int i=0;i<numParam;i++){
@@ -583,34 +633,57 @@ public void genCodigo(int numInst )
 		parametros= new ArrayList<EntradaTabla>(); //limpiamos params, pues ya los hemos usado.
 		
 		salida.add("PUSH #0"+"; valor de retorno (genCodigo)"); //valor retorno
-		for (int i=0;i<descriptReg.size();i++){ //Salvaguarda registros
+		/*for (int i=0;i<descriptReg.size();i++){ //Salvaguarda registros
 			salida.add("PUSH .r"+i+"; salvar registros (genCodigo)");
-		}
+		}*/
 		salida.add("MOVE .sp,.ix");
 		salida.add("CALL /"+instF.getDir());
 		
-		for (int i=descriptReg.size()-1;i>=0;i--){ //Recuperamos registros
+		/*for (int i=descriptReg.size()-1;i>=0;i--){ //Recuperamos registros
 			salida.add("POP .r"+i+"; recuperar registros (genCodigo)");
-		}
+		}*/
 		
 		
 		
 	}else if (inst instanceof InsAsigValor){
 		InsAsigValor instAV=(InsAsigValor)inst;
+		salida.add("MOVE .sp,.ix");
 		salida.add("MOVE #"+instAV.getValor()+","+getOperando(instAV.getRes())+"; valor directo (genCodigo)");
+		instAV.getRes().getDescriptDir().setActualizadoReg(false);
 		
 	}else if (inst instanceof InsReturn){
 		InsReturn instR=(InsReturn)inst;
 		
+		int busqNumInst=numInst+1;
+		InstruccionIntermedio busq=entrada.get(busqNumInst);
+		//int numAmbitosCerrar=0;
+		while (busq.getEtiqueta()==null||!busq.getEtiqueta().startsWith("finFun")){
+			//no es necesario contar los ambitos porque las funciones siempre están en el ambito 0
+			//if (busq.getEtiqueta()!=null&&busq.getEtiqueta().startsWith("closeAmbito")) numAmbitosCerrar++;
+			//if (busq.getEtiqueta()!=null&&busq.getEtiqueta().startsWith("openAmbito")) numAmbitosCerrar--;
+			
+			busqNumInst++;
+			busq=entrada.get(busqNumInst);
+			
+		}
+		
+		int desplHastaSpFun=0;
+		for (int i=numIniIndex-1;i>0;i--){ //las funciones siempre están en el ambito 0.
+			desplHastaSpFun+=numIni.get(i);
+		}
+		
+		//liberamos los registros.
+		actualizarMem();
+		
 		salida.add("MOVE .sp,.ix");
 		if (instR.getValorRet()!=null){ //Metemos el valor de retorno en la posicion
-			salida.add("MOVE "+getOperando(instR.getValorRet())+",#-"+(12+numIni.get(numIniIndex-1))+"[.ix]"+"; guardamos valor de retorno (genCodigo)");
+			salida.add("MOVE "+getOperando(instR.getValorRet())+",#-"+(2+desplHastaSpFun)+"[.ix]"+"; guardamos valor de retorno (genCodigo)");
 		}else{
-			salida.add("MOVE #0,"+"#-"+(12+numIni.get(numIniIndex-1))+"[.ix]"+"; valor de retorno 0 (genCodigo)");
+			salida.add("MOVE #0,"+"#-"+(2+desplHastaSpFun)+"[.ix]"+"; valor de retorno 0 (genCodigo)");
 
 		}
 		
-		for(int i=0; i<numIni.get(numIniIndex-1);i++){ //sacamos variables locales
+		for(int i=0; i<desplHastaSpFun+numIni.get(0);i++){ //sacamos variables locales de todos los ambitos anidados y tambien de la funcion.
 			salida.add("DEC .sp"+"; sacar variables locales (genCodigo)");
 		}
 		
@@ -629,7 +702,8 @@ public void genCodigo(int numInst )
 		salida.add("MOVE .a,"+getOperando(instAF.getRes())+"; guardamos de A al que recibe return (genCodigo)");
 
 		numParam=0;
-		
+		instAF.getRes().getDescriptDir().setActualizadoReg(false);
+
 		
 		
 	}else if (inst instanceof InsGoto){
@@ -650,20 +724,29 @@ public void genCodigo(int numInst )
 	}else if (inst instanceof InsPrintf){
 		InsPrintf instPrintf=(InsPrintf)inst;
 		//mirar de la entrada de la tabla el tipo y según el tipo poner la instucción
+		AtributosTablaVariable att=(AtributosTablaVariable) instPrintf.getEXPlugar().getAtt();
+		if (att.getTipo().equals("char")&&att.getDim()==0){	
 			//Si es un char
-			salida.add("WRCHAR #"+instPrintf.getEXPlugar()+"; variable local (genCodigo)");
+			salida.add("WRCHAR "+getOperando(instPrintf.getEXPlugar())+"; imprimiendo char (genCodigo)");
+		}else if (att.getTipo().equals("int")&&att.getDim()==0){		
 			//Si es un entero
-			salida.add("WRINT #"+instPrintf.getEXPlugar()+"; variable local (genCodigo)");
+			salida.add("WRINT "+getOperando(instPrintf.getEXPlugar())+"; imprimiendo int (genCodigo)");
 		//numIni.set(numIniIndex-1,numIni.get(numIniIndex-1)+1);
-		
+		}else{
+			salida.add("WRINT "+getOperando(instPrintf.getEXPlugar())+"; imprimiendo valor? (genCodigo)");
+		}
+	}else if (inst instanceof InsTextoDirecto){
+		salida.add(((InsTextoDirecto)inst).getTexto());
 	}
 	
 }
 
-private String getOperando(EntradaTabla et){
-	if (et.getDescriptDir().estaEnRegistro()){
-		return ".r"+et.getDescriptDir().getDescriptDirReg();
-	}else {
+
+
+
+
+private String getOperandoMem(EntradaTabla et){
+	if (et.getDescriptDir().getDescriptDirMem()!=-1){//esta en memoria, pila
 		salida.add("MOVE .sp,.ix");
 		int prof=ts.busquedaCompletaProfundidad(et.getLex());
 		int despl=0;
@@ -673,13 +756,72 @@ private String getOperando(EntradaTabla et){
 		despl+=et.getDescriptDir().getDescriptDirMem();
 		return "#-"+(despl+1)+"[.ix]"; //?? es +1??
 		//return "#-"+(despl)+"[.ix]";
+	
+	}else{ //es una variable global y tiene su etiqueta.
+		return "/"+et.getDescriptDir().getDescriptDirGlobal();
+		
+	}
+}
+
+
+
+private String getOperando(EntradaTabla et){
+	if (et.getDescriptDir().estaEnRegistro()){ //esta en registro
+		return ".r"+et.getDescriptDir().getDescriptDirReg();
+		
+	}else if (et.getDescriptDir().getDescriptDirMem()!=-1){//esta en memoria, pila
+		int prof=ts.busquedaCompletaProfundidad(et.getLex());
+		int despl=0;
+		for (int i=numIniIndex-1;i>numIniIndex-1-prof;i--){
+			despl+=numIni.get(i);
+		}
+		despl+=et.getDescriptDir().getDescriptDirMem();
+		return "#-"+(despl+1)+"[.ix]"; //?? es +1??
+		//return "#-"+(despl)+"[.ix]";
+	
+	}else{ //es una variable global y tiene su etiqueta.
+		return "/"+et.getDescriptDir().getDescriptDirGlobal();
+		
 	}
 }
 
 	
 public boolean generarCodigoFinal(){
 	
+	
+	
+	
+	//borrar ambitos vacios del global (por los prototipos).
+			for (int i=0;i<ts.getGlobal().contenido.size();){
+				TablaAmbito t= ts.getGlobal().contenido.get(i);
+				if (t.tabla.size()==0){
+					ts.getGlobal().contenido.remove(t);
+				}else i++;
+			}
+	
+	
+	
+	
+	
+	//lugar estatico para las variables globales.
+	
+	ArrayList<String> insVarGlobal= new ArrayList<String>();
 
+	
+	for (Iterator<EntradaTabla> it =ts.getGlobal().tabla.values().iterator();it.hasNext();){
+		EntradaTabla et= it.next();
+		Atributo att= et.getAtt();
+		if (att instanceof AtributosTablaVariable){
+			LugarRM l= new LugarRM(-1);
+			l.setDescriptDirGlobal("varGlobal"+et.getLex());
+			et.setDescriptDir(l);
+			insVarGlobal.add("varGlobal"+et.getLex()+":RES 1");
+		}
+	}
+	
+	
+	
+	
 	
 	for (int i=0;i<entrada.size();i++){
 		genCodigo(i);
@@ -688,10 +830,12 @@ public boolean generarCodigoFinal(){
 	ArrayList<String> insDelMain= new ArrayList<String>();
 	
 	
+	/* no hace falta pues ahora hacemos una llamada
+	//Poner el main el primero
 	boolean mainEncontrado=false;
 	int posMain=0;
 	while (!mainEncontrado && posMain<salida.size()){
-		if (salida.get(posMain).startsWith("; comienzoFunmain")){
+		if (salida.get(posMain).startsWith("comienzoFunmain")){
 			mainEncontrado=true;
 		}
 		posMain++;
@@ -713,10 +857,19 @@ public boolean generarCodigoFinal(){
 	}
 	if (!mainFinEncontrado) return false;
 	
-	salida.addAll(0,insDelMain);
+	*/
 	
 	
 	
+
+	
+	
+	
+	
+	//salida.addAll(0,insDelMain);
+	
+	
+	salida.addAll(0,insVarGlobal);
 	
 	salida.add(0,"org 0");
 	salida.add("end");

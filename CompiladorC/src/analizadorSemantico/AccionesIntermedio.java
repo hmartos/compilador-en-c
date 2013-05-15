@@ -11,6 +11,7 @@ import codigoIntermadio.InstruccionIntermedio;
 import acciones.*;
 import accionesEspecificas.AccionR15_1;
 import accionesEspecificas.AccionR3_2;
+import accionesEspecificas.CodigoR105_1;
 import accionesEspecificas.CodigoR105_4;
 import accionesEspecificas.CodigoR15_1;
 import accionesEspecificas.CodigoR3_2;
@@ -283,8 +284,7 @@ public class AccionesIntermedio {
 														//Creamos una lista nueva para el codigo
 														new AccionAsignar("codigo",new OperandoCrearArrayList()),
 														
-														//Asignamos la etiqueta else-ifX  al principio del bloque else.
-														new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("elseIf"),new OperandoGramatica(-1,"numIf"),"suma"),0),  
+														
 														
 														/*Se introducen como en una pila*/
 														
@@ -293,6 +293,9 @@ public class AccionesIntermedio {
 														
 														//Metemos el bloque de codigo else.
 														new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(1,"codigo"))), 
+														
+														//Metemos la etiqueta fin-ifX al final del codigo
+														new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("elseIf"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,null,0), 
 														
 														//Metemos la instruccion goto despues del bloque if (para cuando es true se salte el else)
 														new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("finIf"),new OperandoGramatica(-1,"numIf"),"suma"),null,null,null,0), 
@@ -305,7 +308,8 @@ public class AccionesIntermedio {
 														
 														/*bloque if
 														 * goto fin-if
-														 * etiqueta else-if: bloque else
+														 * etiqueta else-if:
+														 *  bloque else
 														 * etiqueta fin-if
 														 */
 														
@@ -324,9 +328,6 @@ public class AccionesIntermedio {
 													
 													//Creamos un nuevo numero para el bucle
 													new AccionAsignar("numBucle",new OperandoCrearBucleTemp()), 
-													
-													//Asignamos la etiqueta bucle-comienzo al principio del codigo de L_SENTENCIAS
-													new AccionAsignarEtiqueta(new OperandoGramatica(1,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),  
 													
 													
 													
@@ -348,7 +349,11 @@ public class AccionesIntermedio {
 													//Metemos el codigo de L_SENTENCIAS. 
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(1,"codigo"))), 
 													
-													/*etiqueta comienzo-bucle: bloque L_SENTENCIAS
+													//Metemos la etiqueta comienzo-bucle al final del codigo
+													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0), 
+													
+													/*etiqueta comienzo-bucle: 
+													 * bloque L_SENTENCIAS
 													 * codigo EXP
 													 * if (exp.lugar=1) goto comienzo-bucle
 													 * 
@@ -368,7 +373,7 @@ public class AccionesIntermedio {
 													
 													
 													/*Se introducen como en una pila*/
-													// Asignamos la etiqueta fin bucle
+													// introducimos la etiqueta fin bucle
 													new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("finBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),  
 													// goto comienzo-bucle
 													new AccionGenCodigo(new InsGoto(),null,new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,0),
@@ -389,8 +394,8 @@ public class AccionesIntermedio {
 													//Metemos el codigo de la EXP
 													new AccionAsignar("codigo",new OperacionAgregarALista(new OperandoGramatica(-1,"codigo"),new OperandoGramatica(2,"codigo"))),		
 													
-													//new AccionGenCodigo(new InstruccionIntermedio(),new OperacionHeredada(new OperandoDirecto("comienzo"),new OperandoGramatica(-1,"numBucle"),"suma"),null,null,null,null,0),
 													new AccionAsignarEtiqueta(new OperandoGramatica(2,"codigo"),new OperacionHeredada(new OperandoDirecto("comienzoBucle"),new OperandoGramatica(-1,"numBucle"),"suma"),0),
+													
 													/* etiqueta comienzo-bucle: codigo EXP
 													 * if (exp.lugar=0) goto fin-bucle
 													 * bloque L_SENTENCIAS
@@ -800,7 +805,7 @@ public class AccionesIntermedio {
 	/*104.2.  λ*/			{}
  								},
 /*105. REXP4 -> */{
-	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */			{},
+	/*105.1. TIPO_PRIMITIVO INDIRECCION  RDEFINICION */			{new CodigoR105_1()},
 	/*105.2.  EXP_SIN_IDEN REXP; */			{},
 	/*105.3.  MODIFICADOR L_MODIFICADORES RTIPO RDEFINICION */			{},
 	/*105.4.  iden REXP3_2 RDEFINICION  */			{new CodigoR105_4()},

@@ -53,11 +53,13 @@ public class CodigoR105_1 extends Accion {
 				
 				for (int i=0; i<listaLugar.size();i++){
 					String lexV=listaVar.get(i);
-					EntradaTabla et= ts.busquedaAmbito(lexV);
-					InsCuarteto cuarteto=new InsCuarteto();
-					cuarteto.setRes(et);
-					cuarteto.setOp1(listaLugar.get(i));
-					listaCodigo.add(cuarteto);
+					EntradaTabla et= ts.busquedaAmbito(lexV); //la acabamos de añadir asique será de ambito
+					if (listaLugar.get(i)!=null){
+						InsCuarteto cuarteto=new InsCuarteto();
+						cuarteto.setRes(et);
+						cuarteto.setOp1(listaLugar.get(i));
+						listaCodigo.add(cuarteto);
+					}
 				}
 				
 				atribActual.put("codigo", listaCodigo);
