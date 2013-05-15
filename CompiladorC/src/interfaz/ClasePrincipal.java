@@ -210,7 +210,7 @@ public class ClasePrincipal extends JFrame {
 		for(int i=0; i<lista3Dir.size();i++){
 	
 			
-			num3Dir.add(new JLabel(String.valueOf(i)+" "));
+			num3Dir.add(new JLabel(String.valueOf(i+1)+" "));
 		
 			try {
 				texto3Dir.getStyledDocument().insertString(texto3Dir.getStyledDocument().getLength(), lista3Dir.get(i).toString()+"\n", attrs2);
@@ -234,7 +234,7 @@ public class ClasePrincipal extends JFrame {
 		for(int i=0; i<listaFinal.size();i++){
 	
 			
-			numFinal.add(new JLabel(String.valueOf(i)+" "));
+			numFinal.add(new JLabel(String.valueOf(i+1)+" "));
 		
 			try {
 				textoFinal.getStyledDocument().insertString(textoFinal.getStyledDocument().getLength(), listaFinal.get(i).toString()+"\n", attrs2);

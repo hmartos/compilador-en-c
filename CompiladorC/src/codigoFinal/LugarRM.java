@@ -4,21 +4,34 @@ public class LugarRM {
 
 	int descriptDirReg=-1; //-1 => no hay registro.
 	int descriptDirMem=-1; //-1 => no está mem.
-	int descriptDirPila=-1; //-1 => no está en la pila.
-	boolean actualizadoReg;
+	String descriptDirGlobal=""; //-1 => no está en la pila.
+	
+	boolean actualizadoReg=true;
 	
 	
 	
 	
 	
 	
+	public String getDescriptDirGlobal() {
+		return descriptDirGlobal;
+	}
+
+
+	public void setDescriptDirGlobal(String descriptDirGlobal) {
+		this.descriptDirGlobal = descriptDirGlobal;
+	}
+
+
 	public boolean isActualizadoReg() {
-		return actualizadoReg;
+		if (descriptDirReg!=-1)return actualizadoReg;
+		else return true;
 	}
 
 
 	public void setActualizadoReg(boolean actualizadoReg) {
-		this.actualizadoReg = actualizadoReg;
+		if (descriptDirReg!=-1)this.actualizadoReg = actualizadoReg;
+		else this.actualizadoReg=true;
 	}
 
 
@@ -55,12 +68,9 @@ public class LugarRM {
 	public void setDescriptDirMem(int descriptDirMem) {
 		this.descriptDirMem = descriptDirMem;
 	}
-	public int getDescriptDirPila() {
-		return descriptDirPila;
-	}
-	public void setDescriptDirPila(int descriptDirPila) {
-		this.descriptDirPila = descriptDirPila;
-	}
+	
+	
+	
 	
 	
 	
