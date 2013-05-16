@@ -5,6 +5,7 @@ import gestorErrores.GestorDeErrores;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +59,7 @@ public class ClasePrincipal extends JFrame {
 	
 	JTextArea  textoCodigo;
 	JTextPane texto3Dir,textoError,textoFinal;
-	JPanel num3Dir,numFinal;
+	JPanel num3Dir,numFinal,numCodigo;
 	
 	ContenedorTS cuadroTS;
 	
@@ -86,9 +87,14 @@ public class ClasePrincipal extends JFrame {
 		//inicializar componentes de la interfaz
 		panelPrincipal = new JPanel(); 
 		panelPrincipal.setLayout(new BorderLayout());
-		
 		JPanel  panelTexto = new JPanel(new GridLayout(2,2));  ;
-		JPanel panelSalida=new JPanel(new GridLayout(1,2));
+		
+
+		JPanel panelSalida=new JPanel();
+		BoxLayout blSalida= new BoxLayout(panelSalida,BoxLayout.X_AXIS);
+
+		panelSalida.setLayout(blSalida);
+		
 		JPanel panelBotones= new JPanel(new GridLayout(1,2)); ;
 		
 		panelPrincipal.add(panelTexto,BorderLayout.CENTER);
@@ -118,12 +124,22 @@ public class ClasePrincipal extends JFrame {
 		texto3Dir =new JTextPane();
 		textoFinal =new JTextPane();
 		
+		
+		
+
+		
 		num3Dir=new JPanel();
 		numFinal=new JPanel();
+		numCodigo=new JPanel();
 		BoxLayout bl3Dir = new BoxLayout(num3Dir,BoxLayout.Y_AXIS);
 		BoxLayout blFinal = new BoxLayout(numFinal,BoxLayout.Y_AXIS);
+		BoxLayout blCodigo = new BoxLayout(numCodigo,BoxLayout.Y_AXIS);
+
 		num3Dir.setLayout(bl3Dir);
 		numFinal.setLayout(blFinal);
+		numCodigo.setLayout(blCodigo);
+		
+
 		
 		//textoTS =new JTextArea();
 		cuadroTS = new ContenedorTS();
@@ -139,7 +155,24 @@ public class ClasePrincipal extends JFrame {
 		infoCodigo= new JLabel();
 		JPanel panelCodigo = new JPanel(new BorderLayout());
 		panelCodigo.add(infoCodigo,BorderLayout.NORTH);
-		panelCodigo.add(new JScrollPane(textoCodigo),BorderLayout.CENTER);
+		
+		
+		JPanel cont2=new JPanel(new GridLayout(1,1));
+		
+		JPanel cont=new JPanel (new BorderLayout());
+		
+		cont.add(numCodigo, BorderLayout.WEST);
+		cont.add(textoCodigo,BorderLayout.CENTER);
+		cont2.add(cont);
+		panelCodigo.add(new JScrollPane(cont2),BorderLayout.CENTER);
+	//	panelCodigo.add(cont2,BorderLayout.CENTER);
+		
+		
+		//actualziar lineas numCodigo
+		numCodigo.removeAll();
+		for (int i=0;i<textoCodigo.getLineCount();i++){
+			numCodigo.add(new JLabel(String.valueOf(i+1)+" "));
+		}
 		
 		
 		JPanel panel3Dir= new JPanel(new BorderLayout());
@@ -149,8 +182,8 @@ public class ClasePrincipal extends JFrame {
 		panelFinal.add(textoFinal,BorderLayout.CENTER);
 		panelFinal.add(numFinal,BorderLayout.WEST);
 		
-		panelSalida.add(panel3Dir);
-		panelSalida.add(panelFinal);
+		panelSalida.add(panel3Dir,Component.TOP_ALIGNMENT);
+		panelSalida.add(panelFinal,Component.TOP_ALIGNMENT);
 		
 		panelBotones.add(botonCargar);
 		panelBotones.add(botonCompleto);
@@ -213,7 +246,7 @@ public class ClasePrincipal extends JFrame {
 			num3Dir.add(new JLabel(String.valueOf(i+1)+" "));
 		
 			try {
-				texto3Dir.getStyledDocument().insertString(texto3Dir.getStyledDocument().getLength(), lista3Dir.get(i).toString()+"\n", attrs2);
+				texto3Dir.getStyledDocument().insertString(texto3Dir.getStyledDocument().getLength(), lista3Dir.get(i).toString().replaceAll("[\n\r]","")+"\n", attrs2);
 			} catch (BadLocationException e1) {
 				e1.printStackTrace();
 			} 
@@ -237,7 +270,7 @@ public class ClasePrincipal extends JFrame {
 			numFinal.add(new JLabel(String.valueOf(i+1)+" "));
 		
 			try {
-				textoFinal.getStyledDocument().insertString(textoFinal.getStyledDocument().getLength(), listaFinal.get(i).toString()+"\n", attrs2);
+				textoFinal.getStyledDocument().insertString(textoFinal.getStyledDocument().getLength(), listaFinal.get(i).toString().replaceAll("[\n\r]","")+"\n", attrs2);
 			} catch (BadLocationException e1) {
 				e1.printStackTrace();
 			} 
@@ -277,6 +310,12 @@ public class ClasePrincipal extends JFrame {
 					} catch (FileNotFoundException e1) {
 						e1.printStackTrace();
 					}	
+					
+					//actualizar lineas.
+					numCodigo.removeAll();
+					for (int i=1;i<textoCodigo.getLineCount();i++){
+						numCodigo.add(new JLabel(String.valueOf(i+1)+" "));
+					}
 				}	
 			}else if (botonCompleto==e.getSource()){
 				if (analizador!=null){
@@ -430,6 +469,10 @@ public class ClasePrincipal extends JFrame {
 			modoTextoEscrito=true; //Se cargara desde el texto escrito.
 			infoCodigo.setText("Código escrito/modificado.");
 			infoCodigo.setForeground(Color.red);
+			numCodigo.removeAll();
+			for (int i=1;i<textoCodigo.getLineCount();i++){
+				numCodigo.add(new JLabel(String.valueOf(i+1)+" "));
+			}
 		}
 		
 	}
