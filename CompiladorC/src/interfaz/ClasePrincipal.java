@@ -53,7 +53,7 @@ public class ClasePrincipal extends JFrame {
 
 	
 	JPanel panelPrincipal;
-	JButton botonCargar,botonCompleto,botonIniciar,botonWENS,botonGuardar,botonENS;
+	JButton botonCargar,botonCompleto,botonIniciar,botonWENS,botonGuardar,botonGuardarCodigo;
 	
 	JLabel infoCodigo;
 	
@@ -104,11 +104,11 @@ public class ClasePrincipal extends JFrame {
 		this.setContentPane(panelPrincipal);
 		
 		
-		botonCargar = new JButton("Cargar nuevo codigo");
-		botonCompleto = new JButton("Analisis completo");
+		botonCargar = new JButton("Cargar código C");
+		botonCompleto = new JButton("Compilar");
 		botonIniciar = new JButton("Iniciar analisis");
 		botonWENS = new JButton("WENS2001");
-		botonENS = new JButton("ENS2001 (consola)");
+		botonGuardarCodigo = new JButton("Guardar código C");
 		botonGuardar=new JButton("Guardar código final");
 		
 		iniciado=false;
@@ -186,11 +186,14 @@ public class ClasePrincipal extends JFrame {
 		panelSalida.add(panelFinal,Component.TOP_ALIGNMENT);
 		
 		panelBotones.add(botonCargar);
+		panelBotones.add(botonGuardarCodigo);
+		
 		panelBotones.add(botonCompleto);
 		panelBotones.add(botonIniciar);
-		panelBotones.add(botonWENS);
-		panelBotones.add(botonENS);
 		panelBotones.add(botonGuardar);
+		panelBotones.add(botonWENS);
+		
+		
 			
 		panelTexto.add(panelCodigo);
 		panelTexto.add(new JScrollPane(textoError));
@@ -202,7 +205,7 @@ public class ClasePrincipal extends JFrame {
 		botonCompleto.addActionListener(new Oyente());
 		botonIniciar.addActionListener(new Oyente());
 		botonWENS.addActionListener(new Oyente());
-		botonENS.addActionListener(new Oyente());
+		botonGuardarCodigo.addActionListener(new Oyente());
 		botonGuardar.addActionListener(new Oyente());
 		
 		seleFile = new JFileChooser();
@@ -393,27 +396,19 @@ public class ClasePrincipal extends JFrame {
 					System.out.println (ioe);
 				}
 				
-			}else if (botonENS==e.getSource()){
+			}else if (botonGuardarCodigo==e.getSource()){
+				guardarFile.showSaveDialog(null);
+				File archivoEscritura= guardarFile.getSelectedFile();
+				
 				try {
+					PrintWriter pw = new PrintWriter(archivoEscritura);
+					pw.append(textoCodigo.getText());
+					pw.close();
 					
-		
 					
-					File archivoEscritura= new File("compiladorC.ens");
-					
-					try {
-						PrintWriter pw = new PrintWriter(archivoEscritura);
-						pw.append(textoFinal.getText());
-						pw.close();
-						
-						
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					Runtime.getRuntime().exec("ejecutar.bat"); 
-				} catch (IOException ioe) {
-					System.out.println (ioe);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				
 			}else if (botonGuardar==e.getSource()){
