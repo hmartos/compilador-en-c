@@ -51,7 +51,6 @@ public class CodigoFinal {
 	/* LLAMADA PILA:
 	 * -parametros (params) - 
 	 * -retorno    (call) 
-	 * -registros  (call)
 	 * -PC			(call)
 	 * -variables locales. (Ini)-(return)
 	 */

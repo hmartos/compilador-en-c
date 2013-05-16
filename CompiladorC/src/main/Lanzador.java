@@ -1,5 +1,7 @@
 package main;
 
+import javax.swing.JFrame;
+
 import interfaz.ClasePrincipal;
 
 public class Lanzador {
@@ -12,7 +14,7 @@ public class Lanzador {
 		o.setVisible(true);
 		o.setEnabled(true);
 		o.setSize(1000,600);
-		
+		o.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 	}
 	
