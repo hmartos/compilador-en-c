@@ -207,6 +207,7 @@ public class ClasePrincipal extends JFrame {
 		
 		seleFile = new JFileChooser();
 		guardarFile = new JFileChooser();
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	
 	}
 	public static ArrayList<Token> getListaToken(){
